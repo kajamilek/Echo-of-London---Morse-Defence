@@ -10,18 +10,36 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Echo_of_London___Morse_Defence.Views
 {
-    /// <summary>
-    /// Logika interakcji dla klasy OptionsWindow.xaml
-    /// </summary>
-    public partial class OptionsWindow : Window
+    public partial class MenuView : UserControl
     {
-        public OptionsWindow()
+        public MenuView()
         {
             InitializeComponent();
+        }
+
+        private void Back_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Options_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Reset_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

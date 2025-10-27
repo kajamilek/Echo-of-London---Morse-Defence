@@ -1,5 +1,4 @@
-﻿using Echo_of_London___Morse_Defence.Views;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,20 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Echo_of_London___Morse_Defence
+namespace Echo_of_London___Morse_Defence.Views
 {
-    public partial class MainWindow : Window
+    /// <summary>
+    /// Logika interakcji dla klasy OptionsView.xaml
+    /// </summary>
+    public partial class OptionsView : UserControl
     {
-        public MainWindow()
+        public OptionsView(MainWindow mainWindow)
         {
             InitializeComponent();
-            MainContent.Content = new StartView(this);
-        }
-
-        // Metoda do przełączania ekranów
-        public void NavigateTo(UserControl nextView)
-        {
-            MainContent.Content = nextView;
         }
     }
 }
