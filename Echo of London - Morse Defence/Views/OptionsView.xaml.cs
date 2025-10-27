@@ -15,14 +15,27 @@ using System.Windows.Shapes;
 
 namespace Echo_of_London___Morse_Defence.Views
 {
-    /// <summary>
-    /// Logika interakcji dla klasy OptionsView.xaml
-    /// </summary>
     public partial class OptionsView : UserControl
     {
         public OptionsView(MainWindow mainWindow)
         {
             InitializeComponent();
+        }
+
+        private void Back_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Options_Click(object sender, RoutedEventArgs e)
+        {
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+            mainWindow.NavigateTo(new OptionsView(mainWindow));
+        }
+
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }

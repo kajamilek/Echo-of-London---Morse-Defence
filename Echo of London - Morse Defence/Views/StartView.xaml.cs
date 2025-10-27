@@ -23,21 +23,18 @@ namespace Echo_of_London___Morse_Defence.Views
         }
         private void Start_Click(object sender, RoutedEventArgs e)
         {
-            // Przejście do widoku wyboru trudności
             var mainWindow = Application.Current.MainWindow as MainWindow;
             mainWindow.NavigateTo(new DifficultyView(mainWindow));
         }
 
         private void Options_Click(object sender, RoutedEventArgs e)
         {
-            // Przejście do widoku opcji
             var mainWindow = Application.Current.MainWindow as MainWindow;
             mainWindow.NavigateTo(new OptionsView(mainWindow));
         }
 
         private void Scores_Click(object sender, RoutedEventArgs e)
-        {
-            // Przejście do widoku wyników 
+        { 
             var mainWindow = Application.Current.MainWindow as MainWindow;
             mainWindow.NavigateTo(new ScoreboardView(mainWindow));
         }        

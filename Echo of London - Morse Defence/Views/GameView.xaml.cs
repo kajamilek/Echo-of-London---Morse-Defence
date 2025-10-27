@@ -15,9 +15,6 @@ using System.Windows.Shapes;
 
 namespace Echo_of_London___Morse_Defence.Views
 {
-    /// <summary>
-    /// Logika interakcji dla klasy GameView.xaml
-    /// </summary>
     public partial class GameView : UserControl
     {
         public GameView(MainWindow main, string difficulty)

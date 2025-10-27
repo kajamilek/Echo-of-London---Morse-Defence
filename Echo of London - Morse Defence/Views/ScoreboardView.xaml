@@ -5,8 +5,51 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Echo_of_London___Morse_Defence.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="720" d:DesignWidth="1280"
+             Background="#151b21">
+
+    <UserControl.Resources>
+        <Style TargetType="Button" x:Key="ScoreButton">
+            <Setter Property="Background" Value="#262c33"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="FontFamily" Value="OCR A Extended"/>
+            <Setter Property="FontSize" Value="40"/>
+            <Setter Property="Foreground" Value="#029273"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Width" Value="300"/>
+            <Setter Property="Height" Value="100"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <Style TargetType="TextBlock" x:Key="ScoreText">
+            <Setter Property="FontFamily" Value="OCR A Extended"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Foreground" Value="#029273"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+    </UserControl.Resources>
+
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="100"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="SCOREBOARD" 
+               FontFamily="OCR A Extended" FontSize="60" 
+               Foreground="#029273" HorizontalAlignment="Center" 
+               VerticalAlignment="Center"/>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" >
+            <StackPanel x:Name="ScoresPanel" Margin="50" Background="#1E2329"/>
+        </ScrollViewer>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="CLEAR" Style="{StaticResource ScoreButton}" Click="ClearScores_Click"/>
+            <Button Content="BACK" Style="{StaticResource ScoreButton}" Click="Back_Click"/>
+        </StackPanel>
     </Grid>
 </UserControl>
