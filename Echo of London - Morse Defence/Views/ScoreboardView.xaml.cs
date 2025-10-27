@@ -10,16 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Echo_of_London___Morse_Defence.Views
 {
     /// <summary>
-    /// Logika interakcji dla klasy MenuWindow.xaml
+    /// Logika interakcji dla klasy ScoreboardView.xaml
     /// </summary>
-    public partial class MenuWindow : Window
+    public partial class ScoreboardView : UserControl
     {
-        public MenuWindow()
+        public ScoreboardView(MainWindow mainWindow)
         {
             InitializeComponent();
         }
