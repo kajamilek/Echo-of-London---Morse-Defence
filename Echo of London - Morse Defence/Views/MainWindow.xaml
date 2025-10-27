@@ -102,7 +102,11 @@
             </Grid>
 
         </Grid>
-
+        
+        <!--GRACZ-->
+        <Rectangle Name="player" Height="20" Width="20" Fill="#12b491" Grid.Column="1" Grid.Row="0" Grid.RowSpan="4">
+        </Rectangle>
+                
         <!--PRAWY PANEL-->
         <Grid Grid.Column="3" Grid.RowSpan="4" Style="{StaticResource MyGrid}" Margin="40,20,20,20">
             <TextBlock Style="{StaticResource MyGridText}">
@@ -111,7 +115,7 @@
         </Grid>
 
         <Grid Grid.Column="3" Grid.Row="4" Margin="40,20,20,20">
-            <Button FontSize="50" FontFamily="OCR A Extended" Foreground="#029273" Background="#262c33" BorderThickness="0"> 
+            <Button FontSize="50" FontFamily="OCR A Extended" Foreground="#029273" Background="#262c33" BorderThickness="0" Click="Button_Click"> 
                 MENU
             </Button>
         </Grid>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Echo_of_London___Morse_Defence.Views;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,14 +16,20 @@ using System.Windows.Shapes;
 
 namespace Echo_of_London___Morse_Defence
 {
-    /// <summary>
-    /// Logika interakcji dla klasy MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var menu = new MenuWindow
+            {
+                Owner = this // ustawia główne okno jako rodzica
+            };
+            menu.ShowDialog();
         }
     }
 }
