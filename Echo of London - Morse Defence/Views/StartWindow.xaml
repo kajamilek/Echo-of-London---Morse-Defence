@@ -1,11 +1,11 @@
-﻿<Window x:Class="Echo_of_London___Morse_Defence.Views.MenuWindow"
+﻿<Window x:Class="Echo_of_London___Morse_Defence.StartWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Echo_of_London___Morse_Defence.Views"
+        xmlns:local="clr-namespace:Echo_of_London___Morse_Defence"
         mc:Ignorable="d"
-        Title="Echo of London - Morse Defence"
+                Title="Echo of London - Morse Defence"
         Height="720" Width="1280"
         ResizeMode="NoResize"
         WindowStyle="SingleBorderWindow"
@@ -27,11 +27,10 @@
     </Window.Resources>
 
     <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,40">
-        <Label Content="MENU" FontFamily="OCR A Extended" FontSize="80" Foreground="#029273" HorizontalAlignment="Center" Margin="0,0,0,40"/>
-        <Button x:Name="BackButton" Content="WRÓĆ DO GRY" Style="{StaticResource StackPanelButton}"/>
-        <Button x:Name="OptionsButton" Content="OPCJE" Style="{StaticResource StackPanelButton}"/>
-        <Button x:Name="ResetButton" Content="RESET" Style="{StaticResource StackPanelButton}"/>
-        <Button x:Name="SurrenderButton" Content="PODDAJ SIĘ" Style="{StaticResource StackPanelButton}" Foreground="#ff5555"/>
+        <Label Content="Echo of London - Morse Defence" FontFamily="OCR A Extended" FontSize="60" Foreground="#029273" HorizontalAlignment="Center" Margin="0,0,0,40"/>
+        <Button x:Name="StartButton" Content="START" Style="{StaticResource StackPanelButton}" Click="Button_Click_Start"/>
+        <Button x:Name="OptionsButton" Content="OPCJE" Style="{StaticResource StackPanelButton}" Click="Button_Click_Options"/>
+        <Button x:Name="ScoreboardButton" Content="TABELA WYNIKÓW" Style="{StaticResource StackPanelButton}" FontSize="30" Click="Button_Click_Scoreboard"/>
+        <Button x:Name="OutButton" Content="WYJŚCIE" Style="{StaticResource StackPanelButton}" Foreground="#ff5555" Click="Button_Click_Out"/>
     </StackPanel>
-    
 </Window>

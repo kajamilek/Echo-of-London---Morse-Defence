@@ -25,11 +25,10 @@ namespace Echo_of_London___Morse_Defence
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var menu = new MenuWindow
-            {
-                Owner = this // ustawia główne okno jako rodzica
-            };
-            menu.ShowDialog();
+            var menu = new MenuWindow();
+            Application.Current.MainWindow = menu;
+            menu.Show();
+            this.Close();
         }
     }
 }
