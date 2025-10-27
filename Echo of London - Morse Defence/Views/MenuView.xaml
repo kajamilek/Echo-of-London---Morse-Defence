@@ -25,10 +25,10 @@
 
     <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
         <Label Content="MENU" FontFamily="OCR A Extended" FontSize="80" Foreground="#029273" HorizontalAlignment="Center" Margin="0,0,0,40"/>
-        <Button Content="WRÓĆ DO GRY" Style="{StaticResource StackPanelButton}" Click="Back_Click"/>
-        <Button Content="OPCJE" Style="{StaticResource StackPanelButton}"  Click="Options_Click" Margin="10"/>
-        <Button Content="RESET" Style="{StaticResource StackPanelButton}"  Click="Reset_Click" Margin="10"/>
-        <Button Content="WYJŚCIE" Style="{StaticResource StackPanelButton}"  Foreground="#ff5555" Click="Exit_Click" Margin="10"/>
+        <Button Content="BACK" Style="{StaticResource StackPanelButton}" Click="Back_Click"/>
+        <Button Content="OPTION" Style="{StaticResource StackPanelButton}"  Click="Options_Click"/>
+        <Button Content="RESET" Style="{StaticResource StackPanelButton}"  Click="Reset_Click"/>
+        <Button Content="QUIT" Style="{StaticResource StackPanelButton}"  Foreground="#ff5555" Click="Exit_Click"/>
     </StackPanel>
     
 </UserControl>

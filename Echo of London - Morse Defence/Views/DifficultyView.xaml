@@ -24,12 +24,12 @@
     </UserControl.Resources>
 
     <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-        <Label Content="POZIOM TRUNDOŚCI" FontFamily="OCR A Extended" FontSize="60" Foreground="#029273" HorizontalAlignment="Center" Margin="0,0,0,40"/>
-        <Button Content="ŁATWY" Style="{StaticResource StackPanelButton}" Click="Easy_Click"/>
-        <Button Content="NORMALNY" Style="{StaticResource StackPanelButton}" Click="Mid_Click"/>
-        <Button Content="TRUDNY" Style="{StaticResource StackPanelButton}" Click="Hard_Click"/>
-        <Button Content="WRÓĆ" Style="{StaticResource StackPanelButton}" Foreground="#ff5555" Click="Back_Click"/>
-        <CheckBox Content="ŚCIĄGA KODÓW" FontFamily="OCR A Extended" FontSize="30" Foreground="#029273" HorizontalAlignment="Center" Margin="600,-840,0,0" VerticalContentAlignment="Center" Height="39" Checked="Tip_Checked"/>
+        <Label Content="DIFFICULTY" FontFamily="OCR A Extended" FontSize="60" Foreground="#029273" HorizontalAlignment="Center" Margin="0,0,0,40"/>
+        <Button Content="EASY" Style="{StaticResource StackPanelButton}" Click="Easy_Click"/>
+        <Button Content="NORMAL" Style="{StaticResource StackPanelButton}" Click="Mid_Click"/>
+        <Button Content="HARD" Style="{StaticResource StackPanelButton}" Click="Hard_Click"/>
+        <Button Content="BACK" Style="{StaticResource StackPanelButton}" Foreground="#ff5555" Click="Back_Click"/>
+        <CheckBox Content="HINTS" FontFamily="OCR A Extended" FontSize="30" Foreground="#029273" HorizontalAlignment="Center" Margin="450,-840,0,0" VerticalContentAlignment="Center" Height="40" Checked="Tip_Checked"/>
     </StackPanel>
 
 </UserControl>

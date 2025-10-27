@@ -24,7 +24,6 @@ namespace Echo_of_London___Morse_Defence
             MainContent.Content = new StartView(this);
         }
 
-        // Metoda do przełączania ekranów
         public void NavigateTo(UserControl nextView)
         {
             MainContent.Content = nextView;
