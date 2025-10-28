@@ -17,10 +17,11 @@ namespace Echo_of_London___Morse_Defence.Views
 {
     public partial class StartView : UserControl
     {
-        public StartView(MainWindow main)
+        public StartView()
         {
             InitializeComponent();
         }
+
         private void Start_Click(object sender, RoutedEventArgs e)
         {
             var mainWindow = Application.Current.MainWindow as MainWindow;
@@ -34,11 +35,11 @@ namespace Echo_of_London___Morse_Defence.Views
         }
 
         private void Scores_Click(object sender, RoutedEventArgs e)
-        { 
+        {
             var mainWindow = Application.Current.MainWindow as MainWindow;
             mainWindow.NavigateTo(new ScoreboardView(mainWindow));
-        }        
-        
+        }
+
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
