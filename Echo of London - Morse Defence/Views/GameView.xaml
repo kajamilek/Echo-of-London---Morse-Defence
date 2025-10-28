@@ -68,7 +68,9 @@
         </Grid>
 
         <!--ŚRODKOWY PANEL (RADAR)-->
-        <Grid Grid.Column="1" Grid.Row="0" Grid.RowSpan="4" Style="{StaticResource MyGrid}" />
+        <Grid Grid.Column="1" Grid.Row="0" Grid.RowSpan="4" Style="{StaticResource MyGrid}">
+            <Canvas x:Name="EnemyCanvas"/>
+        </Grid>
 
         <Grid Grid.Column="1" Grid.Row="4" Style="{StaticResource MyGrid}">
             <Grid.ColumnDefinitions>
