@@ -21,5 +21,11 @@ namespace Echo_of_London___Morse_Defence.Views
         {
             InitializeComponent();
         }
+
+        private void Menu_Click(object sender, RoutedEventArgs e)
+        {
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+            mainWindow.NavigateTo(new MenuView(mainWindow));
+        }
     }
 }

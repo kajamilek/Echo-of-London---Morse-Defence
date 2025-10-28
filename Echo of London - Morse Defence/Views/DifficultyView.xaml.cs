@@ -45,12 +45,12 @@ namespace Echo_of_London___Morse_Defence.Views
 
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-            _main.NavigateTo(new StartView(_main));
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+            mainWindow.GoBack();
         }
 
         private void Tip_Checked(object sender, RoutedEventArgs e)
         {
-           
         }
     }
 }

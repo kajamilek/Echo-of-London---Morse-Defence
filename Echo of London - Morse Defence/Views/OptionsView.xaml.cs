@@ -22,20 +22,18 @@ namespace Echo_of_London___Morse_Defence.Views
             InitializeComponent();
         }
 
+        private void OneButton_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void TwoButton_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void Options_Click(object sender, RoutedEventArgs e)
-        {
             var mainWindow = Application.Current.MainWindow as MainWindow;
-            mainWindow.NavigateTo(new OptionsView(mainWindow));
-        }
-
-        private void Exit_Click(object sender, RoutedEventArgs e)
-        {
-            
+            mainWindow.GoBack();
         }
     }
 }
