@@ -25,8 +25,8 @@
 
     <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
         <Label Content="OPTIONS" FontFamily="OCR A Extended" FontSize="80" Foreground="#029273" HorizontalAlignment="Center" Margin="0,0,0,40" />
-        <Button Content="ONE BUTTON" Style="{StaticResource StackPanelButton}" Click="OneButton_Click" />
-        <Button Content="TWO BUTTON" Style="{StaticResource StackPanelButton}"  Click="TwoButton_Click" Margin="0,0,0,50" />
-        <Button Content="BACK" Style="{StaticResource StackPanelButton}"  Foreground="#ff5555" Click="Back_Click" />
+        <Button x:Name="btnOneButton" Content="ONE BUTTON" Style="{StaticResource StackPanelButton}" Click="OneButton_Click" />
+        <Button x:Name="btnTwoButton" Content="TWO BUTTON" Style="{StaticResource StackPanelButton}" Click="TwoButton_Click" Margin="0,0,0,50" />
+        <Button Content="BACK" Style="{StaticResource StackPanelButton}" Foreground="#ff5555" Click="Back_Click" />
     </StackPanel>
 </UserControl>

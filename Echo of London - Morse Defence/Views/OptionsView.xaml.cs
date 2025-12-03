@@ -1,39 +1,58 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Echo_of_London___Morse_Defence.Views
 {
     public partial class OptionsView : UserControl
     {
-        public OptionsView(MainWindow mainWindow)
+        MainWindow oknoGlowne;
+
+        Brush tloAktywne = (Brush)new BrushConverter().ConvertFrom("#029273");
+        Brush tekstAktywny = (Brush)new BrushConverter().ConvertFrom("#151b21");
+        Brush tloNormalne = (Brush)new BrushConverter().ConvertFrom("#262c33");
+        Brush tekstNormalny = (Brush)new BrushConverter().ConvertFrom("#029273");
+
+        public OptionsView(MainWindow mw)
         {
             InitializeComponent();
+            oknoGlowne = mw;
+            OdswiezPrzyciski();
         }
 
-        private void OneButton_Click(object sender, RoutedEventArgs e)
+        void OdswiezPrzyciski()
         {
+            if (GameSettings.TrybJednegoPrzycisku)
+            {
+                btnOneButton.Background = tloAktywne;
+                btnOneButton.Foreground = tekstAktywny;
+                btnTwoButton.Background = tloNormalne;
+                btnTwoButton.Foreground = tekstNormalny;
+            }
+            else
+            {
+                btnOneButton.Background = tloNormalne;
+                btnOneButton.Foreground = tekstNormalny;
+                btnTwoButton.Background = tloAktywne;
+                btnTwoButton.Foreground = tekstAktywny;
+            }
         }
 
-        private void TwoButton_Click(object sender, RoutedEventArgs e)
+        void OneButton_Click(object sender, RoutedEventArgs e)
         {
+            GameSettings.TrybJednegoPrzycisku = true;
+            OdswiezPrzyciski();
         }
 
-        private void Back_Click(object sender, RoutedEventArgs e)
+        void TwoButton_Click(object sender, RoutedEventArgs e)
         {
-            var mainWindow = Application.Current.MainWindow as MainWindow;
-            mainWindow.GoBack();
+            GameSettings.TrybJednegoPrzycisku = false;
+            OdswiezPrzyciski();
+        }
+
+        void Back_Click(object sender, RoutedEventArgs e)
+        {
+            oknoGlowne.GoBack();
         }
     }
 }

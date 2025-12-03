@@ -182,21 +182,33 @@
 
         <!-- PRAWY PANEL - HINTS -->
         <Grid x:Name="HintsPanel"
-              Grid.Column="3" Grid.RowSpan="4"
-              Style="{StaticResource MyGrid}"
-              Margin="40,20,20,20"
-              Visibility="Collapsed">
-            <StackPanel>
-                <TextBlock Style="{StaticResource MyGridText}" Text="HINTS" />
-                <ScrollViewer VerticalScrollBarVisibility="Auto" Height="400">
-                    <TextBlock x:Name="MorseDisplay"
-                               FontFamily="OCR A Extended"
-                               FontSize="28"
-                               Foreground="#029273"
-                               TextWrapping="Wrap"
-                               Margin="10"/>
-                </ScrollViewer>
-            </StackPanel>
+      Grid.Column="2" Grid.RowSpan="5"
+      Style="{StaticResource MyGrid}"
+      Margin="40,20,20,20"
+      Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="HINTS" 
+               FontFamily="OCR A Extended"
+               FontSize="40"
+               Foreground="#029273"
+               HorizontalAlignment="Center"
+               Margin="0,20,0,20"/>
+
+            <ScrollViewer Grid.Row="1" 
+                  VerticalScrollBarVisibility="Auto"
+                  Margin="10,30,10,20">
+                <TextBlock x:Name="MorseDisplay"
+                   FontFamily="OCR A Extended"
+                   FontSize="38"
+                   Foreground="#029273"
+                   TextWrapping="NoWrap"
+                   LineHeight="60"
+                   HorizontalAlignment="Center"/>
+            </ScrollViewer>
         </Grid>
 
         <Grid Grid.Column="3" Grid.Row="4" Margin="40,20,20,20">

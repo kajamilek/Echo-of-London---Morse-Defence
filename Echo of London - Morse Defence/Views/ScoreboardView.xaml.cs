@@ -41,7 +41,9 @@ namespace Echo_of_London___Morse_Defence.Views
                 Wave = w.Wave.ToString(),
                 Difficulty = w.Difficulty,
                 DifficultyColor = PobierzKolorTrudnosci(w.Difficulty),
-                Date = w.Date
+                Date = w.Date,
+                Hints = w.Hints ? "ON" : "OFF",
+                HintsColor = w.Hints ? Brushes.Orange : (Brush)new BrushConverter().ConvertFrom("#029273")
             }).ToList();
 
             ScoresList.ItemsSource = listaDoWyswietlenia;
@@ -108,5 +110,7 @@ namespace Echo_of_London___Morse_Defence.Views
         public string Difficulty { get; set; }
         public Brush DifficultyColor { get; set; }
         public string Date { get; set; }
+        public string Hints { get; set; }
+        public Brush HintsColor { get; set; }
     }
 }
