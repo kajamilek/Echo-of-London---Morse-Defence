@@ -15,9 +15,6 @@ using System.Windows.Shapes;
 
 namespace Echo_of_London___Morse_Defence.Views
 {
-    /// <summary>
-    /// Logika interakcji dla klasy DifficultyView.xaml
-    /// </summary>
     public partial class DifficultyView : UserControl
     {
         private MainWindow _main;
@@ -30,27 +27,26 @@ namespace Echo_of_London___Morse_Defence.Views
 
         private void Easy_Click(object sender, RoutedEventArgs e)
         {
-            _main.NavigateTo(new GameView(_main, difficulty: "easy"));
+            bool showHints = HintsCheckBox.IsChecked == true;
+            _main.NavigateTo(new GameView(_main, difficulty: "easy", showHints: showHints));
         }
 
         private void Mid_Click(object sender, RoutedEventArgs e)
         {
-            _main.NavigateTo(new GameView(_main, difficulty: "mid"));
+            bool showHints = HintsCheckBox.IsChecked == true;
+            _main.NavigateTo(new GameView(_main, difficulty: "mid", showHints: showHints));
         }
 
         private void Hard_Click(object sender, RoutedEventArgs e)
         {
-            _main.NavigateTo(new GameView(_main, difficulty: "hard"));
+            bool showHints = HintsCheckBox.IsChecked == true;
+            _main.NavigateTo(new GameView(_main, difficulty: "hard", showHints: showHints));
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)
         {
             var mainWindow = Application.Current.MainWindow as MainWindow;
             mainWindow.GoBack();
-        }
-
-        private void Tip_Checked(object sender, RoutedEventArgs e)
-        {
         }
     }
 }

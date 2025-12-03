@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -32,10 +33,34 @@ namespace Echo_of_London___Morse_Defence.Views
 
         // Timer do automatycznego zatwierdzania
         private DispatcherTimer inputTimer;
-        private const double INPUT_DELAY_SECONDS = 0.8;
 
         // === Śledzenie przeciwników w sektorach ===
         private List<EnemyData> enemies = new List<EnemyData>();
+
+        // === USTAWIENIA TRUDNOŚCI ===
+        private string difficulty;
+        private double enemySpawnInterval;
+        private double enemyMoveDuration;
+        private double inputDelaySeconds;
+
+        // === HINTS ===
+        private bool showHints;
+
+        // === SYSTEM ŻYCIA I PUNKTÓW ===
+        private int lives = 3;
+        private int score = 0;
+        private int wave = 1;
+        private bool isGameOver = false;
+        private bool scoreSaved = false;
+
+        // Kolor linii na kole
+        private readonly Brush lineColor = (Brush)new BrushConverter().ConvertFrom("#029273");
+
+        // Ścieżka do pliku z wynikami
+        private static readonly string ScoresFilePath = System.IO.Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            "EchoOfLondon",
+            "highscores.txt");
 
         private class EnemyData
         {
@@ -65,12 +90,47 @@ namespace Echo_of_London___Morse_Defence.Views
             {'Y',"–•––"},    {'Z',"––••"}
         };
 
-        public GameView(MainWindow main, string difficulty)
+        public GameView(MainWindow main, string difficulty, bool showHints = false)
         {
             InitializeComponent();
             this.main = main;
+            this.difficulty = difficulty;
+            this.showHints = showHints;
+
+            SetDifficultyParameters();
 
             Loaded += GameView_Loaded;
+        }
+
+        private void SetDifficultyParameters()
+        {
+            switch (difficulty.ToLower())
+            {
+                case "easy":
+                    enemySpawnInterval = 3.0;
+                    enemyMoveDuration = 5.0;
+                    inputDelaySeconds = 1.0;
+                    break;
+
+                case "mid":
+                case "normal":
+                    enemySpawnInterval = 2.0;
+                    enemyMoveDuration = 3.0;
+                    inputDelaySeconds = 0.8;
+                    break;
+
+                case "hard":
+                    enemySpawnInterval = 1.2;
+                    enemyMoveDuration = 2.0;
+                    inputDelaySeconds = 0.6;
+                    break;
+
+                default:
+                    enemySpawnInterval = 2.0;
+                    enemyMoveDuration = 3.0;
+                    inputDelaySeconds = 0.8;
+                    break;
+            }
         }
 
         private void GameView_Loaded(object sender, RoutedEventArgs e)
@@ -78,26 +138,29 @@ namespace Echo_of_London___Morse_Defence.Views
             centerX = EnemyCanvas.ActualWidth / 2;
             centerY = EnemyCanvas.ActualHeight / 2;
 
-            // Inicjalizacja slotów Morse'a
             morseSlots = new TextBlock[]
             {
                 MorseSlot0, MorseSlot1, MorseSlot2,
                 MorseSlot3, MorseSlot4, MorseSlot5
             };
 
-            // Timer do automatycznego zatwierdzania
+            HintsPanel.Visibility = showHints ? Visibility.Visible : Visibility.Collapsed;
+
+            UpdateLivesDisplay();
+            UpdateScoreDisplay();
+            UpdateWaveDisplay();
+
             inputTimer = new DispatcherTimer();
-            inputTimer.Interval = TimeSpan.FromSeconds(INPUT_DELAY_SECONDS);
+            inputTimer.Interval = TimeSpan.FromSeconds(inputDelaySeconds);
             inputTimer.Tick += InputTimer_Tick;
 
-            // Obsługa klawiatury
             this.Focusable = true;
             this.Focus();
             this.KeyDown += GameView_KeyDown;
             this.MouseDown += (s, ev) => this.Focus();
 
             enemyTimer = new DispatcherTimer();
-            enemyTimer.Interval = TimeSpan.FromSeconds(2);
+            enemyTimer.Interval = TimeSpan.FromSeconds(enemySpawnInterval);
             enemyTimer.Tick += (s, ev) => SpawnEnemy();
             enemyTimer.Start();
 
@@ -105,19 +168,205 @@ namespace Echo_of_London___Morse_Defence.Views
         }
 
         // ============================================================
+        // SYSTEM ŻYCIA I PUNKTÓW
+        // ============================================================
+        private void UpdateLivesDisplay()
+        {
+            string hearts = new string('♥', Math.Max(0, lives));
+            string emptyHearts = new string('♡', Math.Max(0, 3 - lives));
+            LivesText.Text = hearts + emptyHearts;
+
+            if (lives <= 1)
+                LivesText.Foreground = Brushes.Red;
+            else if (lives == 2)
+                LivesText.Foreground = Brushes.Orange;
+            else
+                LivesText.Foreground = (Brush)new BrushConverter().ConvertFrom("#ff5555");
+        }
+
+        private void UpdateScoreDisplay()
+        {
+            ScoreText.Text = score.ToString();
+        }
+
+        private void UpdateWaveDisplay()
+        {
+            WaveText.Text = wave.ToString();
+        }
+
+        private void LoseLife()
+        {
+            if (isGameOver) return;
+
+            lives--;
+            UpdateLivesDisplay();
+            FlashScreen();
+
+            if (lives <= 0)
+            {
+                GameOver();
+            }
+        }
+
+        private void AddScore(int points)
+        {
+            score += points;
+            UpdateScoreDisplay();
+        }
+
+        private void FlashScreen()
+        {
+            var originalFill = player.Fill;
+            player.Fill = Brushes.Red;
+
+            var resetTimer = new DispatcherTimer();
+            resetTimer.Interval = TimeSpan.FromMilliseconds(200);
+            resetTimer.Tick += (s, e) =>
+            {
+                resetTimer.Stop();
+                player.Fill = originalFill;
+            };
+            resetTimer.Start();
+        }
+
+        private void GameOver()
+        {
+            isGameOver = true;
+            scoreSaved = false;
+
+            enemyTimer?.Stop();
+            inputTimer?.Stop();
+
+            foreach (var enemy in enemies.ToList())
+            {
+                enemy.Element.BeginAnimation(Canvas.LeftProperty, null);
+                enemy.Element.BeginAnimation(Canvas.TopProperty, null);
+                EnemyCanvas.Children.Remove(enemy.Element);
+            }
+            enemies.Clear();
+
+            FinalScoreText.Text = $"SCORE: {score}";
+            FinalWaveText.Text = $"WAVE: {wave}";
+            SaveConfirmText.Text = "";
+            PlayerNameTextBox.Text = "PLAYER";
+            GameOverOverlay.Visibility = Visibility.Visible;
+
+            // Focus na pole nazwy
+            PlayerNameTextBox.Focus();
+            PlayerNameTextBox.SelectAll();
+        }
+
+        // ============================================================
+        // SYSTEM ZAPISU WYNIKÓW
+        // ============================================================
+        private void SaveScore_Click(object sender, RoutedEventArgs e)
+        {
+            if (scoreSaved)
+            {
+                SaveConfirmText.Text = "ALREADY SAVED!";
+                SaveConfirmText.Foreground = Brushes.Orange;
+                return;
+            }
+
+            string playerName = PlayerNameTextBox.Text.Trim();
+            if (string.IsNullOrEmpty(playerName))
+            {
+                playerName = "PLAYER";
+            }
+
+            // Usuń znaki specjalne
+            playerName = new string(playerName.Where(c => char.IsLetterOrDigit(c) || c == ' ').ToArray());
+            if (playerName.Length > 15)
+                playerName = playerName.Substring(0, 15);
+
+            try
+            {
+                SaveScoreToFile(playerName, score, wave, difficulty);
+                scoreSaved = true;
+                SaveConfirmText.Text = "SCORE SAVED!";
+                SaveConfirmText.Foreground = (Brush)new BrushConverter().ConvertFrom("#12b491");
+            }
+            catch (Exception ex)
+            {
+                SaveConfirmText.Text = "SAVE FAILED!";
+                SaveConfirmText.Foreground = Brushes.Red;
+                System.Diagnostics.Debug.WriteLine($"Error saving score: {ex.Message}");
+            }
+        }
+
+        private void SaveScoreToFile(string playerName, int score, int wave, string difficulty)
+        {
+            // Utwórz folder jeśli nie istnieje
+            string directory = System.IO.Path.GetDirectoryName(ScoresFilePath);
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
+            // Format: NAME|SCORE|WAVE|DIFFICULTY|DATE
+            string scoreEntry = $"{playerName}|{score}|{wave}|{difficulty.ToUpper()}|{DateTime.Now:yyyy-MM-dd HH:mm}";
+
+            // Dodaj do pliku
+            using (StreamWriter sw = File.AppendText(ScoresFilePath))
+            {
+                sw.WriteLine(scoreEntry);
+            }
+
+            System.Diagnostics.Debug.WriteLine($"Score saved: {scoreEntry}");
+        }
+
+        // Statyczna metoda do odczytu wyników (używana przez HighScoresView)
+        public static List<ScoreEntry> LoadScores()
+        {
+            var scores = new List<ScoreEntry>();
+
+            if (!File.Exists(ScoresFilePath))
+                return scores;
+
+            try
+            {
+                string[] lines = File.ReadAllLines(ScoresFilePath);
+                foreach (string line in lines)
+                {
+                    string[] parts = line.Split('|');
+                    if (parts.Length >= 5)
+                    {
+                        scores.Add(new ScoreEntry
+                        {
+                            PlayerName = parts[0],
+                            Score = int.Parse(parts[1]),
+                            Wave = int.Parse(parts[2]),
+                            Difficulty = parts[3],
+                            Date = parts[4]
+                        });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error loading scores: {ex.Message}");
+            }
+
+            // Sortuj od najwyższego wyniku
+            return scores.OrderByDescending(s => s.Score).ToList();
+        }
+
+        // ============================================================
         // OBSŁUGA KLAWIATURY
         // ============================================================
         private void GameView_KeyDown(object sender, KeyEventArgs e)
         {
+            if (isGameOver) return;
+
             switch (e.Key)
             {
                 case Key.Left:
-                    AddMorseSymbol("–");  // Kreska
+                    AddMorseSymbol("–");
                     e.Handled = true;
                     break;
 
                 case Key.Right:
-                    AddMorseSymbol("•");  // Kropka
+                    AddMorseSymbol("•");
                     e.Handled = true;
                     break;
 
@@ -172,28 +421,22 @@ namespace Echo_of_London___Morse_Defence.Views
             inputTimer.Stop();
         }
 
-        // ============================================================
-        // WYŚWIETLANIE OD PRAWEJ - nowe znaki pojawiają się po prawej
-        // ============================================================
         private void UpdateMorseDisplay()
         {
-            // Oblicz od którego slotu zacząć wyświetlanie
             int startSlot = MAX_MORSE_LENGTH - currentMorseInput.Length;
 
             for (int i = 0; i < morseSlots.Length; i++)
             {
                 if (i >= startSlot)
                 {
-                    // Ten slot ma znak
                     int inputIndex = i - startSlot;
                     morseSlots[i].Text = currentMorseInput[inputIndex].ToString();
-                    morseSlots[i].Foreground = Brushes.Yellow;
+                    morseSlots[i].Foreground = lineColor;
                 }
                 else
                 {
-                    // Pusty slot
                     morseSlots[i].Text = "";
-                    morseSlots[i].Foreground = (Brush)new BrushConverter().ConvertFrom("#029273");
+                    morseSlots[i].Foreground = lineColor;
                 }
             }
         }
@@ -211,7 +454,6 @@ namespace Echo_of_London___Morse_Defence.Views
             if (string.IsNullOrEmpty(currentMorseInput))
                 return;
 
-            // Znajdź literę odpowiadającą wpisanemu kodowi
             char? matchedLetter = null;
             foreach (var kvp in morse)
             {
@@ -224,12 +466,10 @@ namespace Echo_of_London___Morse_Defence.Views
 
             if (matchedLetter.HasValue)
             {
-                // Znajdź indeks litery w aktualnych 6 literach (to jest numer sektora)
                 int sectorIndex = currentLetters.IndexOf(matchedLetter.Value);
 
                 if (sectorIndex >= 0)
                 {
-                    // TRAFIENIE! Zniszcz pierwszego przeciwnika w tym sektorze
                     bool destroyed = DestroyEnemyInSector(sectorIndex);
 
                     if (destroyed)
@@ -255,44 +495,32 @@ namespace Echo_of_London___Morse_Defence.Views
         }
 
         // ============================================================
-        // NISZCZENIE PRZECIWNIKÓW W SEKTORZE
+        // NISZCZENIE PRZECIWNIKÓW
         // ============================================================
         private int GetSectorFromAngle(double angleDegrees)
         {
-            // Normalizuj kąt do 0-360
             angleDegrees = ((angleDegrees % 360) + 360) % 360;
-
-            // Sektory są wyśrodkowane na: 0°, 60°, 120°, 180°, 240°, 300°
-            // Każdy sektor ma zakres 60° (-30° do +30° od środka)
-            // Przesuwamy o 30°, żeby granice były na 30°, 90°, 150°...
             double shifted = (angleDegrees + 30) % 360;
             int sector = (int)(shifted / 60);
-
             return sector;
         }
 
         private bool DestroyEnemyInSector(int sector)
         {
-            // Znajdź wszystkich przeciwników w danym sektorze
             var enemiesInSector = enemies
                 .Where(e => e.Sector == sector)
-                .OrderBy(e => e.SpawnTime)  // Najstarszy pierwszy (najbliżej środka)
+                .OrderBy(e => e.SpawnTime)
                 .ToList();
 
             if (enemiesInSector.Count == 0)
                 return false;
 
-            // Zniszcz pierwszego (najstarszego/najbliższego)
             var enemyToDestroy = enemiesInSector.First();
 
-            // Zatrzymaj animacje
             enemyToDestroy.Element.BeginAnimation(Canvas.LeftProperty, null);
             enemyToDestroy.Element.BeginAnimation(Canvas.TopProperty, null);
 
-            // Animacja zniszczenia
             PlayDestructionAnimation(enemyToDestroy.Element);
-
-            // Usuń z listy
             enemies.Remove(enemyToDestroy);
 
             return true;
@@ -300,7 +528,6 @@ namespace Echo_of_London___Morse_Defence.Views
 
         private void PlayDestructionAnimation(UIElement enemy)
         {
-            // Animacja skalowania i zanikania
             var scaleTransform = new ScaleTransform(1, 1);
             enemy.RenderTransform = scaleTransform;
             enemy.RenderTransformOrigin = new Point(0.5, 0.5);
@@ -324,26 +551,22 @@ namespace Echo_of_London___Morse_Defence.Views
         private void OnEnemyDestroyed(char letter, int sector)
         {
             FlashSlots(Brushes.LimeGreen);
-            System.Diagnostics.Debug.WriteLine($"ZNISZCZONO! Litera: {letter}, Sektor: {sector}");
-            // TODO: Dodaj punkty
+            AddScore(100);
         }
 
         private void OnNoEnemyInSector(char letter, int sector)
         {
             FlashSlots(Brushes.Cyan);
-            System.Diagnostics.Debug.WriteLine($"Brak przeciwnika w sektorze {sector} (litera {letter})");
         }
 
         private void OnWrongLetter(char letter)
         {
             FlashSlots(Brushes.Orange);
-            System.Diagnostics.Debug.WriteLine($"Zła litera: {letter} (nie ma jej w tej turze)");
         }
 
         private void OnInvalidCode()
         {
             FlashSlots(Brushes.Red);
-            System.Diagnostics.Debug.WriteLine("Nieprawidłowy kod Morse'a!");
         }
 
         private void FlashSlots(Brush color)
@@ -370,7 +593,11 @@ namespace Echo_of_London___Morse_Defence.Views
         {
             currentLetters = GenerateRandomLetters();
             ShowAllSectorLetters(currentLetters);
-            ShowMorsePanel(currentLetters);
+
+            if (showHints)
+            {
+                ShowMorsePanel(currentLetters);
+            }
         }
 
         private void ShowMorsePanel(string letters)
@@ -416,7 +643,7 @@ namespace Echo_of_London___Morse_Defence.Views
                     Text = letters[i].ToString(),
                     FontFamily = new FontFamily("OCR A Extended"),
                     FontSize = 48,
-                    Foreground = Brushes.Yellow
+                    Foreground = lineColor
                 };
 
                 Canvas.SetLeft(tb, x - 20);
@@ -427,14 +654,20 @@ namespace Echo_of_London___Morse_Defence.Views
         }
 
         // ============================================================
-        // PRZECIWNIK - ze śledzeniem sektora
+        // PRZECIWNIK
         // ============================================================
         private void SpawnEnemy()
         {
+            if (isGameOver) return;
+
             enemyCount++;
 
             if (enemyCount % 10 == 0)
+            {
+                wave++;
+                UpdateWaveDisplay();
                 StartNewTurn();
+            }
 
             double enemySize = 30;
             double spawnRadius = 160;
@@ -448,10 +681,8 @@ namespace Echo_of_London___Morse_Defence.Views
             UIElement enemy = CreateEnemy(startX, startY);
             EnemyCanvas.Children.Add(enemy);
 
-            // Oblicz sektor
             int sector = GetSectorFromAngle(angleDegrees);
 
-            // Utwórz dane przeciwnika
             var enemyData = new EnemyData
             {
                 Element = enemy,
@@ -462,10 +693,15 @@ namespace Echo_of_London___Morse_Defence.Views
 
             enemies.Add(enemyData);
 
-            double duration = 3;
+            var animX = new DoubleAnimation(
+                startX - enemySize / 2,
+                centerX - enemySize / 2,
+                TimeSpan.FromSeconds(enemyMoveDuration));
 
-            var animX = new DoubleAnimation(startX - enemySize / 2, centerX - enemySize / 2, TimeSpan.FromSeconds(duration));
-            var animY = new DoubleAnimation(startY - enemySize / 2, centerY - enemySize / 2, TimeSpan.FromSeconds(duration));
+            var animY = new DoubleAnimation(
+                startY - enemySize / 2,
+                centerY - enemySize / 2,
+                TimeSpan.FromSeconds(enemyMoveDuration));
 
             animX.FillBehavior = FillBehavior.Stop;
             animY.FillBehavior = FillBehavior.Stop;
@@ -475,12 +711,12 @@ namespace Echo_of_London___Morse_Defence.Views
 
             animY.Completed += (s, e) =>
             {
-                // Przeciwnik dotarł do środka - usuń go
-                EnemyCanvas.Children.Remove(enemy);
-                enemies.Remove(enemyData);
-
-                // TODO: Odejmij życie graczowi
-                System.Diagnostics.Debug.WriteLine($"Przeciwnik dotarł do środka! Sektor: {sector}");
+                if (enemies.Contains(enemyData))
+                {
+                    EnemyCanvas.Children.Remove(enemy);
+                    enemies.Remove(enemyData);
+                    LoseLife();
+                }
             };
 
             enemy.BeginAnimation(Canvas.LeftProperty, animX);
@@ -574,5 +810,17 @@ namespace Echo_of_London___Morse_Defence.Views
             inputTimer?.Stop();
             main.NavigateTo(new MenuView(main));
         }
+    }
+
+    // ============================================================
+    // KLASA DO PRZECHOWYWANIA WYNIKU
+    // ============================================================
+    public class ScoreEntry
+    {
+        public string PlayerName { get; set; }
+        public int Score { get; set; }
+        public int Wave { get; set; }
+        public string Difficulty { get; set; }
+        public string Date { get; set; }
     }
 }
