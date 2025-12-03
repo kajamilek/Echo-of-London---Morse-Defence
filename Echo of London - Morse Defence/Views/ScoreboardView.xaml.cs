@@ -113,6 +113,12 @@ namespace Echo_of_London___Morse_Defence.Views
                 }
             }
         }
+
+        private void Main_Click(object sender, RoutedEventArgs e)
+        {
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+            mainWindow.NavigateTo(new StartView(mainWindow));
+        }
     }
 
     // Klasa pomocnicza do wyświetlania

@@ -804,12 +804,18 @@ namespace Echo_of_London___Morse_Defence.Views
             return container;
         }
 
+        private void Main_Click(object sender, RoutedEventArgs e)
+        {
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+            mainWindow.NavigateTo(new StartView(mainWindow));
+        }
+
         private void Menu_Click(object sender, RoutedEventArgs e)
         {
-            enemyTimer?.Stop();
-            inputTimer?.Stop();
-            main.NavigateTo(new MenuView(main));
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+            mainWindow.NavigateTo(new MenuView(mainWindow));
         }
+
     }
 
     // ============================================================

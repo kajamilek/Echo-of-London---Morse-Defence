@@ -161,10 +161,10 @@
                     Orientation="Horizontal" 
                     HorizontalAlignment="Center" 
                     Margin="0,20,0,40">
-            <Button Content="BACK" 
+            <Button Content="MAIN" 
                     Style="{StaticResource MenuButton}" 
-                    Foreground="#ff5555"
-                    Click="Back_Click"/>
+                    Foreground="#029273"
+                    Click="Main_Click"/>
             <Button Content="CLEAR ALL" 
                     Style="{StaticResource MenuButton}" 
                     Foreground="#ff5555"
