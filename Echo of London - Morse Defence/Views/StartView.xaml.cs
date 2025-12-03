@@ -1,54 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Echo_of_London___Morse_Defence.Views
 {
     public partial class StartView : UserControl
     {
-        private MainWindow _main;
+        MainWindow oknoGlowne;
 
-        // Konstruktor bezparametrowy (dla kompatybilności)
         public StartView()
         {
             InitializeComponent();
-            _main = Application.Current.MainWindow as MainWindow;
+            oknoGlowne = Application.Current.MainWindow as MainWindow;
         }
 
-        // Konstruktor z parametrem MainWindow
-        public StartView(MainWindow main)
+        public StartView(MainWindow mw)
         {
             InitializeComponent();
-            _main = main;
+            oknoGlowne = mw;
         }
 
-        private void Start_Click(object sender, RoutedEventArgs e)
+        void Start_Click(object sender, RoutedEventArgs e)
         {
-            _main.NavigateTo(new DifficultyView(_main));
+            oknoGlowne.NavigateTo(new DifficultyView(oknoGlowne));
         }
 
-        private void Options_Click(object sender, RoutedEventArgs e)
+        void Options_Click(object sender, RoutedEventArgs e)
         {
-            _main.NavigateTo(new OptionsView(_main));
+            oknoGlowne.NavigateTo(new OptionsView(oknoGlowne));
         }
 
-        private void Scores_Click(object sender, RoutedEventArgs e)
+        void Scores_Click(object sender, RoutedEventArgs e)
         {
-            _main.NavigateTo(new ScoreboardView(_main));
+            oknoGlowne.NavigateTo(new ScoreboardView(oknoGlowne));
         }
 
-        private void Exit_Click(object sender, RoutedEventArgs e)
+        void Exit_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
         }

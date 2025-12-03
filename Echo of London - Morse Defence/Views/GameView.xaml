@@ -85,10 +85,8 @@
                 <!-- ŻYCIA - w linii -->
                 <StackPanel Orientation="Horizontal" Margin="0,5">
                     <TextBlock Text="ŻYCIA:" Style="{StaticResource StatLabel}" />
-                    <TextBlock x:Name="LivesText" Text="♥♥♥" 
-                               Style="{StaticResource StatValue}" 
-                               Foreground="#ff5555" 
-                               FontSize="32" />
+                    <TextBlock x:Name="LivesText" Text="" 
+                               Style="{StaticResource StatValue}" />
                 </StackPanel>
             </StackPanel>
         </Grid>
@@ -100,7 +98,7 @@
         </Grid>
 
         <!-- RADAR -->
-        <Grid Grid.Column="1" Grid.Row="0" Grid.RowSpan="4" Style="{StaticResource MyGrid}">
+        <Grid Grid.Column="1" Grid.Row="0" Grid.RowSpan="4" Style="{StaticResource MyGrid}" Background="#003026">
             <Viewbox Stretch="Uniform"
                      HorizontalAlignment="Center"
                      VerticalAlignment="Center"
@@ -178,7 +176,7 @@
         </Grid>
 
         <!-- gracz -->
-        <Rectangle Name="player" Height="20" Width="20"
+        <Ellipse Name="player" Height="20" Width="20"
                    Fill="#12b491"
                    Grid.Column="1" Grid.Row="0" Grid.RowSpan="4"/>
 

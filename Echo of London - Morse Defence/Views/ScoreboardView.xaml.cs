@@ -10,26 +10,20 @@ namespace Echo_of_London___Morse_Defence.Views
 {
     public partial class ScoreboardView : UserControl
     {
-        private MainWindow _main;
+        MainWindow oknoGlowne;
 
-        public ScoreboardView(MainWindow main)
+        public ScoreboardView(MainWindow mw)
         {
             InitializeComponent();
-            _main = main;
-
-            Loaded += ScoreboardView_Loaded;
+            oknoGlowne = mw;
+            Loaded += (s, e) => WczytajWyniki();
         }
 
-        private void ScoreboardView_Loaded(object sender, RoutedEventArgs e)
+        void WczytajWyniki()
         {
-            LoadAndDisplayScores();
-        }
+            var wyniki = GameView.LoadScores();
 
-        private void LoadAndDisplayScores()
-        {
-            var scores = GameView.LoadScores();
-
-            if (scores.Count == 0)
+            if (wyniki.Count == 0)
             {
                 ScoresList.ItemsSource = null;
                 NoScoresText.Visibility = Visibility.Visible;
@@ -38,90 +32,72 @@ namespace Echo_of_London___Morse_Defence.Views
 
             NoScoresText.Visibility = Visibility.Collapsed;
 
-            // Przygotuj dane do wyświetlenia (max 20 wyników)
-            var displayScores = scores.Take(20).Select((s, index) => new ScoreDisplayItem
+            var listaDoWyswietlenia = wyniki.Take(20).Select((w, i) => new ScoreDisplayItem
             {
-                Rank = (index + 1).ToString(),
-                RankColor = GetRankColor(index + 1),
-                PlayerName = s.PlayerName,
-                Score = s.Score.ToString("N0"),
-                Wave = s.Wave.ToString(),
-                Difficulty = s.Difficulty,
-                DifficultyColor = GetDifficultyColor(s.Difficulty),
-                Date = s.Date
+                Rank = (i + 1).ToString(),
+                RankColor = PobierzKolorRangi(i + 1),
+                PlayerName = w.PlayerName,
+                Score = w.Score.ToString("N0"),
+                Wave = w.Wave.ToString(),
+                Difficulty = w.Difficulty,
+                DifficultyColor = PobierzKolorTrudnosci(w.Difficulty),
+                Date = w.Date
             }).ToList();
 
-            ScoresList.ItemsSource = displayScores;
+            ScoresList.ItemsSource = listaDoWyswietlenia;
         }
 
-        private Brush GetRankColor(int rank)
+        Brush PobierzKolorRangi(int miejsce)
         {
-            switch (rank)
-            {
-                case 1: return Brushes.Gold;
-                case 2: return Brushes.Silver;
-                case 3: return (Brush)new BrushConverter().ConvertFrom("#CD7F32"); // Bronze
-                default: return (Brush)new BrushConverter().ConvertFrom("#029273");
-            }
+            if (miejsce == 1) return Brushes.Gold;
+            if (miejsce == 2) return Brushes.Silver;
+            if (miejsce == 3) return (Brush)new BrushConverter().ConvertFrom("#CD7F32");
+            return (Brush)new BrushConverter().ConvertFrom("#029273");
         }
 
-        private Brush GetDifficultyColor(string difficulty)
+        Brush PobierzKolorTrudnosci(string trudnosc)
         {
-            switch (difficulty?.ToUpper())
-            {
-                case "EASY": return Brushes.LimeGreen;
-                case "MID":
-                case "NORMAL": return Brushes.Orange;
-                case "HARD": return Brushes.Red;
-                default: return (Brush)new BrushConverter().ConvertFrom("#029273");
-            }
+            string t = trudnosc?.ToUpper();
+            if (t == "EASY") return Brushes.LimeGreen;
+            if (t == "MID" || t == "NORMAL") return Brushes.Orange;
+            if (t == "HARD") return Brushes.Red;
+            return (Brush)new BrushConverter().ConvertFrom("#029273");
         }
 
-        private void Back_Click(object sender, RoutedEventArgs e)
+        void Main_Click(object sender, RoutedEventArgs e)
         {
-            _main.GoBack();
+            oknoGlowne.NavigateTo(new StartView(oknoGlowne));
         }
 
-        private void ClearScores_Click(object sender, RoutedEventArgs e)
+        void ClearScores_Click(object sender, RoutedEventArgs e)
         {
-            var result = MessageBox.Show(
+            var odpowiedz = MessageBox.Show(
                 "Are you sure you want to delete all scores?",
                 "Clear Scoreboard",
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Warning);
 
-            if (result == MessageBoxResult.Yes)
+            if (odpowiedz == MessageBoxResult.Yes)
             {
                 try
                 {
-                    string scoresPath = Path.Combine(
+                    string sciezka = System.IO.Path.Combine(
                         Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                        "EchoOfLondon",
-                        "highscores.txt");
+                        "EchoOfLondon", "highscores.txt");
 
-                    if (File.Exists(scoresPath))
-                    {
-                        File.Delete(scoresPath);
-                    }
+                    if (File.Exists(sciezka))
+                        File.Delete(sciezka);
 
-                    LoadAndDisplayScores();
+                    WczytajWyniki();
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error clearing scores: {ex.Message}", "Error",
-                                    MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
-
-        private void Main_Click(object sender, RoutedEventArgs e)
-        {
-            var mainWindow = Application.Current.MainWindow as MainWindow;
-            mainWindow.NavigateTo(new StartView(mainWindow));
-        }
     }
 
-    // Klasa pomocnicza do wyświetlania
     public class ScoreDisplayItem
     {
         public string Rank { get; set; }
