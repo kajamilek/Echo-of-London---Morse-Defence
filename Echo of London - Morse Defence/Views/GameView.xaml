@@ -35,6 +35,21 @@
             <Setter Property="FontFamily" Value="OCR A Extended" />
             <Setter Property="Foreground" Value="#029273" />
         </Style>
+
+        <Style TargetType="TextBlock" x:Key="StatLabel">
+            <Setter Property="FontFamily" Value="OCR A Extended" />
+            <Setter Property="FontSize" Value="24" />
+            <Setter Property="Foreground" Value="#029273" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
+        <Style TargetType="TextBlock" x:Key="StatValue">
+            <Setter Property="FontFamily" Value="OCR A Extended" />
+            <Setter Property="FontSize" Value="28" />
+            <Setter Property="Foreground" Value="#12b491" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="10,0,0,0" />
+        </Style>
     </UserControl.Resources>
 
     <Grid Margin="30">
@@ -52,13 +67,30 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <!-- LEWY PANEL -->
+        <!-- LEWY PANEL - STATYSTYKI -->
         <Grid Grid.Column="0" Grid.RowSpan="2" Style="{StaticResource MyGrid}" Margin="20,20,40,20">
-            <TextBlock Style="{StaticResource MyGridText}" HorizontalAlignment="Left">
-                PUNKTY  <LineBreak />
-                FALA    <LineBreak />
-                ŻYCIA
-            </TextBlock>
+            <StackPanel VerticalAlignment="Center" Margin="15">
+                <!-- PUNKTY - w linii -->
+                <StackPanel Orientation="Horizontal" Margin="0,5">
+                    <TextBlock Text="PUNKTY:" Style="{StaticResource StatLabel}" />
+                    <TextBlock x:Name="ScoreText" Text="0" Style="{StaticResource StatValue}" />
+                </StackPanel>
+
+                <!-- FALA - w linii -->
+                <StackPanel Orientation="Horizontal" Margin="0,5">
+                    <TextBlock Text="FALA:" Style="{StaticResource StatLabel}" />
+                    <TextBlock x:Name="WaveText" Text="1" Style="{StaticResource StatValue}" />
+                </StackPanel>
+
+                <!-- ŻYCIA - w linii -->
+                <StackPanel Orientation="Horizontal" Margin="0,5">
+                    <TextBlock Text="ŻYCIA:" Style="{StaticResource StatLabel}" />
+                    <TextBlock x:Name="LivesText" Text="♥♥♥" 
+                               Style="{StaticResource StatValue}" 
+                               Foreground="#ff5555" 
+                               FontSize="32" />
+                </StackPanel>
+            </StackPanel>
         </Grid>
 
         <Grid Grid.Column="0" Grid.Row="2" Grid.RowSpan="4" Style="{StaticResource MyGrid}" Margin="20,20,40,20">
@@ -150,21 +182,24 @@
                    Fill="#12b491"
                    Grid.Column="1" Grid.Row="0" Grid.RowSpan="4"/>
 
-        <!-- PRAWY PANEL -->
-        <Grid Grid.Column="3" Grid.RowSpan="4" Style="{StaticResource MyGrid}" Margin="40,20,20,20">
+        <!-- PRAWY PANEL - HINTS -->
+        <Grid x:Name="HintsPanel"
+              Grid.Column="3" Grid.RowSpan="4"
+              Style="{StaticResource MyGrid}"
+              Margin="40,20,20,20"
+              Visibility="Collapsed">
             <StackPanel>
-                <TextBlock Style="{StaticResource MyGridText}" Text="ZGAPKA" />
+                <TextBlock Style="{StaticResource MyGridText}" Text="HINTS" />
                 <ScrollViewer VerticalScrollBarVisibility="Auto" Height="400">
                     <TextBlock x:Name="MorseDisplay"
-                       FontFamily="OCR A Extended"
-                       FontSize="28"
-                       Foreground="#029273"
-                       TextWrapping="Wrap"
-                       Margin="10"/>
+                               FontFamily="OCR A Extended"
+                               FontSize="28"
+                               Foreground="#029273"
+                               TextWrapping="Wrap"
+                               Margin="10"/>
                 </ScrollViewer>
             </StackPanel>
         </Grid>
-
 
         <Grid Grid.Column="3" Grid.Row="4" Margin="40,20,20,20">
             <Button FontSize="50"
@@ -175,6 +210,95 @@
                     Click="Menu_Click">
                 MENU
             </Button>
+        </Grid>
+
+        <!-- GAME OVER OVERLAY -->
+        <Grid x:Name="GameOverOverlay"
+              Grid.Column="0" Grid.ColumnSpan="3"
+              Grid.Row="0" Grid.RowSpan="5"
+              Background="#EE151b21"
+              Visibility="Collapsed"
+              Panel.ZIndex="100">
+
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock Text="GAME OVER"
+                           FontFamily="OCR A Extended"
+                           FontSize="80"
+                           Foreground="#ff5555"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,30"/>
+
+                <TextBlock x:Name="FinalScoreText"
+                           Text="SCORE: 0"
+                           FontFamily="OCR A Extended"
+                           FontSize="50"
+                           Foreground="#12b491"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,10"/>
+
+                <TextBlock x:Name="FinalWaveText"
+                           Text="WAVE: 1"
+                           FontFamily="OCR A Extended"
+                           FontSize="30"
+                           Foreground="#029273"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,30"/>
+
+                <!-- Pole na nazwę gracza -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
+                    <TextBlock Text="NAME:"
+                               FontFamily="OCR A Extended"
+                               FontSize="28"
+                               Foreground="#029273"
+                               VerticalAlignment="Center"
+                               Margin="0,0,15,0"/>
+                    <TextBox x:Name="PlayerNameTextBox"
+                             Width="200"
+                             FontFamily="OCR A Extended"
+                             FontSize="24"
+                             Background="#404a54"
+                             Foreground="#12b491"
+                             BorderBrush="#029273"
+                             BorderThickness="2"
+                             Padding="10,5"
+                             MaxLength="15"
+                             Text="PLAYER"/>
+                </StackPanel>
+
+                <!-- Przyciski -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
+                    <Button Content="SAVE"
+                            FontFamily="OCR A Extended"
+                            FontSize="30"
+                            Foreground="#12b491"
+                            Background="#262c33"
+                            BorderBrush="#029273"
+                            BorderThickness="2"
+                            Padding="30,10"
+                            Margin="10,0"
+                            Click="SaveScore_Click"/>
+
+                    <Button Content="MENU"
+                            FontFamily="OCR A Extended"
+                            FontSize="30"
+                            Foreground="#ff5555"
+                            Background="#262c33"
+                            BorderBrush="#ff5555"
+                            BorderThickness="2"
+                            Padding="30,10"
+                            Margin="10,0"
+                            Click="Menu_Click"/>
+                </StackPanel>
+
+                <!-- Komunikat o zapisie -->
+                <TextBlock x:Name="SaveConfirmText"
+                           Text=""
+                           FontFamily="OCR A Extended"
+                           FontSize="20"
+                           Foreground="#12b491"
+                           HorizontalAlignment="Center"
+                           Margin="0,20,0,0"/>
+            </StackPanel>
         </Grid>
     </Grid>
 </UserControl>
