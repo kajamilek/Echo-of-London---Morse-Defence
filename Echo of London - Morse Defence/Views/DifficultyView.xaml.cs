@@ -1,52 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Echo_of_London___Morse_Defence.Views
 {
     public partial class DifficultyView : UserControl
     {
-        private MainWindow _main;
+        MainWindow oknoGlowne;
 
-        public DifficultyView(MainWindow main)
+        public DifficultyView(MainWindow mw)
         {
             InitializeComponent();
-            _main = main;
+            oknoGlowne = mw;
         }
 
-        private void Easy_Click(object sender, RoutedEventArgs e)
+        void Easy_Click(object sender, RoutedEventArgs e)
         {
-            bool showHints = HintsCheckBox.IsChecked == true;
-            _main.NavigateTo(new GameView(_main, difficulty: "easy", showHints: showHints));
+            bool podpowiedzi = HintsCheckBox.IsChecked == true;
+            oknoGlowne.NavigateTo(new GameView(oknoGlowne, "easy", podpowiedzi));
         }
 
-        private void Mid_Click(object sender, RoutedEventArgs e)
+        void Mid_Click(object sender, RoutedEventArgs e)
         {
-            bool showHints = HintsCheckBox.IsChecked == true;
-            _main.NavigateTo(new GameView(_main, difficulty: "mid", showHints: showHints));
+            bool podpowiedzi = HintsCheckBox.IsChecked == true;
+            oknoGlowne.NavigateTo(new GameView(oknoGlowne, "mid", podpowiedzi));
         }
 
-        private void Hard_Click(object sender, RoutedEventArgs e)
+        void Hard_Click(object sender, RoutedEventArgs e)
         {
-            bool showHints = HintsCheckBox.IsChecked == true;
-            _main.NavigateTo(new GameView(_main, difficulty: "hard", showHints: showHints));
+            bool podpowiedzi = HintsCheckBox.IsChecked == true;
+            oknoGlowne.NavigateTo(new GameView(oknoGlowne, "hard", podpowiedzi));
         }
 
-        private void Back_Click(object sender, RoutedEventArgs e)
+        void Back_Click(object sender, RoutedEventArgs e)
         {
-            var mainWindow = Application.Current.MainWindow as MainWindow;
-            mainWindow.GoBack();
+            oknoGlowne.GoBack();
         }
     }
 }

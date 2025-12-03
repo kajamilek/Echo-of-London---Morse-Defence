@@ -15,768 +15,611 @@ namespace Echo_of_London___Morse_Defence.Views
 {
     public partial class GameView : UserControl
     {
-        private MainWindow main;
-        private Random rng = new Random();
-        private DispatcherTimer enemyTimer;
-        private double centerX;
-        private double centerY;
+        MainWindow oknoGlowne;
+        Random losowy = new Random();
+        DispatcherTimer timerWrogow;
+        DispatcherTimer timerWejscia;
 
-        private readonly double[] sectorAngles = { 0, 60, 120, 180, 240, 300 };
+        double srodekX, srodekY;
+        double[] katySektor = { 0, 60, 120, 180, 240, 300 };
 
-        private int enemyCount = 0;
-        private string currentLetters = "";
+        string aktualnyMorse = "";
+        string aktualneListery = "";
+        int maxDlugoscMorse = 6;
+        TextBlock[] polaMorse;
 
-        // === Obsługa wpisywania Morse'a ===
-        private string currentMorseInput = "";
-        private const int MAX_MORSE_LENGTH = 6;
-        private TextBlock[] morseSlots;
+        List<DaneWroga> wrogowie = new List<DaneWroga>();
 
-        // Timer do automatycznego zatwierdzania
-        private DispatcherTimer inputTimer;
+        string poziomTrudnosci;
+        double interwalSpawnu;
+        double czasRuchuWroga;
+        double opoznienieWejscia;
+        bool pokazPodpowiedzi;
 
-        // === Śledzenie przeciwników w sektorach ===
-        private List<EnemyData> enemies = new List<EnemyData>();
+        int zycia = 3;
+        int punkty = 0;
+        int fala = 1;
+        int licznikWrogow = 0;
+        bool koniecGry = false;
+        bool wynikZapisany = false;
 
-        // === USTAWIENIA TRUDNOŚCI ===
-        private string difficulty;
-        private double enemySpawnInterval;
-        private double enemyMoveDuration;
-        private double inputDelaySeconds;
+        // tryb jednego przycisku
+        bool trwaNadawanie = false;
+        DateTime czasStartuNadawania;
+        DispatcherTimer timerNadawania;
+        int progKrotkieMs = 150;  // poniżej = kropka
 
-        // === HINTS ===
-        private bool showHints;
+        Brush kolorLinii = (Brush)new BrushConverter().ConvertFrom("#029273");
 
-        // === SYSTEM ŻYCIA I PUNKTÓW ===
-        private int lives = 3;
-        private int score = 0;
-        private int wave = 1;
-        private bool isGameOver = false;
-        private bool scoreSaved = false;
-
-        // Kolor linii na kole
-        private readonly Brush lineColor = (Brush)new BrushConverter().ConvertFrom("#029273");
-
-        // Ścieżka do pliku z wynikami
-        private static readonly string ScoresFilePath = System.IO.Path.Combine(
+        static string sciezkaWynikow = System.IO.Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-            "EchoOfLondon",
-            "highscores.txt");
+            "EchoOfLondon", "highscores.txt");
 
-        private class EnemyData
+        Dictionary<char, string> koderMorse = new Dictionary<char, string>()
+        {
+            {'A',"•–"}, {'B',"–•••"}, {'C',"–•–•"}, {'D',"–••"},
+            {'E',"•"}, {'F',"••–•"}, {'G',"––•"}, {'H',"••••"},
+            {'I',"••"}, {'J',"•–––"}, {'K',"–•–"}, {'L',"•–••"},
+            {'M',"––"}, {'N',"–•"}, {'O',"–––"}, {'P',"•––•"},
+            {'Q',"––•–"}, {'R',"•–•"}, {'S',"•••"}, {'T',"–"},
+            {'U',"••–"}, {'V',"•••–"}, {'W',"•––"}, {'X',"–••–"},
+            {'Y',"–•––"}, {'Z',"––••"}
+        };
+
+        class DaneWroga
         {
             public UIElement Element { get; set; }
-            public double AngleDegrees { get; set; }
-            public int Sector { get; set; }
-            public DateTime SpawnTime { get; set; }
+            public double Kat { get; set; }
+            public int Sektor { get; set; }
+            public DateTime CzasSpawnu { get; set; }
             public DoubleAnimation AnimX { get; set; }
             public DoubleAnimation AnimY { get; set; }
         }
 
-        // Kody Morse'a
-        private Dictionary<char, string> morse = new Dictionary<char, string>()
-        {
-            {'A',"•–"},      {'B',"–•••"},
-            {'C',"–•–•"},    {'D',"–••"},
-            {'E',"•"},       {'F',"••–•"},
-            {'G',"––•"},     {'H',"••••"},
-            {'I',"••"},      {'J',"•–––"},
-            {'K',"–•–"},     {'L',"•–••"},
-            {'M',"––"},      {'N',"–•"},
-            {'O',"–––"},     {'P',"•––•"},
-            {'Q',"––•–"},    {'R',"•–•"},
-            {'S',"•••"},     {'T',"–"},
-            {'U',"••–"},     {'V',"•••–"},
-            {'W',"•––"},     {'X',"–••–"},
-            {'Y',"–•––"},    {'Z',"––••"}
-        };
-
-        public GameView(MainWindow main, string difficulty, bool showHints = false)
+        public GameView(MainWindow mw, string trudnosc, bool podpowiedzi = false)
         {
             InitializeComponent();
-            this.main = main;
-            this.difficulty = difficulty;
-            this.showHints = showHints;
-
-            SetDifficultyParameters();
-
-            Loaded += GameView_Loaded;
+            oknoGlowne = mw;
+            poziomTrudnosci = trudnosc;
+            pokazPodpowiedzi = podpowiedzi;
+            UstawParametryTrudnosci();
+            Loaded += NaZaladowaniu;
         }
 
-        private void SetDifficultyParameters()
+        void UstawParametryTrudnosci()
         {
-            switch (difficulty.ToLower())
+            string t = poziomTrudnosci.ToLower();
+
+            if (t == "easy")
             {
-                case "easy":
-                    enemySpawnInterval = 3.0;
-                    enemyMoveDuration = 5.0;
-                    inputDelaySeconds = 1.0;
-                    break;
-
-                case "mid":
-                case "normal":
-                    enemySpawnInterval = 2.0;
-                    enemyMoveDuration = 3.0;
-                    inputDelaySeconds = 0.8;
-                    break;
-
-                case "hard":
-                    enemySpawnInterval = 1.2;
-                    enemyMoveDuration = 2.0;
-                    inputDelaySeconds = 0.6;
-                    break;
-
-                default:
-                    enemySpawnInterval = 2.0;
-                    enemyMoveDuration = 3.0;
-                    inputDelaySeconds = 0.8;
-                    break;
+                interwalSpawnu = 3.0;
+                czasRuchuWroga = 5.0;
+                opoznienieWejscia = 1.0;
             }
-        }
-
-        private void GameView_Loaded(object sender, RoutedEventArgs e)
-        {
-            centerX = EnemyCanvas.ActualWidth / 2;
-            centerY = EnemyCanvas.ActualHeight / 2;
-
-            morseSlots = new TextBlock[]
+            else if (t == "hard")
             {
-                MorseSlot0, MorseSlot1, MorseSlot2,
-                MorseSlot3, MorseSlot4, MorseSlot5
-            };
-
-            HintsPanel.Visibility = showHints ? Visibility.Visible : Visibility.Collapsed;
-
-            UpdateLivesDisplay();
-            UpdateScoreDisplay();
-            UpdateWaveDisplay();
-
-            inputTimer = new DispatcherTimer();
-            inputTimer.Interval = TimeSpan.FromSeconds(inputDelaySeconds);
-            inputTimer.Tick += InputTimer_Tick;
-
-            this.Focusable = true;
-            this.Focus();
-            this.KeyDown += GameView_KeyDown;
-            this.MouseDown += (s, ev) => this.Focus();
-
-            enemyTimer = new DispatcherTimer();
-            enemyTimer.Interval = TimeSpan.FromSeconds(enemySpawnInterval);
-            enemyTimer.Tick += (s, ev) => SpawnEnemy();
-            enemyTimer.Start();
-
-            StartNewTurn();
-        }
-
-        // ============================================================
-        // SYSTEM ŻYCIA I PUNKTÓW
-        // ============================================================
-        private void UpdateLivesDisplay()
-        {
-            string hearts = new string('♥', Math.Max(0, lives));
-            string emptyHearts = new string('♡', Math.Max(0, 3 - lives));
-            LivesText.Text = hearts + emptyHearts;
-
-            if (lives <= 1)
-                LivesText.Foreground = Brushes.Red;
-            else if (lives == 2)
-                LivesText.Foreground = Brushes.Orange;
+                interwalSpawnu = 1.2;
+                czasRuchuWroga = 2.0;
+                opoznienieWejscia = 0.6;
+            }
             else
-                LivesText.Foreground = (Brush)new BrushConverter().ConvertFrom("#ff5555");
-        }
-
-        private void UpdateScoreDisplay()
-        {
-            ScoreText.Text = score.ToString();
-        }
-
-        private void UpdateWaveDisplay()
-        {
-            WaveText.Text = wave.ToString();
-        }
-
-        private void LoseLife()
-        {
-            if (isGameOver) return;
-
-            lives--;
-            UpdateLivesDisplay();
-            FlashScreen();
-
-            if (lives <= 0)
             {
-                GameOver();
+                interwalSpawnu = 2.0;
+                czasRuchuWroga = 3.0;
+                opoznienieWejscia = 0.8;
             }
         }
 
-        private void AddScore(int points)
+        void NaZaladowaniu(object sender, RoutedEventArgs e)
         {
-            score += points;
-            UpdateScoreDisplay();
+            srodekX = EnemyCanvas.ActualWidth / 2;
+            srodekY = EnemyCanvas.ActualHeight / 2;
+
+            polaMorse = new TextBlock[] { MorseSlot0, MorseSlot1, MorseSlot2, MorseSlot3, MorseSlot4, MorseSlot5 };
+
+            HintsPanel.Visibility = pokazPodpowiedzi ? Visibility.Visible : Visibility.Collapsed;
+
+            OdswiezZycia();
+            OdswiezPunkty();
+            OdswiezFale();
+
+            timerWejscia = new DispatcherTimer();
+            timerWejscia.Interval = TimeSpan.FromSeconds(opoznienieWejscia);
+            timerWejscia.Tick += (s, ev) => { timerWejscia.Stop(); WyslijKodMorse(); };
+
+            // timer dla trybu jednego przycisku - sprawdza czy trzymamy długo
+            timerNadawania = new DispatcherTimer();
+            timerNadawania.Interval = TimeSpan.FromMilliseconds(50);
+            timerNadawania.Tick += TimerNadawania_Tick;
+
+            Focusable = true;
+            Focus();
+            KeyDown += ObslugaKlawiatury;
+            KeyUp += ObslugaKlawiaturaUp;
+            MouseDown += (s, ev) => Focus();
+
+            timerWrogow = new DispatcherTimer();
+            timerWrogow.Interval = TimeSpan.FromSeconds(interwalSpawnu);
+            timerWrogow.Tick += TimerWrogow_Tick;
+            timerWrogow.Start();
+
+            NowaTura();
         }
 
-        private void FlashScreen()
+        void TimerWrogow_Tick(object sender, EventArgs e)
         {
-            var originalFill = player.Fill;
+            StworzWroga();
+        }
+
+        // pokazuje wizualnie że trzymamy klawisz (opcjonalne)
+        void TimerNadawania_Tick(object sender, EventArgs e)
+        {
+            // można tu dodać wizualny feedback że trwa nadawanie
+        }
+
+        public void WymusGameOver()
+        {
+            ZakonczGre();
+        }
+
+        void OdswiezZycia()
+        {
+            string pelne = new string('●', Math.Max(0, zycia));
+            string puste = new string('X', Math.Max(0, 3 - zycia));
+            LivesText.Text = pelne + puste;
+            LivesText.Foreground = Brushes.White;
+        }
+
+        void OdswiezPunkty() { ScoreText.Text = punkty.ToString(); }
+        void OdswiezFale() { WaveText.Text = fala.ToString(); }
+
+        void StracZycie()
+        {
+            if (koniecGry) return;
+            zycia--;
+            OdswiezZycia();
+            MignijGracza();
+            if (zycia <= 0) ZakonczGre();
+        }
+
+        void DodajPunkty(int ile)
+        {
+            punkty += ile;
+            OdswiezPunkty();
+        }
+
+        void MignijGracza()
+        {
+            var oryginalny = player.Fill;
             player.Fill = Brushes.Red;
-
-            var resetTimer = new DispatcherTimer();
-            resetTimer.Interval = TimeSpan.FromMilliseconds(200);
-            resetTimer.Tick += (s, e) =>
-            {
-                resetTimer.Stop();
-                player.Fill = originalFill;
-            };
-            resetTimer.Start();
+            var timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(200) };
+            timer.Tick += (s, e) => { timer.Stop(); player.Fill = oryginalny; };
+            timer.Start();
         }
 
-        private void GameOver()
+        void ZakonczGre()
         {
-            isGameOver = true;
-            scoreSaved = false;
+            koniecGry = true;
+            wynikZapisany = false;
+            timerWrogow?.Stop();
+            timerWejscia?.Stop();
+            timerNadawania?.Stop();
 
-            enemyTimer?.Stop();
-            inputTimer?.Stop();
-
-            foreach (var enemy in enemies.ToList())
+            foreach (var w in wrogowie.ToList())
             {
-                enemy.Element.BeginAnimation(Canvas.LeftProperty, null);
-                enemy.Element.BeginAnimation(Canvas.TopProperty, null);
-                EnemyCanvas.Children.Remove(enemy.Element);
+                w.Element.BeginAnimation(Canvas.LeftProperty, null);
+                w.Element.BeginAnimation(Canvas.TopProperty, null);
+                EnemyCanvas.Children.Remove(w.Element);
             }
-            enemies.Clear();
+            wrogowie.Clear();
 
-            FinalScoreText.Text = $"SCORE: {score}";
-            FinalWaveText.Text = $"WAVE: {wave}";
+            FinalScoreText.Text = "SCORE: " + punkty;
+            FinalWaveText.Text = "WAVE: " + fala;
             SaveConfirmText.Text = "";
             PlayerNameTextBox.Text = "PLAYER";
             GameOverOverlay.Visibility = Visibility.Visible;
-
-            // Focus na pole nazwy
             PlayerNameTextBox.Focus();
             PlayerNameTextBox.SelectAll();
         }
 
-        // ============================================================
-        // SYSTEM ZAPISU WYNIKÓW
-        // ============================================================
-        private void SaveScore_Click(object sender, RoutedEventArgs e)
+        void SaveScore_Click(object sender, RoutedEventArgs e)
         {
-            if (scoreSaved)
+            if (wynikZapisany)
             {
                 SaveConfirmText.Text = "ALREADY SAVED!";
                 SaveConfirmText.Foreground = Brushes.Orange;
                 return;
             }
 
-            string playerName = PlayerNameTextBox.Text.Trim();
-            if (string.IsNullOrEmpty(playerName))
-            {
-                playerName = "PLAYER";
-            }
-
-            // Usuń znaki specjalne
-            playerName = new string(playerName.Where(c => char.IsLetterOrDigit(c) || c == ' ').ToArray());
-            if (playerName.Length > 15)
-                playerName = playerName.Substring(0, 15);
+            string nazwa = PlayerNameTextBox.Text.Trim();
+            if (string.IsNullOrEmpty(nazwa)) nazwa = "PLAYER";
+            nazwa = new string(nazwa.Where(c => char.IsLetterOrDigit(c) || c == ' ').ToArray());
+            if (nazwa.Length > 15) nazwa = nazwa.Substring(0, 15);
 
             try
             {
-                SaveScoreToFile(playerName, score, wave, difficulty);
-                scoreSaved = true;
+                ZapiszWynikDoPliku(nazwa, punkty, fala, poziomTrudnosci);
+                wynikZapisany = true;
                 SaveConfirmText.Text = "SCORE SAVED!";
                 SaveConfirmText.Foreground = (Brush)new BrushConverter().ConvertFrom("#12b491");
             }
-            catch (Exception ex)
+            catch
             {
                 SaveConfirmText.Text = "SAVE FAILED!";
                 SaveConfirmText.Foreground = Brushes.Red;
-                System.Diagnostics.Debug.WriteLine($"Error saving score: {ex.Message}");
             }
         }
 
-        private void SaveScoreToFile(string playerName, int score, int wave, string difficulty)
+        void ZapiszWynikDoPliku(string nazwa, int pkt, int f, string trudnosc)
         {
-            // Utwórz folder jeśli nie istnieje
-            string directory = System.IO.Path.GetDirectoryName(ScoresFilePath);
-            if (!Directory.Exists(directory))
-            {
-                Directory.CreateDirectory(directory);
-            }
+            string folder = System.IO.Path.GetDirectoryName(sciezkaWynikow);
+            if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
 
-            // Format: NAME|SCORE|WAVE|DIFFICULTY|DATE
-            string scoreEntry = $"{playerName}|{score}|{wave}|{difficulty.ToUpper()}|{DateTime.Now:yyyy-MM-dd HH:mm}";
+            string hintsStr = pokazPodpowiedzi ? "1" : "0";
+            string wpis = nazwa + "|" + pkt + "|" + f + "|" + trudnosc.ToUpper() + "|" +
+                          DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "|" + hintsStr;
 
-            // Dodaj do pliku
-            using (StreamWriter sw = File.AppendText(ScoresFilePath))
-            {
-                sw.WriteLine(scoreEntry);
-            }
-
-            System.Diagnostics.Debug.WriteLine($"Score saved: {scoreEntry}");
+            using (StreamWriter sw = File.AppendText(sciezkaWynikow))
+                sw.WriteLine(wpis);
         }
 
-        // Statyczna metoda do odczytu wyników (używana przez HighScoresView)
         public static List<ScoreEntry> LoadScores()
         {
-            var scores = new List<ScoreEntry>();
-
-            if (!File.Exists(ScoresFilePath))
-                return scores;
+            var lista = new List<ScoreEntry>();
+            if (!File.Exists(sciezkaWynikow)) return lista;
 
             try
             {
-                string[] lines = File.ReadAllLines(ScoresFilePath);
-                foreach (string line in lines)
+                foreach (string linia in File.ReadAllLines(sciezkaWynikow))
                 {
-                    string[] parts = line.Split('|');
-                    if (parts.Length >= 5)
+                    string[] czesci = linia.Split('|');
+                    if (czesci.Length >= 5)
                     {
-                        scores.Add(new ScoreEntry
+                        var wpis = new ScoreEntry
                         {
-                            PlayerName = parts[0],
-                            Score = int.Parse(parts[1]),
-                            Wave = int.Parse(parts[2]),
-                            Difficulty = parts[3],
-                            Date = parts[4]
-                        });
+                            PlayerName = czesci[0],
+                            Score = int.Parse(czesci[1]),
+                            Wave = int.Parse(czesci[2]),
+                            Difficulty = czesci[3],
+                            Date = czesci[4],
+                            Hints = false
+                        };
+
+                        if (czesci.Length >= 6)
+                            wpis.Hints = czesci[5] == "1";
+
+                        lista.Add(wpis);
                     }
                 }
             }
-            catch (Exception ex)
+            catch { }
+
+            return lista.OrderByDescending(x => x.Score).ToList();
+        }
+
+        void ObslugaKlawiatury(object sender, KeyEventArgs e)
+        {
+            if (koniecGry) return;
+
+            if (GameSettings.TrybJednegoPrzycisku)
             {
-                System.Diagnostics.Debug.WriteLine($"Error loading scores: {ex.Message}");
-            }
-
-            // Sortuj od najwyższego wyniku
-            return scores.OrderByDescending(s => s.Score).ToList();
-        }
-
-        // ============================================================
-        // OBSŁUGA KLAWIATURY
-        // ============================================================
-        private void GameView_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (isGameOver) return;
-
-            switch (e.Key)
-            {
-                case Key.Left:
-                    AddMorseSymbol("–");
-                    e.Handled = true;
-                    break;
-
-                case Key.Right:
-                    AddMorseSymbol("•");
-                    e.Handled = true;
-                    break;
-
-                case Key.Space:
-                case Key.Enter:
-                    SubmitMorseCode();
-                    e.Handled = true;
-                    break;
-
-                case Key.Back:
-                case Key.Delete:
-                    RemoveLastSymbol();
-                    e.Handled = true;
-                    break;
-
-                case Key.Escape:
-                    ClearMorseInput();
-                    e.Handled = true;
-                    break;
-            }
-        }
-
-        private void AddMorseSymbol(string symbol)
-        {
-            if (currentMorseInput.Length >= MAX_MORSE_LENGTH)
-                return;
-
-            currentMorseInput += symbol;
-            UpdateMorseDisplay();
-
-            inputTimer.Stop();
-            inputTimer.Start();
-        }
-
-        private void RemoveLastSymbol()
-        {
-            if (currentMorseInput.Length > 0)
-            {
-                currentMorseInput = currentMorseInput.Substring(0, currentMorseInput.Length - 1);
-                UpdateMorseDisplay();
-            }
-
-            inputTimer.Stop();
-            if (currentMorseInput.Length > 0)
-                inputTimer.Start();
-        }
-
-        private void ClearMorseInput()
-        {
-            currentMorseInput = "";
-            UpdateMorseDisplay();
-            inputTimer.Stop();
-        }
-
-        private void UpdateMorseDisplay()
-        {
-            int startSlot = MAX_MORSE_LENGTH - currentMorseInput.Length;
-
-            for (int i = 0; i < morseSlots.Length; i++)
-            {
-                if (i >= startSlot)
+                // tryb jednego przycisku - spacja rozpoczyna nadawanie
+                if (e.Key == Key.Space && !trwaNadawanie)
                 {
-                    int inputIndex = i - startSlot;
-                    morseSlots[i].Text = currentMorseInput[inputIndex].ToString();
-                    morseSlots[i].Foreground = lineColor;
-                }
-                else
-                {
-                    morseSlots[i].Text = "";
-                    morseSlots[i].Foreground = lineColor;
-                }
-            }
-        }
-
-        private void InputTimer_Tick(object sender, EventArgs e)
-        {
-            inputTimer.Stop();
-            SubmitMorseCode();
-        }
-
-        private void SubmitMorseCode()
-        {
-            inputTimer.Stop();
-
-            if (string.IsNullOrEmpty(currentMorseInput))
-                return;
-
-            char? matchedLetter = null;
-            foreach (var kvp in morse)
-            {
-                if (kvp.Value == currentMorseInput)
-                {
-                    matchedLetter = kvp.Key;
-                    break;
-                }
-            }
-
-            if (matchedLetter.HasValue)
-            {
-                int sectorIndex = currentLetters.IndexOf(matchedLetter.Value);
-
-                if (sectorIndex >= 0)
-                {
-                    bool destroyed = DestroyEnemyInSector(sectorIndex);
-
-                    if (destroyed)
-                    {
-                        OnEnemyDestroyed(matchedLetter.Value, sectorIndex);
-                    }
-                    else
-                    {
-                        OnNoEnemyInSector(matchedLetter.Value, sectorIndex);
-                    }
-                }
-                else
-                {
-                    OnWrongLetter(matchedLetter.Value);
+                    trwaNadawanie = true;
+                    czasStartuNadawania = DateTime.Now;
+                    timerNadawania.Start();
+                    e.Handled = true;
+                    return;
                 }
             }
             else
             {
-                OnInvalidCode();
+                // tryb dwóch przycisków
+                if (e.Key == Key.Left) { DodajSymbolMorse("–"); e.Handled = true; return; }
+                if (e.Key == Key.Right) { DodajSymbolMorse("•"); e.Handled = true; return; }
             }
 
-            ClearMorseInput();
+            // wspólne klawisze
+            if (e.Key == Key.Enter) { WyslijKodMorse(); e.Handled = true; }
+            else if (e.Key == Key.Back || e.Key == Key.Delete) { UsunOstatniSymbol(); e.Handled = true; }
+            else if (e.Key == Key.Escape) { WyczyscMorse(); e.Handled = true; }
         }
 
-        // ============================================================
-        // NISZCZENIE PRZECIWNIKÓW
-        // ============================================================
-        private int GetSectorFromAngle(double angleDegrees)
+        void ObslugaKlawiaturaUp(object sender, KeyEventArgs e)
         {
-            angleDegrees = ((angleDegrees % 360) + 360) % 360;
-            double shifted = (angleDegrees + 30) % 360;
-            int sector = (int)(shifted / 60);
-            return sector;
+            if (koniecGry) return;
+
+            if (GameSettings.TrybJednegoPrzycisku && e.Key == Key.Space && trwaNadawanie)
+            {
+                trwaNadawanie = false;
+                timerNadawania.Stop();
+
+                double czasTrzymania = (DateTime.Now - czasStartuNadawania).TotalMilliseconds;
+
+                // krótkie naciśnięcie = kropka, długie = kreska
+                if (czasTrzymania < progKrotkieMs)
+                    DodajSymbolMorse("•");
+                else
+                    DodajSymbolMorse("–");
+
+                e.Handled = true;
+            }
         }
 
-        private bool DestroyEnemyInSector(int sector)
+        void DodajSymbolMorse(string symbol)
         {
-            var enemiesInSector = enemies
-                .Where(e => e.Sector == sector)
-                .OrderBy(e => e.SpawnTime)
-                .ToList();
+            if (aktualnyMorse.Length >= maxDlugoscMorse) return;
+            aktualnyMorse += symbol;
+            OdswiezWyswietlaczMorse();
+            timerWejscia.Stop();
+            timerWejscia.Start();
+        }
 
-            if (enemiesInSector.Count == 0)
-                return false;
+        void UsunOstatniSymbol()
+        {
+            if (aktualnyMorse.Length > 0)
+            {
+                aktualnyMorse = aktualnyMorse.Substring(0, aktualnyMorse.Length - 1);
+                OdswiezWyswietlaczMorse();
+            }
+            timerWejscia.Stop();
+            if (aktualnyMorse.Length > 0) timerWejscia.Start();
+        }
 
-            var enemyToDestroy = enemiesInSector.First();
+        void WyczyscMorse()
+        {
+            aktualnyMorse = "";
+            OdswiezWyswietlaczMorse();
+            timerWejscia.Stop();
+        }
 
-            enemyToDestroy.Element.BeginAnimation(Canvas.LeftProperty, null);
-            enemyToDestroy.Element.BeginAnimation(Canvas.TopProperty, null);
+        void OdswiezWyswietlaczMorse()
+        {
+            int start = maxDlugoscMorse - aktualnyMorse.Length;
+            for (int i = 0; i < polaMorse.Length; i++)
+            {
+                if (i >= start)
+                {
+                    polaMorse[i].Text = aktualnyMorse[i - start].ToString();
+                    polaMorse[i].Foreground = kolorLinii;
+                }
+                else
+                {
+                    polaMorse[i].Text = "";
+                    polaMorse[i].Foreground = kolorLinii;
+                }
+            }
+        }
 
-            PlayDestructionAnimation(enemyToDestroy.Element);
-            enemies.Remove(enemyToDestroy);
+        void WyslijKodMorse()
+        {
+            timerWejscia.Stop();
+            if (string.IsNullOrEmpty(aktualnyMorse)) return;
 
+            char? znalezionaLitera = null;
+            foreach (var para in koderMorse)
+            {
+                if (para.Value == aktualnyMorse)
+                {
+                    znalezionaLitera = para.Key;
+                    break;
+                }
+            }
+
+            if (znalezionaLitera.HasValue)
+            {
+                int indeksSektor = aktualneListery.IndexOf(znalezionaLitera.Value);
+                if (indeksSektor >= 0)
+                {
+                    bool zniszczony = ZniszczWrogaWSektor(indeksSektor);
+                    if (zniszczony) { MignijPola(Brushes.LimeGreen); DodajPunkty(100); }
+                    else MignijPola(Brushes.Cyan);
+                }
+                else MignijPola(Brushes.Orange);
+            }
+            else MignijPola(Brushes.Red);
+
+            WyczyscMorse();
+        }
+
+        int ObliczSektor(double kat)
+        {
+            kat = ((kat % 360) + 360) % 360;
+            double przesuniete = (kat + 30) % 360;
+            return (int)(przesuniete / 60);
+        }
+
+        bool ZniszczWrogaWSektor(int sektor)
+        {
+            var wrogiWSektor = wrogowie.Where(w => w.Sektor == sektor).OrderBy(w => w.CzasSpawnu).ToList();
+            if (wrogiWSektor.Count == 0) return false;
+
+            var wrogDoZniszczenia = wrogiWSektor.First();
+            wrogDoZniszczenia.Element.BeginAnimation(Canvas.LeftProperty, null);
+            wrogDoZniszczenia.Element.BeginAnimation(Canvas.TopProperty, null);
+            AnimujZniszczenie(wrogDoZniszczenia.Element);
+            wrogowie.Remove(wrogDoZniszczenia);
             return true;
         }
 
-        private void PlayDestructionAnimation(UIElement enemy)
+        void AnimujZniszczenie(UIElement wrog)
         {
-            var scaleTransform = new ScaleTransform(1, 1);
-            enemy.RenderTransform = scaleTransform;
-            enemy.RenderTransformOrigin = new Point(0.5, 0.5);
+            var skalowanie = new ScaleTransform(1, 1);
+            wrog.RenderTransform = skalowanie;
+            wrog.RenderTransformOrigin = new Point(0.5, 0.5);
 
-            var scaleAnim = new DoubleAnimation(1, 2, TimeSpan.FromMilliseconds(200));
-            var opacityAnim = new DoubleAnimation(1, 0, TimeSpan.FromMilliseconds(200));
+            var animSkala = new DoubleAnimation(1, 2, TimeSpan.FromMilliseconds(200));
+            var animPrzezroczystosc = new DoubleAnimation(1, 0, TimeSpan.FromMilliseconds(200));
+            animPrzezroczystosc.Completed += (s, e) => EnemyCanvas.Children.Remove(wrog);
 
-            opacityAnim.Completed += (s, e) =>
-            {
-                EnemyCanvas.Children.Remove(enemy);
-            };
-
-            scaleTransform.BeginAnimation(ScaleTransform.ScaleXProperty, scaleAnim);
-            scaleTransform.BeginAnimation(ScaleTransform.ScaleYProperty, scaleAnim);
-            enemy.BeginAnimation(UIElement.OpacityProperty, opacityAnim);
+            skalowanie.BeginAnimation(ScaleTransform.ScaleXProperty, animSkala);
+            skalowanie.BeginAnimation(ScaleTransform.ScaleYProperty, animSkala);
+            wrog.BeginAnimation(UIElement.OpacityProperty, animPrzezroczystosc);
         }
 
-        // ============================================================
-        // EFEKTY WIZUALNE
-        // ============================================================
-        private void OnEnemyDestroyed(char letter, int sector)
+        void MignijPola(Brush kolor)
         {
-            FlashSlots(Brushes.LimeGreen);
-            AddScore(100);
+            foreach (var pole in polaMorse) pole.Foreground = kolor;
+            var timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(300) };
+            timer.Tick += (s, e) => { timer.Stop(); OdswiezWyswietlaczMorse(); };
+            timer.Start();
         }
 
-        private void OnNoEnemyInSector(char letter, int sector)
+        void NowaTura()
         {
-            FlashSlots(Brushes.Cyan);
+            aktualneListery = GenerujLosoweListery();
+            PokazListeryNaSektor(aktualneListery);
+            if (pokazPodpowiedzi) PokazPanelPodpowiedzi(aktualneListery);
         }
 
-        private void OnWrongLetter(char letter)
-        {
-            FlashSlots(Brushes.Orange);
-        }
-
-        private void OnInvalidCode()
-        {
-            FlashSlots(Brushes.Red);
-        }
-
-        private void FlashSlots(Brush color)
-        {
-            foreach (var slot in morseSlots)
-            {
-                slot.Foreground = color;
-            }
-
-            var resetTimer = new DispatcherTimer();
-            resetTimer.Interval = TimeSpan.FromMilliseconds(300);
-            resetTimer.Tick += (s, e) =>
-            {
-                resetTimer.Stop();
-                UpdateMorseDisplay();
-            };
-            resetTimer.Start();
-        }
-
-        // ============================================================
-        // NOWA TURA
-        // ============================================================
-        private void StartNewTurn()
-        {
-            currentLetters = GenerateRandomLetters();
-            ShowAllSectorLetters(currentLetters);
-
-            if (showHints)
-            {
-                ShowMorsePanel(currentLetters);
-            }
-        }
-
-        private void ShowMorsePanel(string letters)
+        void PokazPanelPodpowiedzi(string litery)
         {
             StringBuilder sb = new StringBuilder();
-            foreach (char c in letters)
-            {
-                sb.AppendLine($"{c}   {morse[c]}");
-            }
+            foreach (char c in litery) sb.AppendLine(c + "   " + koderMorse[c]);
             MorseDisplay.Text = sb.ToString();
         }
 
-        private string GenerateRandomLetters()
+        string GenerujLosoweListery()
         {
-            const string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            HashSet<char> selected = new HashSet<char>();
-
-            while (selected.Count < 6)
+            string alfabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            HashSet<char> wybrane = new HashSet<char>();
+            while (wybrane.Count < 6)
             {
-                char c = alphabet[rng.Next(alphabet.Length)];
-                selected.Add(c);
+                char c = alfabet[losowy.Next(alfabet.Length)];
+                wybrane.Add(c);
             }
-
-            return new string(new List<char>(selected).ToArray());
+            return new string(wybrane.ToArray());
         }
 
-        private void ShowAllSectorLetters(string letters)
+        void PokazListeryNaSektor(string litery)
         {
             LetterCanvas.Children.Clear();
-            if (letters.Length < 6) return;
+            if (litery.Length < 6) return;
 
-            double radius = 220;
+            double promien = 220;
 
             for (int i = 0; i < 6; i++)
             {
-                double angleRad = sectorAngles[i] * Math.PI / 180.0;
-
-                double x = centerX + Math.Cos(angleRad) * radius;
-                double y = centerY + Math.Sin(angleRad) * radius;
+                double katRad = katySektor[i] * Math.PI / 180.0;
+                double x = srodekX + Math.Cos(katRad) * promien;
+                double y = srodekY + Math.Sin(katRad) * promien;
 
                 TextBlock tb = new TextBlock
                 {
-                    Text = letters[i].ToString(),
+                    Text = litery[i].ToString(),
                     FontFamily = new FontFamily("OCR A Extended"),
                     FontSize = 48,
-                    Foreground = lineColor
+                    Foreground = kolorLinii
                 };
 
-                Canvas.SetLeft(tb, x - 20);
-                Canvas.SetTop(tb, y - 20);
+                tb.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                double szerokoscLitery = tb.DesiredSize.Width;
+                double wysokoscLitery = tb.DesiredSize.Height;
+
+                Canvas.SetLeft(tb, x - szerokoscLitery / 2);
+                Canvas.SetTop(tb, y - wysokoscLitery / 2);
 
                 LetterCanvas.Children.Add(tb);
             }
         }
 
-        // ============================================================
-        // PRZECIWNIK
-        // ============================================================
-        private void SpawnEnemy()
+        void StworzWroga()
         {
-            if (isGameOver) return;
+            if (koniecGry) return;
+            licznikWrogow++;
 
-            enemyCount++;
-
-            if (enemyCount % 10 == 0)
+            if (licznikWrogow % 10 == 0)
             {
-                wave++;
-                UpdateWaveDisplay();
-                StartNewTurn();
+                fala++;
+                OdswiezFale();
+                NowaTura();
             }
 
-            double enemySize = 30;
-            double spawnRadius = 160;
+            double rozmiar = 30;
+            double promienSpawnu = 160;
 
-            double angleRad = GetSafeAngle();
-            double angleDegrees = angleRad * 180.0 / Math.PI;
+            double katRad = PobierzBezpiecznyKat();
+            double katStopnie = katRad * 180.0 / Math.PI;
 
-            double startX = centerX + Math.Cos(angleRad) * spawnRadius;
-            double startY = centerY + Math.Sin(angleRad) * spawnRadius;
+            double startX = srodekX + Math.Cos(katRad) * promienSpawnu;
+            double startY = srodekY + Math.Sin(katRad) * promienSpawnu;
 
-            UIElement enemy = CreateEnemy(startX, startY);
-            EnemyCanvas.Children.Add(enemy);
+            UIElement wrog = UtworzWrogaUI(startX, startY);
+            EnemyCanvas.Children.Add(wrog);
 
-            int sector = GetSectorFromAngle(angleDegrees);
+            int sektor = ObliczSektor(katStopnie);
 
-            var enemyData = new EnemyData
+            var dane = new DaneWroga
             {
-                Element = enemy,
-                AngleDegrees = angleDegrees,
-                Sector = sector,
-                SpawnTime = DateTime.Now
+                Element = wrog,
+                Kat = katStopnie,
+                Sektor = sektor,
+                CzasSpawnu = DateTime.Now
             };
+            wrogowie.Add(dane);
 
-            enemies.Add(enemyData);
-
-            var animX = new DoubleAnimation(
-                startX - enemySize / 2,
-                centerX - enemySize / 2,
-                TimeSpan.FromSeconds(enemyMoveDuration));
-
-            var animY = new DoubleAnimation(
-                startY - enemySize / 2,
-                centerY - enemySize / 2,
-                TimeSpan.FromSeconds(enemyMoveDuration));
-
+            var animX = new DoubleAnimation(startX - rozmiar / 2, srodekX - rozmiar / 2, TimeSpan.FromSeconds(czasRuchuWroga));
+            var animY = new DoubleAnimation(startY - rozmiar / 2, srodekY - rozmiar / 2, TimeSpan.FromSeconds(czasRuchuWroga));
             animX.FillBehavior = FillBehavior.Stop;
             animY.FillBehavior = FillBehavior.Stop;
 
-            enemyData.AnimX = animX;
-            enemyData.AnimY = animY;
+            dane.AnimX = animX;
+            dane.AnimY = animY;
 
             animY.Completed += (s, e) =>
             {
-                if (enemies.Contains(enemyData))
+                if (wrogowie.Contains(dane))
                 {
-                    EnemyCanvas.Children.Remove(enemy);
-                    enemies.Remove(enemyData);
-                    LoseLife();
+                    EnemyCanvas.Children.Remove(wrog);
+                    wrogowie.Remove(dane);
+                    StracZycie();
                 }
             };
 
-            enemy.BeginAnimation(Canvas.LeftProperty, animX);
-            enemy.BeginAnimation(Canvas.TopProperty, animY);
+            wrog.BeginAnimation(Canvas.LeftProperty, animX);
+            wrog.BeginAnimation(Canvas.TopProperty, animY);
         }
 
-        private double GetSafeAngle()
+        double PobierzBezpiecznyKat()
         {
-            double[] forbiddenAngles = { 90, 270, 30, 150, 210, 330 };
-            double margin = 10;
+            double[] zakazane = { 90, 270, 30, 150, 210, 330 };
+            double margines = 10;
 
-            List<(double start, double end)> forbiddenRanges = new List<(double, double)>();
-
-            foreach (double angle in forbiddenAngles)
+            var zakresy = new List<(double start, double end)>();
+            foreach (double kat in zakazane)
             {
-                double start = (angle - margin + 360) % 360;
-                double end = (angle + margin + 360) % 360;
-                forbiddenRanges.Add((start, end));
+                double start = (kat - margines + 360) % 360;
+                double end = (kat + margines + 360) % 360;
+                zakresy.Add((start, end));
             }
 
             while (true)
             {
-                double angleDegrees = rng.NextDouble() * 360;
-                bool isSafe = true;
+                double kat = losowy.NextDouble() * 360;
+                bool bezpieczny = true;
 
-                foreach (var range in forbiddenRanges)
+                foreach (var zakres in zakresy)
                 {
-                    if (range.start <= range.end)
+                    if (zakres.start <= zakres.end)
                     {
-                        if (angleDegrees >= range.start && angleDegrees <= range.end)
-                        {
-                            isSafe = false;
-                            break;
-                        }
+                        if (kat >= zakres.start && kat <= zakres.end) { bezpieczny = false; break; }
                     }
                     else
                     {
-                        if (angleDegrees >= range.start || angleDegrees <= range.end)
-                        {
-                            isSafe = false;
-                            break;
-                        }
+                        if (kat >= zakres.start || kat <= zakres.end) { bezpieczny = false; break; }
                     }
                 }
 
-                if (isSafe)
-                    return angleDegrees * Math.PI / 180.0;
+                if (bezpieczny) return kat * Math.PI / 180.0;
             }
         }
 
-        private UIElement CreateEnemy(double x, double y)
+        UIElement UtworzWrogaUI(double x, double y)
         {
-            var container = new Grid
-            {
-                Width = 30,
-                Height = 30,
-                IsHitTestVisible = false
-            };
+            var kontener = new Grid { Width = 30, Height = 30, IsHitTestVisible = false };
 
-            var filled = new Ellipse
+            var wypelnienie = new Ellipse
             {
                 Width = 18,
                 Height = 18,
@@ -785,7 +628,7 @@ namespace Echo_of_London___Morse_Defence.Views
                 VerticalAlignment = VerticalAlignment.Center
             };
 
-            var ring = new Ellipse
+            var obwodka = new Ellipse
             {
                 Width = 30,
                 Height = 30,
@@ -795,32 +638,27 @@ namespace Echo_of_London___Morse_Defence.Views
                 VerticalAlignment = VerticalAlignment.Center
             };
 
-            container.Children.Add(ring);
-            container.Children.Add(filled);
-
-            Canvas.SetLeft(container, x - 15);
-            Canvas.SetTop(container, y - 15);
-
-            return container;
+            kontener.Children.Add(obwodka);
+            kontener.Children.Add(wypelnienie);
+            Canvas.SetLeft(kontener, x - 15);
+            Canvas.SetTop(kontener, y - 15);
+            return kontener;
         }
 
-        private void Main_Click(object sender, RoutedEventArgs e)
+        void Main_Click(object sender, RoutedEventArgs e)
         {
-            var mainWindow = Application.Current.MainWindow as MainWindow;
-            mainWindow.NavigateTo(new StartView(mainWindow));
+            oknoGlowne.NavigateTo(new StartView(oknoGlowne));
         }
 
-        private void Menu_Click(object sender, RoutedEventArgs e)
+        void Menu_Click(object sender, RoutedEventArgs e)
         {
-            var mainWindow = Application.Current.MainWindow as MainWindow;
-            mainWindow.NavigateTo(new MenuView(mainWindow));
+            timerWrogow.Stop();
+            timerWejscia.Stop();
+            timerNadawania.Stop();
+            oknoGlowne.NavigateTo(new MenuView(oknoGlowne, poziomTrudnosci, pokazPodpowiedzi));
         }
-
     }
 
-    // ============================================================
-    // KLASA DO PRZECHOWYWANIA WYNIKU
-    // ============================================================
     public class ScoreEntry
     {
         public string PlayerName { get; set; }
@@ -828,5 +666,6 @@ namespace Echo_of_London___Morse_Defence.Views
         public int Wave { get; set; }
         public string Difficulty { get; set; }
         public string Date { get; set; }
+        public bool Hints { get; set; }
     }
 }
