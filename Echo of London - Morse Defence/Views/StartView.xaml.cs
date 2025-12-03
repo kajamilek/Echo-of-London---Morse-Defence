@@ -17,27 +17,35 @@ namespace Echo_of_London___Morse_Defence.Views
 {
     public partial class StartView : UserControl
     {
+        private MainWindow _main;
+
+        // Konstruktor bezparametrowy (dla kompatybilności)
         public StartView()
         {
             InitializeComponent();
+            _main = Application.Current.MainWindow as MainWindow;
+        }
+
+        // Konstruktor z parametrem MainWindow
+        public StartView(MainWindow main)
+        {
+            InitializeComponent();
+            _main = main;
         }
 
         private void Start_Click(object sender, RoutedEventArgs e)
         {
-            var mainWindow = Application.Current.MainWindow as MainWindow;
-            mainWindow.NavigateTo(new DifficultyView(mainWindow));
+            _main.NavigateTo(new DifficultyView(_main));
         }
 
         private void Options_Click(object sender, RoutedEventArgs e)
         {
-            var mainWindow = Application.Current.MainWindow as MainWindow;
-            mainWindow.NavigateTo(new OptionsView(mainWindow));
+            _main.NavigateTo(new OptionsView(_main));
         }
 
         private void Scores_Click(object sender, RoutedEventArgs e)
         {
-            var mainWindow = Application.Current.MainWindow as MainWindow;
-            mainWindow.NavigateTo(new ScoreboardView(mainWindow));
+            _main.NavigateTo(new ScoreboardView(_main));
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e)

@@ -287,7 +287,7 @@
                             BorderThickness="2"
                             Padding="30,10"
                             Margin="10,0"
-                            Click="Menu_Click"/>
+                            Click="Main_Click"/>
                 </StackPanel>
 
                 <!-- Komunikat o zapisie -->
