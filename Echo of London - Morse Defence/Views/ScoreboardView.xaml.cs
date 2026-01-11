@@ -81,21 +81,13 @@ namespace Echo_of_London___Morse_Defence.Views
 
             if (odpowiedz == MessageBoxResult.Yes)
             {
-                try
-                {
-                    string sciezka = System.IO.Path.Combine(
-                        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                        "EchoOfLondon", "highscores.txt");
+                string sciezka = System.IO.Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                "EchoOfLondon", "highscores.txt");
 
-                    if (File.Exists(sciezka))
-                        File.Delete(sciezka);
-
-                    WczytajWyniki();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
+                if (File.Exists(sciezka))
+                    File.Delete(sciezka);
+                WczytajWyniki();
             }
         }
     }

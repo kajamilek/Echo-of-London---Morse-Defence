@@ -46,15 +46,15 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <Grid Grid.Row="0" Margin="0,0,0,15">
+                <Grid Grid.Row="0" Margin="0,0,0,5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="50"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="110"/>
-                        <ColumnDefinition Width="80"/>
-                        <ColumnDefinition Width="90"/>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="100"/>
                         <ColumnDefinition Width="70"/>
-                        <ColumnDefinition Width="140"/>
+                        <ColumnDefinition Width="200"/>
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Grid.Column="0" Text="#" 
@@ -66,11 +66,11 @@
                     <TextBlock Grid.Column="2" Text="SCORE" 
                                FontFamily="OCR A Extended" FontSize="22" 
                                Foreground="#029273" FontWeight="Bold" 
-                               HorizontalAlignment="Right"/>
+                               HorizontalAlignment="Center"/>
                     <TextBlock Grid.Column="3" Text="WAVE" 
                                FontFamily="OCR A Extended" FontSize="22" 
                                Foreground="#029273" FontWeight="Bold" 
-                               HorizontalAlignment="Right"/>
+                               HorizontalAlignment="Center"/>
                     <TextBlock Grid.Column="4" Text="DIFF" 
                                FontFamily="OCR A Extended" FontSize="22" 
                                Foreground="#029273" FontWeight="Bold" 
@@ -82,13 +82,14 @@
                     <TextBlock Grid.Column="6" Text="DATE" 
                                FontFamily="OCR A Extended" FontSize="22" 
                                Foreground="#029273" FontWeight="Bold" 
-                               HorizontalAlignment="Right"/>
+                               HorizontalAlignment="Right"
+                               Margin="0,0,50,0"/>
                 </Grid>
 
                 <Rectangle Grid.Row="0" Height="2" Fill="#029273" 
                            VerticalAlignment="Bottom" Margin="0,0,0,-5"/>
 
-                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden" Margin="5">
                     <ItemsControl x:Name="ScoresList">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
@@ -97,10 +98,10 @@
                                         <ColumnDefinition Width="50"/>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="110"/>
-                                        <ColumnDefinition Width="80"/>
-                                        <ColumnDefinition Width="90"/>
+                                        <ColumnDefinition Width="150"/>
+                                        <ColumnDefinition Width="100"/>
                                         <ColumnDefinition Width="70"/>
-                                        <ColumnDefinition Width="140"/>
+                                        <ColumnDefinition Width="200"/>
                                     </Grid.ColumnDefinitions>
 
                                     <TextBlock Grid.Column="0" 
@@ -118,13 +119,13 @@
                                                FontFamily="OCR A Extended" 
                                                FontSize="18" 
                                                Foreground="#12b491" 
-                                               HorizontalAlignment="Right"/>
+                                               HorizontalAlignment="Center"/>
                                     <TextBlock Grid.Column="3" 
                                                Text="{Binding Wave}" 
                                                FontFamily="OCR A Extended" 
                                                FontSize="18" 
                                                Foreground="#12b491" 
-                                               HorizontalAlignment="Right"/>
+                                               HorizontalAlignment="Center"/>
                                     <TextBlock Grid.Column="4" 
                                                Text="{Binding Difficulty}" 
                                                FontFamily="OCR A Extended" 
