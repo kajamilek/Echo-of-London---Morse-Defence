@@ -43,6 +43,11 @@ namespace Echo_of_London___Morse_Defence.Views
         bool koniecGry = false;
         bool wynikZapisany = false;
 
+        int wrogowieNaFale = 2;
+        int zniknieciWrogowie = 0;
+
+        bool spawnZablokowany = false;
+
         // tryb jednego przycisku
         bool trwaNadawanie = false;
         DateTime czasStartuNadawania;
@@ -92,8 +97,8 @@ namespace Echo_of_London___Morse_Defence.Views
 
             if (t == "easy")
             {
-                interwalSpawnu = 3.0;
-                czasRuchuWroga = 5.0;
+                interwalSpawnu = 3.0;//było 3
+                czasRuchuWroga = 15.0;//było 5
                 opoznienieWejscia = 1.0;
             }
             else if (t == "hard")
@@ -188,11 +193,11 @@ namespace Echo_of_London___Morse_Defence.Views
             OdswiezPunkty();
         }
 
-        void MignijGracza()
+        void MignijGracza() // jak straci życie
         {
             var oryginalny = player.Fill;
-            player.Fill = Brushes.Red;
-            var timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(200) };
+            player.Fill = Brushes.White;
+            var timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(300) };
             timer.Tick += (s, e) => { timer.Stop(); player.Fill = oryginalny; };
             timer.Start();
         }
@@ -436,27 +441,15 @@ namespace Echo_of_London___Morse_Defence.Views
             if (wrogiWSektor.Count == 0) return false;
 
             var wrogDoZniszczenia = wrogiWSektor.First();
-            wrogDoZniszczenia.Element.BeginAnimation(Canvas.LeftProperty, null);
-            wrogDoZniszczenia.Element.BeginAnimation(Canvas.TopProperty, null);
-            AnimujZniszczenie(wrogDoZniszczenia.Element);
+
+            EnemyCanvas.Children.Remove(wrogDoZniszczenia.Element);
             wrogowie.Remove(wrogDoZniszczenia);
+            WrogZniknal();
             return true;
+
         }
 
-        void AnimujZniszczenie(UIElement wrog)
-        {
-            var skalowanie = new ScaleTransform(1, 1);
-            wrog.RenderTransform = skalowanie;
-            wrog.RenderTransformOrigin = new Point(0.5, 0.5);
 
-            var animSkala = new DoubleAnimation(1, 2, TimeSpan.FromMilliseconds(200));
-            var animPrzezroczystosc = new DoubleAnimation(1, 0, TimeSpan.FromMilliseconds(200));
-            animPrzezroczystosc.Completed += (s, e) => EnemyCanvas.Children.Remove(wrog);
-
-            skalowanie.BeginAnimation(ScaleTransform.ScaleXProperty, animSkala);
-            skalowanie.BeginAnimation(ScaleTransform.ScaleYProperty, animSkala);
-            wrog.BeginAnimation(UIElement.OpacityProperty, animPrzezroczystosc);
-        }
 
         void MignijPola(Brush kolor)
         {
@@ -527,14 +520,8 @@ namespace Echo_of_London___Morse_Defence.Views
         void StworzWroga()
         {
             if (koniecGry) return;
+            if (spawnZablokowany) return;
             licznikWrogow++;
-
-            if (licznikWrogow % 10 == 0)
-            {
-                fala++;
-                OdswiezFale();
-                NowaTura();
-            }
 
             double rozmiar = 30;
             double promienSpawnu = 160;
@@ -574,12 +561,39 @@ namespace Echo_of_London___Morse_Defence.Views
                     EnemyCanvas.Children.Remove(wrog);
                     wrogowie.Remove(dane);
                     StracZycie();
+                    WrogZniknal();
                 }
+
             };
 
             wrog.BeginAnimation(Canvas.LeftProperty, animX);
             wrog.BeginAnimation(Canvas.TopProperty, animY);
         }
+
+        void WrogZniknal()
+        {
+            zniknieciWrogowie++;
+
+            if (zniknieciWrogowie >= wrogowieNaFale)
+                spawnZablokowany = true;
+
+            if (spawnZablokowany && wrogowie.Count == 0)
+            {
+                ZakonczFale();
+            }
+        }
+
+        void ZakonczFale()
+        {
+            spawnZablokowany = false;
+            fala++;
+            OdswiezFale();
+            zniknieciWrogowie = 0;
+            wrogowieNaFale = wrogowieNaFale + 2;
+
+            NowaTura();
+        }
+
 
         double PobierzBezpiecznyKat()
         {

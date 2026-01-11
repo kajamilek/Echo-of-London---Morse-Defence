@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+<ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Access" MembersFormat="NameAndType">
   <Class Name="Echo_of_London___Morse_Defence.App">
     <Position X="11.5" Y="5.25" Width="1.5" />
     <TypeIdentifier>
@@ -179,8 +179,8 @@
     <Position X="11.5" Y="7.75" Width="1.5" />
     <InheritanceLine Type="System.Object" ManuallyRouted="true" FixedToPoint="true">
       <Path>
-        <Point X="8.25" Y="7.194" />
-        <Point X="9" Y="7.194" />
+        <Point X="8.25" Y="7.031" />
+        <Point X="9" Y="7.031" />
         <Point X="9" Y="7.25" />
         <Point X="11.25" Y="7.25" />
         <Point X="11.25" Y="8.687" />

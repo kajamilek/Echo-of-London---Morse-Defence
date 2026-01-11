@@ -47,7 +47,7 @@
         <Button Content="HARD" Style="{StaticResource StackPanelButton}" Click="Hard_Click"/>
         <Button Content="BACK" Style="{StaticResource StackPanelButton}" Foreground="#ff5555" Click="Back_Click"/>
 
-        <!-- Checkbox HINTS - poprawiona pozycja -->
+        <!-- Checkbox HINTS -->
         <CheckBox x:Name="HintsCheckBox" 
                   Content="HINTS" 
                   Style="{StaticResource HintsCheckBox}"/>
