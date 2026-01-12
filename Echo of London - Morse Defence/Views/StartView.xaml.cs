@@ -21,21 +21,25 @@ namespace Echo_of_London___Morse_Defence.Views
 
         void Start_Click(object sender, RoutedEventArgs e)
         {
+            SoundHelper.PlayClick();
             oknoGlowne.NavigateTo(new DifficultyView(oknoGlowne));
         }
 
         void Options_Click(object sender, RoutedEventArgs e)
         {
+            SoundHelper.PlayClick();
             oknoGlowne.NavigateTo(new OptionsView(oknoGlowne));
         }
 
         void Scores_Click(object sender, RoutedEventArgs e)
         {
+            SoundHelper.PlayClick();
             oknoGlowne.NavigateTo(new ScoreboardView(oknoGlowne));
         }
 
         void Exit_Click(object sender, RoutedEventArgs e)
         {
+            SoundHelper.PlayClick();
             Application.Current.Shutdown();
         }
     }

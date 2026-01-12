@@ -68,11 +68,13 @@ namespace Echo_of_London___Morse_Defence.Views
 
         void Main_Click(object sender, RoutedEventArgs e)
         {
+            SoundHelper.PlayClick();
             oknoGlowne.NavigateTo(new StartView(oknoGlowne));
         }
 
         void ClearScores_Click(object sender, RoutedEventArgs e)
         {
+            SoundHelper.PlayClick();
             var odpowiedz = MessageBox.Show(
                 "Are you sure you want to delete all scores?",
                 "Clear Scoreboard",

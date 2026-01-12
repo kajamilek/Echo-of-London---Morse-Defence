@@ -28,7 +28,7 @@
         </Style>
 
         <Style TargetType="TextBlock" x:Key="MyGridText">
-            <Setter Property="Margin" Value="20" />
+            <Setter Property="Margin" Value="0" />
             <Setter Property="HorizontalAlignment" Value="Center" />
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="FontSize" Value="40" />
@@ -50,6 +50,33 @@
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="Margin" Value="10,0,0,0" />
         </Style>
+
+        <Style TargetType="Button" x:Key="UpgradeButton">
+            <Setter Property="FontFamily" Value="OCR A Extended" />
+            <Setter Property="FontSize" Value="35" />
+            <Setter Property="Foreground" Value="#12b491" />
+            <Setter Property="Background" Value="#262c33" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Height" Value="300"/>
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="Margin" Value="30,0,40,0"/>
+            <Setter Property="BorderBrush" Value="#12b491"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="VerticalContentAlignment" Value="Top"/>
+            <Setter Property="Padding" Value="0,20,0,0"/>
+        </Style>
+
+        <Style TargetType="TextBlock" x:Key="Stats">
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="FontFamily" Value="OCR A Extended" />
+            <Setter Property="Foreground" Value="#029273" />
+            <Setter Property="Margin" Value="0,20,0,0" />
+            
+        </Style>
+
     </UserControl.Resources>
 
     <Grid Margin="30">
@@ -92,9 +119,12 @@
         </Grid>
 
         <Grid Grid.Column="0" Grid.Row="2" Grid.RowSpan="4" Style="{StaticResource MyGrid}" Margin="20,20,40,20">
-            <TextBlock Style="{StaticResource MyGridText}" VerticalAlignment="Top">
-                ULEPSZENIA
-            </TextBlock>
+            <StackPanel Margin="20" >
+                <TextBlock Text="STATS" FontFamily="OCR A Extended" FontSize="32" Foreground="#029273" HorizontalAlignment="Center" Margin="0,0,0,30"/>
+                <TextBlock x:Name="SpeedStat" Style="{StaticResource Stats}"/>
+                <TextBlock x:Name="SpawnStat" Style="{StaticResource Stats}" />
+                <TextBlock x:Name="PointsStat" Style="{StaticResource Stats}"/>
+            </StackPanel>
         </Grid>
 
         <!-- RADAR -->
@@ -313,5 +343,64 @@
                            Margin="0,20,0,0"/>
             </StackPanel>
         </Grid>
-    </Grid>
+
+
+        <!-- UPGRADE OVERLAY -->
+        <Grid x:Name="UpgradeOverlay"
+            Grid.Column="0" Grid.ColumnSpan="3"
+            Grid.Row="0" Grid.RowSpan="5"
+            Background="#EE151b21"
+            Visibility="Collapsed">
+
+            <Border Background="#262c33"
+            Height="450"
+            Width="900"
+            CornerRadius="10"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+
+                <StackPanel HorizontalAlignment="Center">
+                    <TextBlock Text="CHOOSE UPGRADE"
+                       FontFamily="OCR A Extended"
+                       FontSize="40"
+                       Foreground="#12b491"
+                       HorizontalAlignment="Center"
+                       Margin="0,30,0,30"
+                    />
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button x:Name="UpgradeBtn1" Grid.Column="0" Style="{StaticResource UpgradeButton}"/>
+                        <Button x:Name="UpgradeBtn2" Grid.Column="1" Style="{StaticResource UpgradeButton}"/>
+                        <Button x:Name="UpgradeBtn3" Grid.Column="2" Style="{StaticResource UpgradeButton}"/>
+
+                    </Grid>
+
+                    <!--
+                    <Label Content="(Click to select)" 
+                           FontFamily="OCR A Extended" 
+                           FontSize="20" 
+                           Foreground="#029273" 
+                           HorizontalAlignment="Center" 
+                           Margin="0,15,0,10"/>-->
+                   
+                </StackPanel>
+               
+            </Border>
+
+            <!--<Label Content="NEXT WAVE: +20% SPEED AND SPRAWN ENEMIES" 
+                   FontFamily="OCR A Extended" 
+                   FontSize="30" 
+                   Foreground="#12b491" 
+                   HorizontalAlignment="Center" 
+                   VerticalAlignment="Bottom" 
+                   Margin="0,0,0,20"/>
+            -->
+        </Grid>
+    </Grid>   
 </UserControl>
