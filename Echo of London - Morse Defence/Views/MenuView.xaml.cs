@@ -20,21 +20,25 @@ namespace Echo_of_London___Morse_Defence.Views
 
         void Back_Click(object sender, RoutedEventArgs e)
         {
+            SoundHelper.PlayClick();
             oknoGlowne.GoBack();
         }
 
         void Options_Click(object sender, RoutedEventArgs e)
         {
+            SoundHelper.PlayClick();
             oknoGlowne.NavigateTo(new OptionsView(oknoGlowne));
         }
 
         void Reset_Click(object sender, RoutedEventArgs e)
         {
+            SoundHelper.PlayClick();
             oknoGlowne.NavigateTo(new GameView(oknoGlowne, zapamietanaTrudnosc, zapamietanePodpowiedzi));
         }
 
         void Exit_Click(object sender, RoutedEventArgs e)
         {
+            SoundHelper.PlayClick();
             // wróć do gry i wywołaj game over
             oknoGlowne.GoBack();
 

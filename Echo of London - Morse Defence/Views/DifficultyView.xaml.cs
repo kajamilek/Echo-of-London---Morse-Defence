@@ -15,24 +15,31 @@ namespace Echo_of_London___Morse_Defence.Views
 
         void Easy_Click(object sender, RoutedEventArgs e)
         {
+            SoundHelper.PlayClick();
             bool podpowiedzi = HintsCheckBox.IsChecked == true;
-            oknoGlowne.NavigateTo(new GameView(oknoGlowne, "easy", podpowiedzi));
+            bool polski = PolishCheckBox.IsChecked == true;
+            oknoGlowne.NavigateTo(new GameView(oknoGlowne, "easy", podpowiedzi, polski));
         }
 
         void Mid_Click(object sender, RoutedEventArgs e)
         {
+            SoundHelper.PlayClick();
             bool podpowiedzi = HintsCheckBox.IsChecked == true;
-            oknoGlowne.NavigateTo(new GameView(oknoGlowne, "mid", podpowiedzi));
+            bool polski = PolishCheckBox.IsChecked == true;
+            oknoGlowne.NavigateTo(new GameView(oknoGlowne, "mid", podpowiedzi, polski));
         }
 
         void Hard_Click(object sender, RoutedEventArgs e)
         {
+            SoundHelper.PlayClick();
             bool podpowiedzi = HintsCheckBox.IsChecked == true;
-            oknoGlowne.NavigateTo(new GameView(oknoGlowne, "hard", podpowiedzi));
+            bool polski = PolishCheckBox.IsChecked == true;
+            oknoGlowne.NavigateTo(new GameView(oknoGlowne, "hard", podpowiedzi, polski));
         }
 
         void Back_Click(object sender, RoutedEventArgs e)
         {
+            SoundHelper.PlayClick();
             oknoGlowne.GoBack();
         }
     }

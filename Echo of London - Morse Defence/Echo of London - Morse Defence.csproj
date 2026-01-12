@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="SoundHelper.cs" />
     <Compile Include="Views\DifficultyView.xaml.cs">
       <DependentUpon>DifficultyView.xaml</DependentUpon>
     </Compile>

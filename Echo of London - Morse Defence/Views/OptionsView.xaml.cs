@@ -40,18 +40,21 @@ namespace Echo_of_London___Morse_Defence.Views
 
         void OneButton_Click(object sender, RoutedEventArgs e)
         {
+            SoundHelper.PlayClick();
             GameSettings.TrybJednegoPrzycisku = true;
             OdswiezPrzyciski();
         }
 
         void TwoButton_Click(object sender, RoutedEventArgs e)
         {
+            SoundHelper.PlayClick();
             GameSettings.TrybJednegoPrzycisku = false;
             OdswiezPrzyciski();
         }
 
         void Back_Click(object sender, RoutedEventArgs e)
         {
+            SoundHelper.PlayClick();
             oknoGlowne.GoBack();
         }
     }

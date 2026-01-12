@@ -28,10 +28,20 @@
             <Setter Property="Foreground" Value="#029273"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Margin" Value="450,-840,0,0"/>
+            <Setter Property="Margin" Value="450,-880,0,0"/>
             <Setter Property="Height" Value="40"/>
         </Style>
-        
+
+        <Style TargetType="CheckBox" x:Key="PolishCheckBox">
+            <Setter Property="FontFamily" Value="OCR A Extended"/>
+            <Setter Property="FontSize" Value="30"/>
+            <Setter Property="Foreground" Value="#029273"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="615,-780,0,0"/>
+            <Setter Property="Height" Value="40"/>
+        </Style>
+
     </UserControl.Resources>
 
     <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -48,9 +58,12 @@
         <Button Content="BACK" Style="{StaticResource StackPanelButton}" Foreground="#ff5555" Click="Back_Click"/>
 
         <!-- Checkbox HINTS -->
-        <CheckBox x:Name="HintsCheckBox" 
+        <CheckBox x:Name="HintsCheckBox"
                   Content="HINTS" 
                   Style="{StaticResource HintsCheckBox}"/>
+        <CheckBox x:Name="PolishCheckBox"
+                  Content="POLISH LETTERS"
+                  Style="{StaticResource PolishCheckBox}"/>
     </StackPanel>
 </UserControl>
 
