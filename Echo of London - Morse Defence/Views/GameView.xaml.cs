@@ -15,67 +15,68 @@ namespace Echo_of_London___Morse_Defence.Views
 {
     public partial class GameView : UserControl
     {
-        MainWindow oknoGlowne;
-        Random losowy = new Random();
-        DispatcherTimer timerWrogow;
-        DispatcherTimer timerWejscia;
+        private MainWindow oknoGlowne;
+        private Random losowy = new Random();
+        private DispatcherTimer timerWrogow;
+        private DispatcherTimer timerWejscia;
 
-        double srodekX, srodekY;
-        double[] katySektor = { 0, 60, 120, 180, 240, 300 };
+        private double srodekX, srodekY;
+        private double[] katySektor = { 0, 60, 120, 180, 240, 300 };
 
-        string aktualnyMorse = "";
-        string aktualneListery = "";
-        int maxDlugoscMorse = 6;
-        TextBlock[] polaMorse;
+        private string aktualnyMorse = "";
+        private string aktualneListery = "";
+        private int maxDlugoscMorse = 6;
+        private TextBlock[] polaMorse;
 
-        List<DaneWroga> wrogowie = new List<DaneWroga>();
+        private List<DaneWroga> wrogowie = new List<DaneWroga>();
 
-        string poziomTrudnosci;
-        double interwalSpawnu;
-        double czasRuchuWroga;
-        double opoznienieWejscia;
-        bool pokazPodpowiedzi;
-        bool pokazPolskie;
+        private string poziomTrudnosci;
+        private double interwalSpawnu;
+        private double czasRuchuWroga;
+        private double opoznienieWejscia;
+        private bool pokazPodpowiedzi;
+        private bool pokazPolskie;
 
         //PARAMETRY GRACZA
-        int zycia = 3;
-        int punkty = 0;
-        int fala = 1;
+        private int zycia = 10;
 
+        private int maxZycia = 20;
+
+        private int punkty = 0;
+        private int fala = 1;
 
         //PARAMETRY FALI
-        int wrogowieNaFale = 5;
-        int zniknieciWrogowie = 0;
-        bool zablokowanySpawn = false;
-        bool graWstrzymana = false;
+        private int wrogowieNaFale = 5;
 
-        double mnoznikPunktow = 1;
-        double modyfikatorPredkosci = 1;
-        double modyfikatorSpawnu = 1;
+        private bool zablokowanySpawn = false;
 
-        bool koniecGry = false;
-        bool wynikZapisany = false;
+        private double mnoznikPunktow = 1;
+        private double modyfikatorPredkosci = 1;
+        private double modyfikatorSpawnu = 1;
 
+        private bool koniecGry = false;
+        private bool wynikZapisany = false;
+
+        private int stworzeniWrogowie = 0;
 
         //DZWIĘKI
         private MediaPlayer dzwiekZabicia;
+
         private MediaPlayer dzwiekObrazen;
 
         //DO ONE BUTTON MODE
-        bool trwaNadawanie = false;
-        DateTime czasStartuNadawania;
-        int progKrotkieMs = 150; 
-        
+        private bool trwaNadawanie = false;
 
+        private DateTime czasStartuNadawania;
+        private int progKrotkieMs = 150;
 
+        private Brush kolorLinii = (Brush)new BrushConverter().ConvertFrom("#029273");
 
-        Brush kolorLinii = (Brush)new BrushConverter().ConvertFrom("#029273");
-
-        static string sciezkaWynikow = System.IO.Path.Combine(
+        private static string sciezkaWynikow = System.IO.Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
             "EchoOfLondon", "highscores.txt");
 
-        Dictionary<char, string> koderMorse = new Dictionary<char, string>()
+        private Dictionary<char, string> koderMorse = new Dictionary<char, string>()
         {
             {'A',"•–"}, {'B',"–•••"}, {'C',"–•–•"}, {'D',"–••"},
             {'E',"•"}, {'F',"••–•"}, {'G',"––•"}, {'H',"••••"},
@@ -84,14 +85,14 @@ namespace Echo_of_London___Morse_Defence.Views
             {'Q',"––•–"}, {'R',"•–•"}, {'S',"•••"}, {'T',"–"},
             {'U',"••–"}, {'V',"•••–"}, {'W',"•––"}, {'X',"–••–"},
             {'Y',"–•––"}, {'Z',"––••"},
-            
+
             // Polskie litery
             {'Ą',"•–––"}, {'Ć',"–•–••"}, {'Ę',"••–••"}, {'Ł',"•–••–"},
             {'Ń',"––•––"}, {'Ó',"–––•"}, {'Ś',"•••–•••"}, {'Ź',"––••–"},
             {'Ż',"––••–•"}
         };
 
-        class DaneWroga
+        private class DaneWroga
         {
             public UIElement Element { get; set; }
             public double Kat { get; set; }
@@ -112,7 +113,7 @@ namespace Echo_of_London___Morse_Defence.Views
             Loaded += NaZaladowaniu;
         }
 
-        void UstawParametryTrudnosci()
+        private void UstawParametryTrudnosci()
         {
             string t = poziomTrudnosci.ToLower();
 
@@ -136,7 +137,7 @@ namespace Echo_of_London___Morse_Defence.Views
             }
         }
 
-        void NaZaladowaniu(object sender, RoutedEventArgs e)
+        private void NaZaladowaniu(object sender, RoutedEventArgs e)
         {
             srodekX = EnemyCanvas.ActualWidth / 2;
             srodekY = EnemyCanvas.ActualHeight / 2;
@@ -168,22 +169,21 @@ namespace Echo_of_London___Morse_Defence.Views
             NowaTura();
         }
 
-        void TimerWrogow_Tick(object sender, EventArgs e)
+        private void TimerWrogow_Tick(object sender, EventArgs e)
         {
             StworzWroga();
         }
 
-        void OdswiezZycia()
-        {
-            string pelne = new string('●', Math.Max(0, zycia));
-            LivesText.Text = pelne ;
-            LivesText.Foreground = Brushes.White;
-        }
+        private void OdswiezZycia()
+        { LivesText.Text = zycia.ToString(); }
 
-        void OdswiezPunkty() { ScoreText.Text = punkty.ToString(); }
-        void OdswiezFale() { WaveText.Text = fala.ToString(); }
+        private void OdswiezPunkty()
+        { ScoreText.Text = punkty.ToString(); }
 
-        void StracZycie()
+        private void OdswiezFale()
+        { WaveText.Text = fala.ToString(); }
+
+        private void StracZycie()
         {
             if (koniecGry) return;
             zycia--;
@@ -192,13 +192,13 @@ namespace Echo_of_London___Morse_Defence.Views
             if (zycia <= 0) ZakonczGre();
         }
 
-        void DodajPunkty(int ile)
+        private void DodajPunkty(int ile)
         {
             punkty += ile;
             OdswiezPunkty();
         }
 
-        void MignijGracza()
+        private void MignijGracza()
         {
             StartDzwiekObrazen();
             var oryginalny = player.Fill;
@@ -232,7 +232,7 @@ namespace Echo_of_London___Morse_Defence.Views
             PlayerNameTextBox.SelectAll();
         }
 
-        void SaveScore_Click(object sender, RoutedEventArgs e)
+        private void SaveScore_Click(object sender, RoutedEventArgs e)
         {
             SoundHelper.PlayClick();
             if (wynikZapisany)
@@ -261,7 +261,7 @@ namespace Echo_of_London___Morse_Defence.Views
             }
         }
 
-        void ZapiszWynikDoPliku(string nazwa, int pkt, int f, string trudnosc)
+        private void ZapiszWynikDoPliku(string nazwa, int pkt, int f, string trudnosc)
         {
             string folder = System.IO.Path.GetDirectoryName(sciezkaWynikow);
             if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
@@ -308,7 +308,7 @@ namespace Echo_of_London___Morse_Defence.Views
             return lista.OrderByDescending(x => x.Score).ToList();
         }
 
-        void ObslugaKlawiatury(object sender, KeyEventArgs e)
+        private void ObslugaKlawiatury(object sender, KeyEventArgs e)
         {
             if (koniecGry) return;
 
@@ -333,7 +333,7 @@ namespace Echo_of_London___Morse_Defence.Views
             else if (e.Key == Key.Escape) { WyczyscMorse(); e.Handled = true; }
         }
 
-        void ObslugaKlawiaturaUp(object sender, KeyEventArgs e)
+        private void ObslugaKlawiaturaUp(object sender, KeyEventArgs e)
         {
             if (koniecGry) return;
 
@@ -352,7 +352,7 @@ namespace Echo_of_London___Morse_Defence.Views
             }
         }
 
-        void DodajSymbolMorse(string symbol)
+        private void DodajSymbolMorse(string symbol)
         {
             if (aktualnyMorse.Length >= maxDlugoscMorse) return;
             aktualnyMorse += symbol;
@@ -362,7 +362,7 @@ namespace Echo_of_London___Morse_Defence.Views
             SoundHelper.PlayClick();
         }
 
-        void UsunOstatniSymbol()
+        private void UsunOstatniSymbol()
         {
             if (aktualnyMorse.Length > 0)
             {
@@ -373,14 +373,14 @@ namespace Echo_of_London___Morse_Defence.Views
             if (aktualnyMorse.Length > 0) timerWejscia.Start();
         }
 
-        void WyczyscMorse()
+        private void WyczyscMorse()
         {
             aktualnyMorse = "";
             OdswiezWyswietlaczMorse();
             timerWejscia.Stop();
         }
 
-        void OdswiezWyswietlaczMorse()
+        private void OdswiezWyswietlaczMorse()
         {
             int start = maxDlugoscMorse - aktualnyMorse.Length;
             for (int i = 0; i < polaMorse.Length; i++)
@@ -398,7 +398,7 @@ namespace Echo_of_London___Morse_Defence.Views
             }
         }
 
-        void WyslijKodMorse()
+        private void WyslijKodMorse()
         {
             timerWejscia.Stop();
             if (string.IsNullOrEmpty(aktualnyMorse)) return;
@@ -429,14 +429,14 @@ namespace Echo_of_London___Morse_Defence.Views
             WyczyscMorse();
         }
 
-        int ObliczSektor(double kat)
+        private int ObliczSektor(double kat)
         {
             kat = ((kat % 360) + 360) % 360;
             double przesuniete = (kat + 30) % 360;
             return (int)(przesuniete / 60);
         }
 
-        bool ZniszczWrogaWSektor(int sektor)
+        private bool ZniszczWrogaWSektor(int sektor)
         {
             var wrogiWSektor = wrogowie.Where(w => w.Sektor == sektor).OrderBy(w => w.CzasSpawnu).ToList();
             if (wrogiWSektor.Count == 0) return false;
@@ -450,21 +450,21 @@ namespace Echo_of_London___Morse_Defence.Views
             return true;
         }
 
-        void NowaTura()
+        private void NowaTura()
         {
             aktualneListery = GenerujLosoweListery();
             PokazListeryNaSektor(aktualneListery);
             if (pokazPodpowiedzi) PokazPanelPodpowiedzi(aktualneListery);
         }
 
-        void PokazPanelPodpowiedzi(string litery)
+        private void PokazPanelPodpowiedzi(string litery)
         {
             StringBuilder sb = new StringBuilder();
             foreach (char c in litery) sb.AppendLine(c + "   " + koderMorse[c]);
             MorseDisplay.Text = sb.ToString();
         }
 
-        string GenerujLosoweListery()
+        private string GenerujLosoweListery()
         {
             string alfabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             string polskieLitery = "ĄĆĘŁŃÓŚŹŻ";
@@ -478,7 +478,7 @@ namespace Echo_of_London___Morse_Defence.Views
             return new string(wybrane.ToArray());
         }
 
-        void PokazListeryNaSektor(string litery)
+        private void PokazListeryNaSektor(string litery)
         {
             LetterCanvas.Children.Clear();
             if (litery.Length < 6) return;
@@ -510,10 +510,16 @@ namespace Echo_of_London___Morse_Defence.Views
             }
         }
 
-        void StworzWroga()
+        private void StworzWroga()
         {
             if (koniecGry) return;
             if (zablokowanySpawn) return;
+            if (stworzeniWrogowie >= wrogowieNaFale)
+            {
+                zablokowanySpawn = true;
+                return;
+            }
+            stworzeniWrogowie++;
 
             double rozmiar = 30;
             double promienSpawnu = 160;
@@ -561,25 +567,21 @@ namespace Echo_of_London___Morse_Defence.Views
             wrog.BeginAnimation(Canvas.TopProperty, animY);
         }
 
-        void WrogZniknal()
+        private void WrogZniknal()
         {
-            zniknieciWrogowie++;
-
-            if (zniknieciWrogowie >= wrogowieNaFale)
-                zablokowanySpawn = true;
-
             if (zablokowanySpawn && wrogowie.Count == 0)
             {
                 ZakonczFale();
             }
         }
 
-        void ZakonczFale()
+        private void ZakonczFale()
         {
             zablokowanySpawn = true;
             PokazUpgradeOverlay();
         }
-        void PokazUpgradeOverlay()
+
+        private void PokazUpgradeOverlay()
         {
             LosujUlepszenia();
             AktualizujStatystykiNaOverlay();
@@ -591,7 +593,7 @@ namespace Echo_of_London___Morse_Defence.Views
             UpgradeOverlay.Visibility = Visibility.Visible;
         }
 
-        enum TypUlepszenia
+        private enum TypUlepszenia
         {
             SlowerEnemies,
             SlowerSpawn,
@@ -599,7 +601,7 @@ namespace Echo_of_London___Morse_Defence.Views
             MoreLife
         }
 
-        List<TypUlepszenia> dostepneUlepszenia = new List<TypUlepszenia>
+        private List<TypUlepszenia> dostepneUlepszenia = new List<TypUlepszenia>
         {
             TypUlepszenia.SlowerEnemies,
             TypUlepszenia.SlowerSpawn,
@@ -607,17 +609,24 @@ namespace Echo_of_London___Morse_Defence.Views
             TypUlepszenia.MoreLife
         };
 
-        List<TypUlepszenia> wylosowaneUlepszenia;
+        private List<TypUlepszenia> wylosowaneUlepszenia;
 
-        void LosujUlepszenia()
+        private void LosujUlepszenia()
         {
-            wylosowaneUlepszenia = dostepneUlepszenia
+            var dozwolone = dostepneUlepszenia.ToList();
+
+            if (zycia >= maxZycia)
+            {
+                dozwolone.Remove(TypUlepszenia.MoreLife);
+            }
+
+            wylosowaneUlepszenia = dozwolone
                 .OrderBy(x => losowy.Next())
                 .Take(3)
                 .ToList();
         }
 
-        void UstawPrzyciskUlepszenia(Button btn, TypUlepszenia typ)
+        private void UstawPrzyciskUlepszenia(Button btn, TypUlepszenia typ)
         {
             btn.Click -= Upgrade_SlowerEnemies;
             btn.Click -= Upgrade_SlowerSpawn;
@@ -656,42 +665,39 @@ namespace Echo_of_London___Morse_Defence.Views
             btn.Content = tekst;
         }
 
-
-
-        void AktualizujStatystykiNaOverlay()
+        private void AktualizujStatystykiNaOverlay()
         {
             SpeedStat.Text = $"ENEMY SPEED: {(modyfikatorPredkosci * 100):0}%";
             SpawnStat.Text = $"SPAWN RATE: {(modyfikatorSpawnu * 100):0}%";
             PointsStat.Text = $"POINTS MULTI: x{mnoznikPunktow:0.00}";
         }
 
-
-        void Upgrade_SlowerEnemies(object sender, RoutedEventArgs e)
+        private void Upgrade_SlowerEnemies(object sender, RoutedEventArgs e)
         {
             modyfikatorPredkosci *= 0.9;
             ZastosujUlepszenieIZamknij();
         }
 
-        void Upgrade_SlowerSpawn(object sender, RoutedEventArgs e)
+        private void Upgrade_SlowerSpawn(object sender, RoutedEventArgs e)
         {
             modyfikatorSpawnu *= 0.9;
             ZastosujUlepszenieIZamknij();
         }
 
-        void Upgrade_MorePoints(object sender, RoutedEventArgs e)
+        private void Upgrade_MorePoints(object sender, RoutedEventArgs e)
         {
             mnoznikPunktow += 0.25;
             ZastosujUlepszenieIZamknij();
         }
 
-        void Upgrade_MoreLife(object sender, RoutedEventArgs e)
+        private void Upgrade_MoreLife(object sender, RoutedEventArgs e)
         {
             zycia += 1;
             OdswiezZycia();
             ZastosujUlepszenieIZamknij();
         }
 
-        void ZastosujUlepszenieIZamknij()
+        private void ZastosujUlepszenieIZamknij()
         {
             UpgradeOverlay.Visibility = Visibility.Collapsed;
 
@@ -703,10 +709,8 @@ namespace Echo_of_London___Morse_Defence.Views
             modyfikatorPredkosci *= 1.1;
             modyfikatorSpawnu *= 1.1;
 
-            czasRuchuWroga /= modyfikatorPredkosci;
-            interwalSpawnu /= modyfikatorSpawnu;
-
-            zniknieciWrogowie = 0;
+            stworzeniWrogowie = 0;
+            zablokowanySpawn = false;
 
             AktualizujStatystykiNaOverlay();
 
@@ -717,7 +721,7 @@ namespace Echo_of_London___Morse_Defence.Views
             NowaTura();
         }
 
-        double PobierzBezpiecznyKat()
+        private double PobierzBezpiecznyKat()
         {
             double[] zakazane = { 90, 270, 30, 150, 210, 330 };
             double margines = 10;
@@ -751,7 +755,7 @@ namespace Echo_of_London___Morse_Defence.Views
             }
         }
 
-        UIElement UtworzWrogaUI(double x, double y)
+        private UIElement UtworzWrogaUI(double x, double y)
         {
             var kontener = new Grid { Width = 30, Height = 30, IsHitTestVisible = false };
 
@@ -781,13 +785,13 @@ namespace Echo_of_London___Morse_Defence.Views
             return kontener;
         }
 
-        void Main_Click(object sender, RoutedEventArgs e)
+        private void Main_Click(object sender, RoutedEventArgs e)
         {
             SoundHelper.PlayClick();
             oknoGlowne.NavigateTo(new StartView(oknoGlowne));
         }
 
-        void Menu_Click(object sender, RoutedEventArgs e)
+        private void Menu_Click(object sender, RoutedEventArgs e)
         {
             SoundHelper.PlayClick();
             timerWrogow.Stop();
@@ -795,25 +799,18 @@ namespace Echo_of_London___Morse_Defence.Views
             oknoGlowne.NavigateTo(new MenuView(oknoGlowne, poziomTrudnosci, pokazPodpowiedzi));
         }
 
-        private void StartDzwiekZabicia()
+        private void GrajDzwiek(string sciezka, double glosnosc)
         {
-            dzwiekZabicia = new MediaPlayer();
-            dzwiekZabicia.Open(new Uri("Assets/Sounds/LifeDroplet.mp3", UriKind.Relative));
-            dzwiekZabicia.Volume = 0.7;
-            dzwiekZabicia.Stop();
-            dzwiekZabicia.Position = TimeSpan.Zero;
-            dzwiekZabicia.Play();
+            var player = new MediaPlayer();
+            player.Open(new Uri(sciezka, UriKind.Relative));
+            player.Volume = glosnosc;
+            player.Play();
         }
 
-        private void StartDzwiekObrazen()
-        {
-            dzwiekObrazen = new MediaPlayer();
-            dzwiekObrazen.Open(new Uri("Assets/Sounds/Dead.mp3", UriKind.Relative));
-            dzwiekObrazen.Volume = 0.05;
-            dzwiekObrazen.Stop();
-            dzwiekObrazen.Position = TimeSpan.Zero;
-            dzwiekObrazen.Play();
-        }
+        // Użycie:
+        private void StartDzwiekZabicia() => GrajDzwiek("Assets/Sounds/LifeDroplet.mp3", 0.7);
+
+        private void StartDzwiekObrazen() => GrajDzwiek("Assets/Sounds/Dead.mp3", 0.05);
     }
 
     public class ScoreEntry
