@@ -44,7 +44,7 @@ namespace Echo_of_London___Morse_Defence.Views
 
             if (oknoGlowne.MainContent.Content is GameView gra)
             {
-                gra.WymusGameOver();
+                gra.ZakonczGre();
             }
         }
     }

@@ -44,17 +44,15 @@ namespace Echo_of_London___Morse_Defence.Views
 
 
         //PARAMETRY FALI
-        int wrogowieNaFale = 2;
+        int wrogowieNaFale = 5;
         int zniknieciWrogowie = 0;
-        bool spawnZablokowany = false;
+        bool zablokowanySpawn = false;
+        bool graWstrzymana = false;
 
-        bool zablokowanieUlepszeniem = false;
         double mnoznikPunktow = 1;
         double modyfikatorPredkosci = 1;
         double modyfikatorSpawnu = 1;
 
-
-        int licznikWrogow = 0;
         bool koniecGry = false;
         bool wynikZapisany = false;
 
@@ -66,7 +64,6 @@ namespace Echo_of_London___Morse_Defence.Views
         //DO ONE BUTTON MODE
         bool trwaNadawanie = false;
         DateTime czasStartuNadawania;
-        DispatcherTimer timerNadawania;
         int progKrotkieMs = 150; 
         
 
@@ -121,21 +118,21 @@ namespace Echo_of_London___Morse_Defence.Views
 
             if (t == "easy")
             {
-                interwalSpawnu = 3.0;
-                czasRuchuWroga = 10.0;
-                opoznienieWejscia = 1.0;
+                interwalSpawnu = 0.50;
+                czasRuchuWroga = 20.0;
+                opoznienieWejscia = 3.0;
             }
             else if (t == "hard")
             {
                 interwalSpawnu = 1.2;
                 czasRuchuWroga = 2.0;
-                opoznienieWejscia = 0.6;
+                opoznienieWejscia = 3.0;
             }
             else
             {
                 interwalSpawnu = 2.0;
                 czasRuchuWroga = 3.0;
-                opoznienieWejscia = 0.8;
+                opoznienieWejscia = 3.0;
             }
         }
 
@@ -157,10 +154,6 @@ namespace Echo_of_London___Morse_Defence.Views
             timerWejscia.Interval = TimeSpan.FromSeconds(opoznienieWejscia);
             timerWejscia.Tick += (s, ev) => { timerWejscia.Stop(); WyslijKodMorse(); };
 
-            timerNadawania = new DispatcherTimer();
-            timerNadawania.Interval = TimeSpan.FromMilliseconds(50);
-            timerNadawania.Tick += TimerNadawania_Tick;
-
             Focusable = true;
             Focus();
             KeyDown += ObslugaKlawiatury;
@@ -178,15 +171,6 @@ namespace Echo_of_London___Morse_Defence.Views
         void TimerWrogow_Tick(object sender, EventArgs e)
         {
             StworzWroga();
-        }
-
-        void TimerNadawania_Tick(object sender, EventArgs e)
-        {
-        }
-
-        public void WymusGameOver()
-        {
-            ZakonczGre();
         }
 
         void OdswiezZycia()
@@ -224,13 +208,12 @@ namespace Echo_of_London___Morse_Defence.Views
             timer.Start();
         }
 
-        void ZakonczGre()
+        public void ZakonczGre()
         {
             koniecGry = true;
             wynikZapisany = false;
             timerWrogow?.Stop();
             timerWejscia?.Stop();
-            timerNadawania?.Stop();
 
             foreach (var w in wrogowie.ToList())
             {
@@ -335,7 +318,6 @@ namespace Echo_of_London___Morse_Defence.Views
                 {
                     trwaNadawanie = true;
                     czasStartuNadawania = DateTime.Now;
-                    timerNadawania.Start();
                     e.Handled = true;
                     return;
                 }
@@ -358,7 +340,6 @@ namespace Echo_of_London___Morse_Defence.Views
             if (GameSettings.TrybJednegoPrzycisku && e.Key == Key.Space && trwaNadawanie)
             {
                 trwaNadawanie = false;
-                timerNadawania.Stop();
 
                 double czasTrzymania = (DateTime.Now - czasStartuNadawania).TotalMilliseconds;
 
@@ -532,9 +513,7 @@ namespace Echo_of_London___Morse_Defence.Views
         void StworzWroga()
         {
             if (koniecGry) return;
-            if (spawnZablokowany) return;
-            if (zablokowanieUlepszeniem) return;
-            licznikWrogow++;
+            if (zablokowanySpawn) return;
 
             double rozmiar = 30;
             double promienSpawnu = 160;
@@ -587,9 +566,9 @@ namespace Echo_of_London___Morse_Defence.Views
             zniknieciWrogowie++;
 
             if (zniknieciWrogowie >= wrogowieNaFale)
-                spawnZablokowany = true;
+                zablokowanySpawn = true;
 
-            if (spawnZablokowany && wrogowie.Count == 0)
+            if (zablokowanySpawn && wrogowie.Count == 0)
             {
                 ZakonczFale();
             }
@@ -597,7 +576,7 @@ namespace Echo_of_London___Morse_Defence.Views
 
         void ZakonczFale()
         {
-            zablokowanieUlepszeniem = true;
+            zablokowanySpawn = true;
             PokazUpgradeOverlay();
         }
         void PokazUpgradeOverlay()
@@ -611,7 +590,6 @@ namespace Echo_of_London___Morse_Defence.Views
 
             UpgradeOverlay.Visibility = Visibility.Visible;
         }
-
 
         enum TypUlepszenia
         {
@@ -717,8 +695,7 @@ namespace Echo_of_London___Morse_Defence.Views
         {
             UpgradeOverlay.Visibility = Visibility.Collapsed;
 
-            zablokowanieUlepszeniem = false;
-            spawnZablokowany = false;
+            zablokowanySpawn = false;
 
             fala++;
             OdswiezFale();
@@ -739,7 +716,6 @@ namespace Echo_of_London___Morse_Defence.Views
 
             NowaTura();
         }
-
 
         double PobierzBezpiecznyKat()
         {
@@ -816,7 +792,6 @@ namespace Echo_of_London___Morse_Defence.Views
             SoundHelper.PlayClick();
             timerWrogow.Stop();
             timerWejscia.Stop();
-            timerNadawania.Stop();
             oknoGlowne.NavigateTo(new MenuView(oknoGlowne, poziomTrudnosci, pokazPodpowiedzi));
         }
 
