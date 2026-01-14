@@ -1,54 +1,54 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\User\\Documents\\GitHub\\Echo-of-London---Morse-Defence\\",
+  "WorkspaceRootPath": "F:\\C#\\Echo of London - Morse Defence\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{44828A38-A20C-47F5-BF56-A8DF75F3DB6A}|Echo of London - Morse Defence\\Echo of London - Morse Defence.csproj|c:\\users\\user\\documents\\github\\echo-of-london---morse-defence\\echo of london - morse defence\\views\\scoreboardview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44828A38-A20C-47F5-BF56-A8DF75F3DB6A}|Echo of London - Morse Defence\\Echo of London - Morse Defence.csproj|solutionrelative:echo of london - morse defence\\views\\scoreboardview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|F:\\C#\\Echo of London - Morse Defence\\Echo of London - Morse Defence\\Views\\GameView.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Echo of London - Morse Defence\\Views\\GameView.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44828A38-A20C-47F5-BF56-A8DF75F3DB6A}|Echo of London - Morse Defence\\Echo of London - Morse Defence.csproj|C:\\Users\\User\\Documents\\GitHub\\Echo-of-London---Morse-Defence\\echo of london - morse defence\\views\\menuview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44828A38-A20C-47F5-BF56-A8DF75F3DB6A}|Echo of London - Morse Defence\\Echo of London - Morse Defence.csproj|solutionrelative:echo of london - morse defence\\views\\menuview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|F:\\C#\\Echo of London - Morse Defence\\Echo of London - Morse Defence\\Views\\GameView.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Echo of London - Morse Defence\\Views\\GameView.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44828A38-A20C-47F5-BF56-A8DF75F3DB6A}|Echo of London - Morse Defence\\Echo of London - Morse Defence.csproj|C:\\Users\\User\\Documents\\GitHub\\Echo-of-London---Morse-Defence\\echo of london - morse defence\\views\\optionsview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44828A38-A20C-47F5-BF56-A8DF75F3DB6A}|Echo of London - Morse Defence\\Echo of London - Morse Defence.csproj|solutionrelative:echo of london - morse defence\\views\\optionsview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|F:\\C#\\Echo of London - Morse Defence\\Echo of London - Morse Defence\\Views\\StartView.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Echo of London - Morse Defence\\Views\\StartView.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44828A38-A20C-47F5-BF56-A8DF75F3DB6A}|Echo of London - Morse Defence\\Echo of London - Morse Defence.csproj|C:\\Users\\User\\Documents\\GitHub\\Echo-of-London---Morse-Defence\\echo of london - morse defence\\views\\menuview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{44828A38-A20C-47F5-BF56-A8DF75F3DB6A}|Echo of London - Morse Defence\\Echo of London - Morse Defence.csproj|solutionrelative:echo of london - morse defence\\views\\menuview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|F:\\C#\\Echo of London - Morse Defence\\Echo of London - Morse Defence\\Views\\MenuView.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Echo of London - Morse Defence\\Views\\MenuView.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44828A38-A20C-47F5-BF56-A8DF75F3DB6A}|Echo of London - Morse Defence\\Echo of London - Morse Defence.csproj|C:\\Users\\User\\Documents\\GitHub\\Echo-of-London---Morse-Defence\\echo of london - morse defence\\views\\startview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44828A38-A20C-47F5-BF56-A8DF75F3DB6A}|Echo of London - Morse Defence\\Echo of London - Morse Defence.csproj|solutionrelative:echo of london - morse defence\\views\\startview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|F:\\C#\\Echo of London - Morse Defence\\Echo of London - Morse Defence\\Views\\OptionsView.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Echo of London - Morse Defence\\Views\\OptionsView.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44828A38-A20C-47F5-BF56-A8DF75F3DB6A}|Echo of London - Morse Defence\\Echo of London - Morse Defence.csproj|C:\\Users\\User\\Documents\\GitHub\\Echo-of-London---Morse-Defence\\echo of london - morse defence\\views\\gameview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44828A38-A20C-47F5-BF56-A8DF75F3DB6A}|Echo of London - Morse Defence\\Echo of London - Morse Defence.csproj|solutionrelative:echo of london - morse defence\\views\\gameview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|F:\\C#\\Echo of London - Morse Defence\\Echo of London - Morse Defence\\MainViews\\MainWindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Echo of London - Morse Defence\\MainViews\\MainWindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44828A38-A20C-47F5-BF56-A8DF75F3DB6A}|Echo of London - Morse Defence\\Echo of London - Morse Defence.csproj|C:\\Users\\User\\Documents\\GitHub\\Echo-of-London---Morse-Defence\\echo of london - morse defence\\views\\gameview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{44828A38-A20C-47F5-BF56-A8DF75F3DB6A}|Echo of London - Morse Defence\\Echo of London - Morse Defence.csproj|solutionrelative:echo of london - morse defence\\views\\gameview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|F:\\C#\\Echo of London - Morse Defence\\Echo of London - Morse Defence\\Views\\MenuView.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Echo of London - Morse Defence\\Views\\MenuView.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44828A38-A20C-47F5-BF56-A8DF75F3DB6A}|Echo of London - Morse Defence\\Echo of London - Morse Defence.csproj|C:\\Users\\User\\Documents\\GitHub\\Echo-of-London---Morse-Defence\\echo of london - morse defence\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
-      "RelativeMoniker": "D:0:0:{44828A38-A20C-47F5-BF56-A8DF75F3DB6A}|Echo of London - Morse Defence\\Echo of London - Morse Defence.csproj|solutionrelative:echo of london - morse defence\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|F:\\C#\\Echo of London - Morse Defence\\Echo of London - Morse Defence\\App.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Echo of London - Morse Defence\\App.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44828A38-A20C-47F5-BF56-A8DF75F3DB6A}|Echo of London - Morse Defence\\Echo of London - Morse Defence.csproj|C:\\Users\\User\\Documents\\GitHub\\Echo-of-London---Morse-Defence\\echo of london - morse defence\\views\\difficultyview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44828A38-A20C-47F5-BF56-A8DF75F3DB6A}|Echo of London - Morse Defence\\Echo of London - Morse Defence.csproj|solutionrelative:echo of london - morse defence\\views\\difficultyview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|F:\\C#\\Echo of London - Morse Defence\\Echo of London - Morse Defence\\App.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Echo of London - Morse Defence\\App.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44828A38-A20C-47F5-BF56-A8DF75F3DB6A}|Echo of London - Morse Defence\\Echo of London - Morse Defence.csproj|C:\\Users\\User\\Documents\\GitHub\\Echo-of-London---Morse-Defence\\echo of london - morse defence\\mainviews\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44828A38-A20C-47F5-BF56-A8DF75F3DB6A}|Echo of London - Morse Defence\\Echo of London - Morse Defence.csproj|solutionrelative:echo of london - morse defence\\mainviews\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|F:\\C#\\Echo of London - Morse Defence\\Echo of London - Morse Defence\\App.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Echo of London - Morse Defence\\App.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44828A38-A20C-47F5-BF56-A8DF75F3DB6A}|Echo of London - Morse Defence\\Echo of London - Morse Defence.csproj|C:\\Users\\User\\Documents\\GitHub\\Echo-of-London---Morse-Defence\\echo of london - morse defence\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{44828A38-A20C-47F5-BF56-A8DF75F3DB6A}|Echo of London - Morse Defence\\Echo of London - Morse Defence.csproj|solutionrelative:echo of london - morse defence\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|F:\\C#\\Echo of London - Morse Defence\\Echo of London - Morse Defence\\Views\\DifficultyView.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Echo of London - Morse Defence\\Views\\DifficultyView.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44828A38-A20C-47F5-BF56-A8DF75F3DB6A}|Echo of London - Morse Defence\\Echo of London - Morse Defence.csproj|C:\\Users\\User\\Documents\\GitHub\\Echo-of-London---Morse-Defence\\echo of london - morse defence\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{44828A38-A20C-47F5-BF56-A8DF75F3DB6A}|Echo of London - Morse Defence\\Echo of London - Morse Defence.csproj|solutionrelative:echo of london - morse defence\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|F:\\C#\\Echo of London - Morse Defence\\Echo of London - Morse Defence\\Views\\ScoreboardView.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Echo of London - Morse Defence\\Views\\ScoreboardView.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -58,61 +58,65 @@
       "DocumentGroups": [
         {
           "DockedWidth": 238,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "MenuView.xaml",
-              "DocumentMoniker": "C:\\Users\\User\\Documents\\GitHub\\Echo-of-London---Morse-Defence\\Echo of London - Morse Defence\\Views\\MenuView.xaml",
+              "DocumentMoniker": "F:\\C#\\Echo of London - Morse Defence\\Echo of London - Morse Defence\\Views\\MenuView.xaml",
               "RelativeDocumentMoniker": "Echo of London - Morse Defence\\Views\\MenuView.xaml",
-              "ToolTip": "C:\\Users\\User\\Documents\\GitHub\\Echo-of-London---Morse-Defence\\Echo of London - Morse Defence\\Views\\MenuView.xaml",
+              "ToolTip": "F:\\C#\\Echo of London - Morse Defence\\Echo of London - Morse Defence\\Views\\MenuView.xaml",
               "RelativeToolTip": "Echo of London - Morse Defence\\Views\\MenuView.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2025-10-28T09:46:31.566Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 1,
               "Title": "GameView.xaml",
-              "DocumentMoniker": "C:\\Users\\User\\Documents\\GitHub\\Echo-of-London---Morse-Defence\\Echo of London - Morse Defence\\Views\\GameView.xaml",
+              "DocumentMoniker": "F:\\C#\\Echo of London - Morse Defence\\Echo of London - Morse Defence\\Views\\GameView.xaml",
               "RelativeDocumentMoniker": "Echo of London - Morse Defence\\Views\\GameView.xaml",
-              "ToolTip": "C:\\Users\\User\\Documents\\GitHub\\Echo-of-London---Morse-Defence\\Echo of London - Morse Defence\\Views\\GameView.xaml",
+              "ToolTip": "F:\\C#\\Echo of London - Morse Defence\\Echo of London - Morse Defence\\Views\\GameView.xaml",
               "RelativeToolTip": "Echo of London - Morse Defence\\Views\\GameView.xaml",
+              "ViewState": "AgIAADMAAAAAAAAAAAAnwEgAAAA7AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-10-28T09:41:48.186Z"
+              "WhenOpened": "2025-10-28T09:41:48.186Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 0,
               "Title": "GameView.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\User\\Documents\\GitHub\\Echo-of-London---Morse-Defence\\Echo of London - Morse Defence\\Views\\GameView.xaml.cs",
+              "DocumentMoniker": "F:\\C#\\Echo of London - Morse Defence\\Echo of London - Morse Defence\\Views\\GameView.xaml.cs",
               "RelativeDocumentMoniker": "Echo of London - Morse Defence\\Views\\GameView.xaml.cs",
-              "ToolTip": "C:\\Users\\User\\Documents\\GitHub\\Echo-of-London---Morse-Defence\\Echo of London - Morse Defence\\Views\\GameView.xaml.cs",
+              "ToolTip": "F:\\C#\\Echo of London - Morse Defence\\Echo of London - Morse Defence\\Views\\GameView.xaml.cs",
               "RelativeToolTip": "Echo of London - Morse Defence\\Views\\GameView.xaml.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAYwBMAAAA7AAAAAAAAAA==",
+              "ViewState": "AgIAACMDAAAAAAAAAAAAAE4DAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-28T09:41:50.95Z"
+              "WhenOpened": "2025-10-28T09:41:50.95Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
               "Title": "StartView.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\User\\Documents\\GitHub\\Echo-of-London---Morse-Defence\\Echo of London - Morse Defence\\Views\\StartView.xaml.cs",
+              "DocumentMoniker": "F:\\C#\\Echo of London - Morse Defence\\Echo of London - Morse Defence\\Views\\StartView.xaml.cs",
               "RelativeDocumentMoniker": "Echo of London - Morse Defence\\Views\\StartView.xaml.cs",
-              "ToolTip": "C:\\Users\\User\\Documents\\GitHub\\Echo-of-London---Morse-Defence\\Echo of London - Morse Defence\\Views\\StartView.xaml.cs",
+              "ToolTip": "F:\\C#\\Echo of London - Morse Defence\\Echo of London - Morse Defence\\Views\\StartView.xaml.cs",
               "RelativeToolTip": "Echo of London - Morse Defence\\Views\\StartView.xaml.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAAB8AAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-28T09:33:56.448Z"
+              "WhenOpened": "2025-10-28T09:33:56.448Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 7,
               "Title": "App.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\User\\Documents\\GitHub\\Echo-of-London---Morse-Defence\\Echo of London - Morse Defence\\App.xaml.cs",
+              "DocumentMoniker": "F:\\C#\\Echo of London - Morse Defence\\Echo of London - Morse Defence\\App.xaml.cs",
               "RelativeDocumentMoniker": "Echo of London - Morse Defence\\App.xaml.cs",
-              "ToolTip": "C:\\Users\\User\\Documents\\GitHub\\Echo-of-London---Morse-Defence\\Echo of London - Morse Defence\\App.xaml.cs",
+              "ToolTip": "F:\\C#\\Echo of London - Morse Defence\\Echo of London - Morse Defence\\App.xaml.cs",
               "RelativeToolTip": "Echo of London - Morse Defence\\App.xaml.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -120,11 +124,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "App.config",
-              "DocumentMoniker": "C:\\Users\\User\\Documents\\GitHub\\Echo-of-London---Morse-Defence\\Echo of London - Morse Defence\\App.config",
+              "DocumentMoniker": "F:\\C#\\Echo of London - Morse Defence\\Echo of London - Morse Defence\\App.config",
               "RelativeDocumentMoniker": "Echo of London - Morse Defence\\App.config",
-              "ToolTip": "C:\\Users\\User\\Documents\\GitHub\\Echo-of-London---Morse-Defence\\Echo of London - Morse Defence\\App.config",
+              "ToolTip": "F:\\C#\\Echo of London - Morse Defence\\Echo of London - Morse Defence\\App.config",
               "RelativeToolTip": "Echo of London - Morse Defence\\App.config",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
@@ -132,22 +136,22 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 9,
               "Title": "App.xaml",
-              "DocumentMoniker": "C:\\Users\\User\\Documents\\GitHub\\Echo-of-London---Morse-Defence\\Echo of London - Morse Defence\\App.xaml",
+              "DocumentMoniker": "F:\\C#\\Echo of London - Morse Defence\\Echo of London - Morse Defence\\App.xaml",
               "RelativeDocumentMoniker": "Echo of London - Morse Defence\\App.xaml",
-              "ToolTip": "C:\\Users\\User\\Documents\\GitHub\\Echo-of-London---Morse-Defence\\Echo of London - Morse Defence\\App.xaml",
+              "ToolTip": "F:\\C#\\Echo of London - Morse Defence\\Echo of London - Morse Defence\\App.xaml",
               "RelativeToolTip": "Echo of London - Morse Defence\\App.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2025-10-28T09:31:44.377Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "DifficultyView.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\User\\Documents\\GitHub\\Echo-of-London---Morse-Defence\\Echo of London - Morse Defence\\Views\\DifficultyView.xaml.cs",
+              "DocumentMoniker": "F:\\C#\\Echo of London - Morse Defence\\Echo of London - Morse Defence\\Views\\DifficultyView.xaml.cs",
               "RelativeDocumentMoniker": "Echo of London - Morse Defence\\Views\\DifficultyView.xaml.cs",
-              "ToolTip": "C:\\Users\\User\\Documents\\GitHub\\Echo-of-London---Morse-Defence\\Echo of London - Morse Defence\\Views\\DifficultyView.xaml.cs",
+              "ToolTip": "F:\\C#\\Echo of London - Morse Defence\\Echo of London - Morse Defence\\Views\\DifficultyView.xaml.cs",
               "RelativeToolTip": "Echo of London - Morse Defence\\Views\\DifficultyView.xaml.cs",
               "ViewState": "AgIAABcAAAAAAAAAAAAAwC8AAAADAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -155,52 +159,54 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "OptionsView.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\User\\Documents\\GitHub\\Echo-of-London---Morse-Defence\\Echo of London - Morse Defence\\Views\\OptionsView.xaml.cs",
+              "DocumentMoniker": "F:\\C#\\Echo of London - Morse Defence\\Echo of London - Morse Defence\\Views\\OptionsView.xaml.cs",
               "RelativeDocumentMoniker": "Echo of London - Morse Defence\\Views\\OptionsView.xaml.cs",
-              "ToolTip": "C:\\Users\\User\\Documents\\GitHub\\Echo-of-London---Morse-Defence\\Echo of London - Morse Defence\\Views\\OptionsView.xaml.cs",
+              "ToolTip": "F:\\C#\\Echo of London - Morse Defence\\Echo of London - Morse Defence\\Views\\OptionsView.xaml.cs",
               "RelativeToolTip": "Echo of London - Morse Defence\\Views\\OptionsView.xaml.cs",
               "ViewState": "AgIAAAkAAAAAAAAAAAAAABMAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-28T09:29:37.376Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ScoreboardView.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\User\\Documents\\GitHub\\Echo-of-London---Morse-Defence\\Echo of London - Morse Defence\\Views\\ScoreboardView.xaml.cs",
-              "RelativeDocumentMoniker": "Echo of London - Morse Defence\\Views\\ScoreboardView.xaml.cs",
-              "ToolTip": "C:\\Users\\User\\Documents\\GitHub\\Echo-of-London---Morse-Defence\\Echo of London - Morse Defence\\Views\\ScoreboardView.xaml.cs",
-              "RelativeToolTip": "Echo of London - Morse Defence\\Views\\ScoreboardView.xaml.cs",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAiwBgAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-28T09:28:14.07Z",
+              "WhenOpened": "2025-10-28T09:29:37.376Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "MenuView.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\User\\Documents\\GitHub\\Echo-of-London---Morse-Defence\\Echo of London - Morse Defence\\Views\\MenuView.xaml.cs",
-              "RelativeDocumentMoniker": "Echo of London - Morse Defence\\Views\\MenuView.xaml.cs",
-              "ToolTip": "C:\\Users\\User\\Documents\\GitHub\\Echo-of-London---Morse-Defence\\Echo of London - Morse Defence\\Views\\MenuView.xaml.cs",
-              "RelativeToolTip": "Echo of London - Morse Defence\\Views\\MenuView.xaml.cs",
-              "ViewState": "AgIAABsAAAAAAAAAAAAYwCoAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 11,
+              "Title": "ScoreboardView.xaml.cs",
+              "DocumentMoniker": "F:\\C#\\Echo of London - Morse Defence\\Echo of London - Morse Defence\\Views\\ScoreboardView.xaml.cs",
+              "RelativeDocumentMoniker": "Echo of London - Morse Defence\\Views\\ScoreboardView.xaml.cs",
+              "ToolTip": "F:\\C#\\Echo of London - Morse Defence\\Echo of London - Morse Defence\\Views\\ScoreboardView.xaml.cs",
+              "RelativeToolTip": "Echo of London - Morse Defence\\Views\\ScoreboardView.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-28T09:26:53.932Z"
+              "WhenOpened": "2025-10-28T09:28:14.07Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 3,
+              "Title": "MenuView.xaml.cs",
+              "DocumentMoniker": "F:\\C#\\Echo of London - Morse Defence\\Echo of London - Morse Defence\\Views\\MenuView.xaml.cs",
+              "RelativeDocumentMoniker": "Echo of London - Morse Defence\\Views\\MenuView.xaml.cs",
+              "ToolTip": "F:\\C#\\Echo of London - Morse Defence\\Echo of London - Morse Defence\\Views\\MenuView.xaml.cs",
+              "RelativeToolTip": "Echo of London - Morse Defence\\Views\\MenuView.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-28T09:26:53.932Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "MainWindow.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\User\\Documents\\GitHub\\Echo-of-London---Morse-Defence\\Echo of London - Morse Defence\\MainViews\\MainWindow.xaml.cs",
+              "DocumentMoniker": "F:\\C#\\Echo of London - Morse Defence\\Echo of London - Morse Defence\\MainViews\\MainWindow.xaml.cs",
               "RelativeDocumentMoniker": "Echo of London - Morse Defence\\MainViews\\MainWindow.xaml.cs",
-              "ToolTip": "C:\\Users\\User\\Documents\\GitHub\\Echo-of-London---Morse-Defence\\Echo of London - Morse Defence\\MainViews\\MainWindow.xaml.cs",
+              "ToolTip": "F:\\C#\\Echo of London - Morse Defence\\Echo of London - Morse Defence\\MainViews\\MainWindow.xaml.cs",
               "RelativeToolTip": "Echo of London - Morse Defence\\MainViews\\MainWindow.xaml.cs",
               "ViewState": "AgIAABYAAAAAAAAAAAAowBkAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-28T09:24:24.074Z"
+              "WhenOpened": "2025-10-28T09:24:24.074Z",
+              "EditorCaption": ""
             }
           ]
         }

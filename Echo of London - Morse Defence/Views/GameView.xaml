@@ -62,8 +62,7 @@
             <Setter Property="Margin" Value="30,0,40,0" />
             <Setter Property="BorderBrush" Value="#12b491" />
             <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="VerticalContentAlignment" Value="Top" />
-            <Setter Property="Padding" Value="0,20,0,0" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
         </Style>
 
         <Style TargetType="TextBlock" x:Key="Stats">
@@ -77,195 +76,195 @@
         </Style>
     </UserControl.Resources>
 
-    <Grid Margin="30">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*" />
-            <ColumnDefinition Width="3*" />
-            <ColumnDefinition Width="2*" />
-        </Grid.ColumnDefinitions>
+	<Grid Margin="30">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="2*" />
+			<ColumnDefinition Width="3*" />
+			<ColumnDefinition Width="2*" />
+		</Grid.ColumnDefinitions>
 
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-        </Grid.RowDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition />
+			<RowDefinition />
+			<RowDefinition />
+			<RowDefinition />
+			<RowDefinition />
+		</Grid.RowDefinitions>
 
-        <!-- LEWY PANEL (STATYSTYKI) -->
-        <Grid Grid.Column="0" Grid.RowSpan="2" Style="{StaticResource MyGrid}" Margin="20,20,40,20">
-            <StackPanel VerticalAlignment="Center" Margin="15">
-                <!-- PUNKTY -->
-                <StackPanel Orientation="Horizontal" Margin="0,5">
-                    <TextBlock Text="SCORE:" Style="{StaticResource StatLabel}" />
-                    <TextBlock x:Name="ScoreText" Text="0" Style="{StaticResource StatValue}" />
-                </StackPanel>
+		<!-- LEWY PANEL (STATYSTYKI) -->
+		<Grid Grid.Column="0" Grid.RowSpan="2" Style="{StaticResource MyGrid}" Margin="20,20,40,20">
+			<StackPanel VerticalAlignment="Center" Margin="15">
+				<!-- PUNKTY -->
+				<StackPanel Orientation="Horizontal" Margin="0,5">
+					<TextBlock Text="SCORE:" Style="{StaticResource StatLabel}" />
+					<TextBlock x:Name="ScoreText" Text="0" Style="{StaticResource StatValue}" />
+				</StackPanel>
 
-                <!-- FALA -->
-                <StackPanel Orientation="Horizontal" Margin="0,5">
-                    <TextBlock Text="WAVE:" Style="{StaticResource StatLabel}" />
-                    <TextBlock x:Name="WaveText" Text="1" Style="{StaticResource StatValue}" />
-                </StackPanel>
+				<!-- FALA -->
+				<StackPanel Orientation="Horizontal" Margin="0,5">
+					<TextBlock Text="WAVE:" Style="{StaticResource StatLabel}" />
+					<TextBlock x:Name="WaveText" Text="1" Style="{StaticResource StatValue}" />
+				</StackPanel>
 
-                <!-- ŻYCIA -->
-                <StackPanel Orientation="Horizontal" Margin="0,5">
-                    <TextBlock Text="LIFE:" Style="{StaticResource StatLabel}" />
-                    <TextBlock x:Name="LivesText" Text="1"
+				<!-- ŻYCIA -->
+				<StackPanel Orientation="Horizontal" Margin="0,5">
+					<TextBlock Text="LIFE:" Style="{StaticResource StatLabel}" />
+					<TextBlock x:Name="LivesText" Text="1"
                                Style="{StaticResource StatValue}" />
-                </StackPanel>
-            </StackPanel>
-        </Grid>
+				</StackPanel>
+			</StackPanel>
+		</Grid>
 
-        <Grid Grid.Column="0" Grid.Row="2" Grid.RowSpan="4" Style="{StaticResource MyGrid}" Margin="20,20,40,20">
-            <StackPanel Margin="20">
-                <TextBlock Text="STATS" FontFamily="OCR A Extended" FontSize="32" Foreground="#029273" HorizontalAlignment="Center" Margin="0,0,0,30" />
-                <TextBlock x:Name="SpeedStat" Style="{StaticResource Stats}" />
-                <TextBlock x:Name="SpawnStat" Style="{StaticResource Stats}" />
-                <TextBlock x:Name="PointsStat" Style="{StaticResource Stats}" />
-            </StackPanel>
-        </Grid>
+		<Grid Grid.Column="0" Grid.Row="2" Grid.RowSpan="4" Style="{StaticResource MyGrid}" Margin="20,20,40,20">
+			<StackPanel Margin="20">
+				<TextBlock Text="STATS" FontFamily="OCR A Extended" FontSize="32" Foreground="#029273" HorizontalAlignment="Center" Margin="0,0,0,30" />
+				<TextBlock x:Name="SpeedStat" Style="{StaticResource Stats}" />
+				<TextBlock x:Name="SpawnStat" Style="{StaticResource Stats}" />
+				<TextBlock x:Name="PointsStat" Style="{StaticResource Stats}" />
+			</StackPanel>
+		</Grid>
 
-        <!-- RADAR -->
-        <Grid Grid.Column="1" Grid.Row="0" Grid.RowSpan="4" Style="{StaticResource MyGrid}" Background="#003026">
-            <Viewbox Stretch="Uniform"
+		<!-- RADAR -->
+		<Grid Grid.Column="1" Grid.Row="0" Grid.RowSpan="4" Style="{StaticResource MyGrid}" Background="#003026">
+			<Viewbox Stretch="Uniform"
                      HorizontalAlignment="Center"
                      VerticalAlignment="Center"
                      Width="350" Height="350">
 
-                <Canvas Width="400" Height="400">
+				<Canvas Width="400" Height="400">
 
-                    <!-- KOŁO -->
-                    <Ellipse Width="400" Height="400"
+					<!-- KOŁO -->
+					<Ellipse Width="400" Height="400"
                              Stroke="#029273" StrokeThickness="10" />
 
-                    <!-- PIONOWA LINIA -->
-                    <Line X1="200" Y1="0" X2="200" Y2="400"
+					<!-- PIONOWA LINIA -->
+					<Line X1="200" Y1="0" X2="200" Y2="400"
                           Stroke="#027159" StrokeThickness="4" />
 
-                    <!-- LINIA -60 OD PIONU -->
-                    <Line X1="200" Y1="0" X2="200" Y2="400"
+					<!-- LINIA -60 OD PIONU -->
+					<Line X1="200" Y1="0" X2="200" Y2="400"
                           Stroke="#027159" StrokeThickness="4">
-                        <Line.RenderTransform>
-                            <RotateTransform Angle="-60" CenterX="200" CenterY="200" />
-                        </Line.RenderTransform>
-                    </Line>
+						<Line.RenderTransform>
+							<RotateTransform Angle="-60" CenterX="200" CenterY="200" />
+						</Line.RenderTransform>
+					</Line>
 
-                    <!--  LINIA 60 OD PIONU -->
-                    <Line X1="200" Y1="0" X2="200" Y2="400"
+					<!--  LINIA 60 OD PIONU -->
+					<Line X1="200" Y1="0" X2="200" Y2="400"
                           Stroke="#027159" StrokeThickness="4">
-                        <Line.RenderTransform>
-                            <RotateTransform Angle="60" CenterX="200" CenterY="200" />
-                        </Line.RenderTransform>
-                    </Line>
+						<Line.RenderTransform>
+							<RotateTransform Angle="60" CenterX="200" CenterY="200" />
+						</Line.RenderTransform>
+					</Line>
 
-                    <!-- TU POJAWIA SIĘ LITERA -->
-                    <Canvas x:Name="LetterCanvas"
+					<!-- TU POJAWIA SIĘ LITERA -->
+					<Canvas x:Name="LetterCanvas"
                             Width="400" Height="400"
                             IsHitTestVisible="False" />
 
-                    <!-- przeciwnicy -->
-                    <Canvas x:Name="EnemyCanvas"
+					<!-- przeciwnicy -->
+					<Canvas x:Name="EnemyCanvas"
                             Width="400" Height="400"
                             IsHitTestVisible="False" />
-                </Canvas>
-            </Viewbox>
-        </Grid>
+				</Canvas>
+			</Viewbox>
+		</Grid>
 
-        <!-- Dół - Panel wprowadzania Morse'a -->
-        <Grid Grid.Column="1" Grid.Row="4" Style="{StaticResource MyGrid}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
+		<!-- Dół - Panel wprowadzania Morse'a -->
+		<Grid Grid.Column="1" Grid.Row="4" Style="{StaticResource MyGrid}">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition />
+				<ColumnDefinition />
+				<ColumnDefinition />
+				<ColumnDefinition />
+				<ColumnDefinition />
+				<ColumnDefinition />
+			</Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="0" Style="{StaticResource TypingCell}">
-                <TextBlock x:Name="MorseSlot0" Style="{StaticResource TypingCellText}" />
-            </Grid>
-            <Grid Grid.Column="1" Style="{StaticResource TypingCell}">
-                <TextBlock x:Name="MorseSlot1" Style="{StaticResource TypingCellText}" />
-            </Grid>
-            <Grid Grid.Column="2" Style="{StaticResource TypingCell}">
-                <TextBlock x:Name="MorseSlot2" Style="{StaticResource TypingCellText}" />
-            </Grid>
-            <Grid Grid.Column="3" Style="{StaticResource TypingCell}">
-                <TextBlock x:Name="MorseSlot3" Style="{StaticResource TypingCellText}" />
-            </Grid>
-            <Grid Grid.Column="4" Style="{StaticResource TypingCell}">
-                <TextBlock x:Name="MorseSlot4" Style="{StaticResource TypingCellText}" />
-            </Grid>
-            <Grid Grid.Column="5" Style="{StaticResource TypingCell}">
-                <TextBlock x:Name="MorseSlot5" Style="{StaticResource TypingCellText}" />
-            </Grid>
-        </Grid>
+			<Grid Grid.Column="0" Style="{StaticResource TypingCell}">
+				<TextBlock x:Name="MorseSlot0" Style="{StaticResource TypingCellText}" />
+			</Grid>
+			<Grid Grid.Column="1" Style="{StaticResource TypingCell}">
+				<TextBlock x:Name="MorseSlot1" Style="{StaticResource TypingCellText}" />
+			</Grid>
+			<Grid Grid.Column="2" Style="{StaticResource TypingCell}">
+				<TextBlock x:Name="MorseSlot2" Style="{StaticResource TypingCellText}" />
+			</Grid>
+			<Grid Grid.Column="3" Style="{StaticResource TypingCell}">
+				<TextBlock x:Name="MorseSlot3" Style="{StaticResource TypingCellText}" />
+			</Grid>
+			<Grid Grid.Column="4" Style="{StaticResource TypingCell}">
+				<TextBlock x:Name="MorseSlot4" Style="{StaticResource TypingCellText}" />
+			</Grid>
+			<Grid Grid.Column="5" Style="{StaticResource TypingCell}">
+				<TextBlock x:Name="MorseSlot5" Style="{StaticResource TypingCellText}" />
+			</Grid>
+		</Grid>
 
-        <!-- gracz -->
-        <Ellipse Name="player" Height="20" Width="20"
+		<!-- gracz -->
+		<Ellipse Name="player" Height="20" Width="20"
                    Fill="#12b491"
                    Grid.Column="1" Grid.Row="0" Grid.RowSpan="4" />
 
-        <!-- PRAWY PANEL HINTS -->
-        <Grid x:Name="HintsPanel"
+		<!-- PRAWY PANEL HINTS -->
+		<Grid x:Name="HintsPanel"
       Grid.Column="2" Grid.RowSpan="5"
       Style="{StaticResource MyGrid}"
       Margin="40,20,20,143"
       Visibility="Collapsed">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
 
-            <TextBlock Text="HINTS"
+			<TextBlock Text="HINTS"
                FontFamily="OCR A Extended"
                FontSize="40"
                Foreground="#029273"
                HorizontalAlignment="Center"
                Margin="0,20,0,20" />
 
-            <ScrollViewer Grid.Row="1"
+			<ScrollViewer Grid.Row="1"
                   VerticalScrollBarVisibility="Hidden"
                   Margin="10,30,10,40">
-                <TextBlock x:Name="MorseDisplay"
+				<TextBlock x:Name="MorseDisplay"
                    FontFamily="OCR A Extended"
                    FontSize="38"
                    Height="300"
                    Foreground="#029273"
                    LineHeight="50"
                    HorizontalAlignment="Center" />
-            </ScrollViewer>
-        </Grid>
+			</ScrollViewer>
+		</Grid>
 
-        <Grid Grid.Column="3" Grid.Row="4" Margin="40,20,20,20">
-            <Button FontSize="50"
+		<Grid Grid.Column="3" Grid.Row="4" Margin="40,20,20,20">
+			<Button FontSize="50"
                     FontFamily="OCR A Extended"
                     Foreground="#029273"
                     Background="#262c33"
                     BorderThickness="0"
                     Click="Menu_Click">
-                MENU
-            </Button>
-        </Grid>
+				MENU
+			</Button>
+		</Grid>
 
-        <!-- GAME OVER OVERLAY -->
-        <Grid x:Name="GameOverOverlay"
+		<!-- GAME OVER OVERLAY -->
+		<Grid x:Name="GameOverOverlay"
               Grid.Column="0" Grid.ColumnSpan="3"
               Grid.Row="0" Grid.RowSpan="5"
               Background="#EE151b21"
               Visibility="Collapsed"
               Panel.ZIndex="100">
 
-            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                <TextBlock Text="GAME OVER"
+			<StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+				<TextBlock Text="GAME OVER"
                            FontFamily="OCR A Extended"
                            FontSize="80"
                            Foreground="#ff5555"
                            HorizontalAlignment="Center"
                            Margin="0,0,0,30" />
 
-                <TextBlock x:Name="FinalScoreText"
+				<TextBlock x:Name="FinalScoreText"
                            Text="SCORE: 0"
                            FontFamily="OCR A Extended"
                            FontSize="50"
@@ -273,7 +272,7 @@
                            HorizontalAlignment="Center"
                            Margin="0,0,0,10" />
 
-                <TextBlock x:Name="FinalWaveText"
+				<TextBlock x:Name="FinalWaveText"
                            Text="WAVE: 1"
                            FontFamily="OCR A Extended"
                            FontSize="30"
@@ -281,15 +280,15 @@
                            HorizontalAlignment="Center"
                            Margin="0,0,0,30" />
 
-                <!-- Pole na nazwę gracza -->
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
-                    <TextBlock Text="NAME:"
+				<!-- Pole na nazwę gracza -->
+				<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
+					<TextBlock Text="NAME:"
                                FontFamily="OCR A Extended"
                                FontSize="28"
                                Foreground="#029273"
                                VerticalAlignment="Center"
                                Margin="0,0,15,0" />
-                    <TextBox x:Name="PlayerNameTextBox"
+					<TextBox x:Name="PlayerNameTextBox"
                              Width="200"
                              FontFamily="OCR A Extended"
                              FontSize="24"
@@ -300,11 +299,11 @@
                              Padding="10,5"
                              MaxLength="15"
                              Text="PLAYER" />
-                </StackPanel>
+				</StackPanel>
 
-                <!-- Przyciski -->
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
-                    <Button Content="SAVE"
+				<!-- Przyciski -->
+				<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
+					<Button Content="SAVE"
                             FontFamily="OCR A Extended"
                             FontSize="30"
                             Foreground="#12b491"
@@ -315,7 +314,7 @@
                             Margin="10,0"
                             Click="SaveScore_Click" />
 
-                    <Button Content="MENU"
+					<Button Content="MENU"
                             FontFamily="OCR A Extended"
                             FontSize="30"
                             Foreground="#ff5555"
@@ -325,79 +324,86 @@
                             Padding="30,10"
                             Margin="10,0"
                             Click="Main_Click" />
-                </StackPanel>
+				</StackPanel>
 
-                <!-- Komunikat o zapisie -->
-                <TextBlock x:Name="SaveConfirmText"
+				<!-- Komunikat o zapisie -->
+				<TextBlock x:Name="SaveConfirmText"
                            Text=""
                            FontFamily="OCR A Extended"
                            FontSize="20"
                            Foreground="#12b491"
                            HorizontalAlignment="Center"
                            Margin="0,20,0,0" />
-            </StackPanel>
-        </Grid>
+			</StackPanel>
+		</Grid>
 
-        <!-- UPGRADE OVERLAY -->
-        <Grid x:Name="UpgradeOverlay"
+		<!-- UPGRADE OVERLAY -->
+		<Grid x:Name="UpgradeOverlay"
             Grid.Column="0" Grid.ColumnSpan="3"
             Grid.Row="0" Grid.RowSpan="5"
             Background="#EE151b21"
             Visibility="Collapsed">
 
-            <Border Background="#262c33"
+			<Border Background="#262c33"
             Height="450"
             Width="900"
             CornerRadius="10"
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
 
-                <StackPanel HorizontalAlignment="Center">
-                    <TextBlock Text="CHOOSE UPGRADE"
+				<StackPanel HorizontalAlignment="Center">
+					<TextBlock Text="CHOOSE UPGRADE"
                        FontFamily="OCR A Extended"
                        FontSize="40"
                        Foreground="#12b491"
                        HorizontalAlignment="Center"
                        Margin="0,30,0,30" />
 
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition />
+							<ColumnDefinition />
+							<ColumnDefinition />
+						</Grid.ColumnDefinitions>
 
-                        <Button x:Name="UpgradeBtn1" Grid.Column="0" Style="{StaticResource UpgradeButton}" />
-                        <Button x:Name="UpgradeBtn2" Grid.Column="1" Style="{StaticResource UpgradeButton}" />
-                        <Button x:Name="UpgradeBtn3" Grid.Column="2" Style="{StaticResource UpgradeButton}" />
-                    </Grid>
+						<Button x:Name="UpgradeBtn1" Grid.Column="0" Style="{StaticResource UpgradeButton}" />
+						<Button x:Name="UpgradeBtn2" Grid.Column="1" Style="{StaticResource UpgradeButton}" />
+						<Button x:Name="UpgradeBtn3" Grid.Column="2" Style="{StaticResource UpgradeButton}" />
+					</Grid>
 
-                    <!--
+					<!--
                     <Label Content="(Click to select)"
                            FontFamily="OCR A Extended"
                            FontSize="20"
                            Foreground="#029273"
                            HorizontalAlignment="Center"
                            Margin="0,15,0,10" />-->
-                </StackPanel>
-            </Border>
+				</StackPanel>
+			</Border>
 
-            <!--<Label Content="NEXT WAVE: +20% SPEED AND SPRAWN ENEMIES"
+			<Label Content="RESTOR LIFE AND +10% SPEED AND SPRAWN ENEMIES"
                    FontFamily="OCR A Extended"
                    FontSize="30"
                    Foreground="#12b491"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Bottom"
                    Margin="0,0,0,20" />
-            -->
-        </Grid>
+		</Grid>
 
-        <!-- UPGRADE OVERLAY -->
-        <Grid x:Name="WaitOverlay"
-    Grid.Column="0" Grid.ColumnSpan="3"
-    Grid.Row="0" Grid.RowSpan="5"
-    Background="#EE151b21"
-    Visibility="Collapsed">
-        </Grid>
-    </Grid>
+		<!-- Break OVERLAY -->
+		<Grid x:Name="BreakOverlay"
+            Grid.Column="0" Grid.ColumnSpan="3"
+            Grid.Row="0" Grid.RowSpan="5"
+
+            Visibility="Collapsed">
+            <!-- KOŁO -->
+			<Canvas Width="400" Height="400">
+				<Ellipse 
+					Width="340" 
+					Height="340"
+					Fill="#f2003026"
+					Margin="30,-32,0,0"/>
+			</Canvas>
+		</Grid>
+	</Grid>
 </UserControl>

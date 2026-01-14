@@ -38,15 +38,16 @@ namespace Echo_of_London___Morse_Defence.Views
         private bool pokazPolskie;
 
         //PARAMETRY GRACZA
-        private int zycia = 10;
-
-        private int maxZycia = 20;
+        private int zycia = 5;
+        private int odblokowaneZycia = 5;
+        private int maxZycia = 10;
 
         private int punkty = 0;
         private int fala = 1;
 
         //PARAMETRY FALI
         private int wrogowieNaFale = 5;
+        private int faleDoUlepszenia = 1;
 
         private bool zablokowanySpawn = false;
 
@@ -61,7 +62,6 @@ namespace Echo_of_London___Morse_Defence.Views
 
         //DZWIĘKI
         private MediaPlayer dzwiekZabicia;
-
         private MediaPlayer dzwiekObrazen;
 
         //DO ONE BUTTON MODE
@@ -175,7 +175,26 @@ namespace Echo_of_London___Morse_Defence.Views
         }
 
         private void OdswiezZycia()
-        { LivesText.Text = zycia.ToString(); }
+        {
+            LivesText.Text = zycia.ToString();
+
+            if (zycia == 1)
+            {
+                LivesText.Foreground = Brushes.Red;
+            }
+            else if (zycia == 2)
+            {
+                LivesText.Foreground = Brushes.Orange;
+            }
+            else if (zycia == 3)
+            {
+                LivesText.Foreground = Brushes.Yellow;
+            }
+            else
+            {
+                LivesText.Foreground = (Brush)new BrushConverter().ConvertFrom("#12b491");
+            }
+        }
 
         private void OdswiezPunkty()
         { ScoreText.Text = punkty.ToString(); }
@@ -455,6 +474,18 @@ namespace Echo_of_London___Morse_Defence.Views
             aktualneListery = GenerujLosoweListery();
             PokazListeryNaSektor(aktualneListery);
             if (pokazPodpowiedzi) PokazPanelPodpowiedzi(aktualneListery);
+
+            BreakOverlay.Visibility = Visibility.Visible;
+            zablokowanySpawn = true;
+
+            var timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(2.0) };
+            timer.Tick += (s, e) =>
+            {
+                timer.Stop();
+                BreakOverlay.Visibility = Visibility.Collapsed;
+                zablokowanySpawn = false;
+            };
+            timer.Start();
         }
 
         private void PokazPanelPodpowiedzi(string litery)
@@ -578,8 +609,108 @@ namespace Echo_of_London___Morse_Defence.Views
         private void ZakonczFale()
         {
             zablokowanySpawn = true;
-            PokazUpgradeOverlay();
+            if (fala % faleDoUlepszenia == 0)
+            {
+                PokazUpgradeOverlay();
+            }
+            else
+            {
+                PrzejdzDoNastepnejFali();
+            }
         }
+
+        private void AktualizujStatystykiNaOverlay()
+        {
+            SpeedStat.Text = $"ENEMY SPEED: {(modyfikatorPredkosci * 100):0}%";
+            SpawnStat.Text = $"SPAWN RATE: {(modyfikatorSpawnu * 100):0}%";
+            PointsStat.Text = $"POINTS MULTI: x{mnoznikPunktow:0.00}";
+        }
+
+        private void PrzejdzDoNastepnejFali()
+        {
+            fala++;
+            OdswiezFale();
+
+            modyfikatorPredkosci *= 1.05;
+            modyfikatorSpawnu *= 1.05;
+
+            stworzeniWrogowie = 0;
+            zablokowanySpawn = false;
+
+            AktualizujStatystykiNaOverlay();
+
+            timerWrogow.Stop();
+            timerWrogow.Interval = TimeSpan.FromSeconds(interwalSpawnu * modyfikatorSpawnu);
+            timerWrogow.Start();
+
+            NowaTura();
+        }
+
+        private double PobierzBezpiecznyKat()
+        {
+            double[] zakazane = { 90, 270, 30, 150, 210, 330 };
+            double margines = 10;
+
+            var zakresy = new List<(double start, double end)>();
+            foreach (double kat in zakazane)
+            {
+                double start = (kat - margines + 360) % 360;
+                double end = (kat + margines + 360) % 360;
+                zakresy.Add((start, end));
+            }
+
+            while (true)
+            {
+                double kat = losowy.NextDouble() * 360;
+                bool bezpieczny = true;
+
+                foreach (var zakres in zakresy)
+                {
+                    if (zakres.start <= zakres.end)
+                    {
+                        if (kat >= zakres.start && kat <= zakres.end) { bezpieczny = false; break; }
+                    }
+                    else
+                    {
+                        if (kat >= zakres.start || kat <= zakres.end) { bezpieczny = false; break; }
+                    }
+                }
+
+                if (bezpieczny) return kat * Math.PI / 180.0;
+            }
+        }
+
+        private UIElement UtworzWrogaUI(double x, double y)
+        {
+            var kontener = new Grid { Width = 30, Height = 30, IsHitTestVisible = false };
+
+            var wypelnienie = new Ellipse
+            {
+                Width = 18,
+                Height = 18,
+                Fill = (Brush)new BrushConverter().ConvertFrom("#12b491"),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+
+            var obwodka = new Ellipse
+            {
+                Width = 30,
+                Height = 30,
+                Stroke = (Brush)new BrushConverter().ConvertFrom("#029273"),
+                StrokeThickness = 4,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+
+            kontener.Children.Add(obwodka);
+            kontener.Children.Add(wypelnienie);
+            Canvas.SetLeft(kontener, x - 15);
+            Canvas.SetTop(kontener, y - 15);
+            return kontener;
+        }
+
+        // ULEPSZENIA
 
         private void PokazUpgradeOverlay()
         {
@@ -665,13 +796,17 @@ namespace Echo_of_London___Morse_Defence.Views
             btn.Content = tekst;
         }
 
-        private void AktualizujStatystykiNaOverlay()
+        private void ZastosujUlepszenieIZamknij()
         {
-            SpeedStat.Text = $"ENEMY SPEED: {(modyfikatorPredkosci * 100):0}%";
-            SpawnStat.Text = $"SPAWN RATE: {(modyfikatorSpawnu * 100):0}%";
-            PointsStat.Text = $"POINTS MULTI: x{mnoznikPunktow:0.00}";
+            UpgradeOverlay.Visibility = Visibility.Collapsed;
+            zablokowanySpawn = false;
+            wrogowieNaFale += 1;
+            zycia = odblokowaneZycia;
+            OdswiezZycia();
+            PrzejdzDoNastepnejFali();
         }
 
+        // DEFINICJE ULEPSZEŃ
         private void Upgrade_SlowerEnemies(object sender, RoutedEventArgs e)
         {
             modyfikatorPredkosci *= 0.9;
@@ -694,97 +829,24 @@ namespace Echo_of_London___Morse_Defence.Views
         {
             zycia += 1;
             OdswiezZycia();
+            odblokowaneZycia++;
             ZastosujUlepszenieIZamknij();
         }
 
-        private void ZastosujUlepszenieIZamknij()
+
+        // DŹWIĘKI
+        private void GrajDzwiek(string sciezka, double glosnosc)
         {
-            UpgradeOverlay.Visibility = Visibility.Collapsed;
-
-            zablokowanySpawn = false;
-
-            fala++;
-            OdswiezFale();
-
-            modyfikatorPredkosci *= 1.1;
-            modyfikatorSpawnu *= 1.1;
-
-            stworzeniWrogowie = 0;
-            zablokowanySpawn = false;
-
-            AktualizujStatystykiNaOverlay();
-
-            timerWrogow.Stop();
-            timerWrogow.Interval = TimeSpan.FromSeconds(interwalSpawnu);
-            timerWrogow.Start();
-
-            NowaTura();
+            var player = new MediaPlayer();
+            player.Open(new Uri(sciezka, UriKind.Relative));
+            player.Volume = glosnosc;
+            player.Play();
         }
 
-        private double PobierzBezpiecznyKat()
-        {
-            double[] zakazane = { 90, 270, 30, 150, 210, 330 };
-            double margines = 10;
+        private void StartDzwiekZabicia() => GrajDzwiek("Assets/Sounds/LifeDroplet.mp3", 0.7);
 
-            var zakresy = new List<(double start, double end)>();
-            foreach (double kat in zakazane)
-            {
-                double start = (kat - margines + 360) % 360;
-                double end = (kat + margines + 360) % 360;
-                zakresy.Add((start, end));
-            }
-
-            while (true)
-            {
-                double kat = losowy.NextDouble() * 360;
-                bool bezpieczny = true;
-
-                foreach (var zakres in zakresy)
-                {
-                    if (zakres.start <= zakres.end)
-                    {
-                        if (kat >= zakres.start && kat <= zakres.end) { bezpieczny = false; break; }
-                    }
-                    else
-                    {
-                        if (kat >= zakres.start || kat <= zakres.end) { bezpieczny = false; break; }
-                    }
-                }
-
-                if (bezpieczny) return kat * Math.PI / 180.0;
-            }
-        }
-
-        private UIElement UtworzWrogaUI(double x, double y)
-        {
-            var kontener = new Grid { Width = 30, Height = 30, IsHitTestVisible = false };
-
-            var wypelnienie = new Ellipse
-            {
-                Width = 18,
-                Height = 18,
-                Fill = (Brush)new BrushConverter().ConvertFrom("#12b491"),
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center
-            };
-
-            var obwodka = new Ellipse
-            {
-                Width = 30,
-                Height = 30,
-                Stroke = (Brush)new BrushConverter().ConvertFrom("#029273"),
-                StrokeThickness = 4,
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center
-            };
-
-            kontener.Children.Add(obwodka);
-            kontener.Children.Add(wypelnienie);
-            Canvas.SetLeft(kontener, x - 15);
-            Canvas.SetTop(kontener, y - 15);
-            return kontener;
-        }
-
+        private void StartDzwiekObrazen() => GrajDzwiek("Assets/Sounds/Dead.mp3", 0.05);        
+        
         private void Main_Click(object sender, RoutedEventArgs e)
         {
             SoundHelper.PlayClick();
@@ -798,19 +860,6 @@ namespace Echo_of_London___Morse_Defence.Views
             timerWejscia.Stop();
             oknoGlowne.NavigateTo(new MenuView(oknoGlowne, poziomTrudnosci, pokazPodpowiedzi));
         }
-
-        private void GrajDzwiek(string sciezka, double glosnosc)
-        {
-            var player = new MediaPlayer();
-            player.Open(new Uri(sciezka, UriKind.Relative));
-            player.Volume = glosnosc;
-            player.Play();
-        }
-
-        // Użycie:
-        private void StartDzwiekZabicia() => GrajDzwiek("Assets/Sounds/LifeDroplet.mp3", 0.7);
-
-        private void StartDzwiekObrazen() => GrajDzwiek("Assets/Sounds/Dead.mp3", 0.05);
     }
 
     public class ScoreEntry

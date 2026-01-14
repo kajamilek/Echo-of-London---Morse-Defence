@@ -39,7 +39,6 @@ namespace Echo_of_London___Morse_Defence.Views
         void Exit_Click(object sender, RoutedEventArgs e)
         {
             SoundHelper.PlayClick();
-            // wróć do gry i wywołaj game over
             oknoGlowne.GoBack();
 
             if (oknoGlowne.MainContent.Content is GameView gra)
