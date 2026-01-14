@@ -12,7 +12,7 @@ namespace Echo_of_London___Morse_Defence
             try
             {
                 dzwiekKlikniecia = new MediaPlayer();
-                dzwiekKlikniecia.Open(new Uri("Assets/Sounds/Click.mp3", UriKind.Relative));
+                dzwiekKlikniecia.Open(new Uri("Assets/Sounds/Klik.mp3", UriKind.Relative));
                 dzwiekKlikniecia.Volume = 0.5;
                 dzwiekKlikniecia.Play();
             }

@@ -56,13 +56,14 @@
             <Setter Property="FontSize" Value="35" />
             <Setter Property="Foreground" Value="#12b491" />
             <Setter Property="Background" Value="#262c33" />
-            <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="Height" Value="300" />
             <Setter Property="Width" Value="200" />
             <Setter Property="Margin" Value="30,0,40,0" />
             <Setter Property="BorderBrush" Value="#12b491" />
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            
         </Style>
 
         <Style TargetType="TextBlock" x:Key="Stats">
@@ -109,8 +110,8 @@
 				<!-- ŻYCIA -->
 				<StackPanel Orientation="Horizontal" Margin="0,5">
 					<TextBlock Text="LIFE:" Style="{StaticResource StatLabel}" />
-					<TextBlock x:Name="LivesText" Text="1"
-                               Style="{StaticResource StatValue}" />
+					<TextBlock x:Name="LivesText" Text="1" Style="{StaticResource StatValue}" />
+                    <TextBlock x:Name="ShieldText" Text="+0" Style="{StaticResource StatValue}" Foreground="LightBlue" Margin="5,0,0,0"/>
 				</StackPanel>
 			</StackPanel>
 		</Grid>
@@ -120,8 +121,10 @@
 				<TextBlock Text="STATS" FontFamily="OCR A Extended" FontSize="32" Foreground="#029273" HorizontalAlignment="Center" Margin="0,0,0,30" />
 				<TextBlock x:Name="SpeedStat" Style="{StaticResource Stats}" />
 				<TextBlock x:Name="SpawnStat" Style="{StaticResource Stats}" />
-				<TextBlock x:Name="PointsStat" Style="{StaticResource Stats}" />
-			</StackPanel>
+                <TextBlock x:Name="PointsStat" Style="{StaticResource Stats}" />
+
+                <TextBlock x:Name="ComboText" Visibility="Collapsed" Style="{StaticResource Stats}" Margin="0,70,0,0" HorizontalAlignment="Center" FontSize="35"/>
+            </StackPanel>
 		</Grid>
 
 		<!-- RADAR -->

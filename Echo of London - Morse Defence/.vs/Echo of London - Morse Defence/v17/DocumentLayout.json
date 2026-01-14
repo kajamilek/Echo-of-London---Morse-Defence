@@ -1,0 +1,70 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "F:\\C#\\Echo of London - Morse Defence\\Echo of London - Morse Defence\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{44828A38-A20C-47F5-BF56-A8DF75F3DB6A}|Echo of London - Morse Defence.csproj|f:\\c#\\echo of london - morse defence\\echo of london - morse defence\\views\\gameview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44828A38-A20C-47F5-BF56-A8DF75F3DB6A}|Echo of London - Morse Defence.csproj|solutionrelative:views\\gameview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44828A38-A20C-47F5-BF56-A8DF75F3DB6A}|Echo of London - Morse Defence.csproj|f:\\c#\\echo of london - morse defence\\echo of london - morse defence\\views\\gameview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{44828A38-A20C-47F5-BF56-A8DF75F3DB6A}|Echo of London - Morse Defence.csproj|solutionrelative:views\\gameview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44828A38-A20C-47F5-BF56-A8DF75F3DB6A}|Echo of London - Morse Defence.csproj|f:\\c#\\echo of london - morse defence\\echo of london - morse defence\\soundhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{44828A38-A20C-47F5-BF56-A8DF75F3DB6A}|Echo of London - Morse Defence.csproj|solutionrelative:soundhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 238,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "SoundHelper.cs",
+              "DocumentMoniker": "F:\\C#\\Echo of London - Morse Defence\\Echo of London - Morse Defence\\SoundHelper.cs",
+              "RelativeDocumentMoniker": "SoundHelper.cs",
+              "ToolTip": "F:\\C#\\Echo of London - Morse Defence\\Echo of London - Morse Defence\\SoundHelper.cs",
+              "RelativeToolTip": "SoundHelper.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-14T14:36:07.549Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "GameView.xaml",
+              "DocumentMoniker": "F:\\C#\\Echo of London - Morse Defence\\Echo of London - Morse Defence\\Views\\GameView.xaml",
+              "RelativeDocumentMoniker": "Views\\GameView.xaml",
+              "ToolTip": "F:\\C#\\Echo of London - Morse Defence\\Echo of London - Morse Defence\\Views\\GameView.xaml",
+              "RelativeToolTip": "Views\\GameView.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-01-14T14:27:57.316Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "GameView.xaml.cs",
+              "DocumentMoniker": "F:\\C#\\Echo of London - Morse Defence\\Echo of London - Morse Defence\\Views\\GameView.xaml.cs",
+              "RelativeDocumentMoniker": "Views\\GameView.xaml.cs",
+              "ToolTip": "F:\\C#\\Echo of London - Morse Defence\\Echo of London - Morse Defence\\Views\\GameView.xaml.cs",
+              "RelativeToolTip": "Views\\GameView.xaml.cs",
+              "ViewState": "AgIAABEEAAAAAAAAAAAYwFMEAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-14T14:27:59.971Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

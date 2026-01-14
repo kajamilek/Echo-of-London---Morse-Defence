@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -41,15 +42,17 @@ namespace Echo_of_London___Morse_Defence.Views
         private int zycia = 5;
         private int odblokowaneZycia = 5;
         private int maxZycia = 10;
+        private int shield = 0;
 
         private int punkty = 0;
         private int fala = 1;
 
         //PARAMETRY FALI
-        private int wrogowieNaFale = 5;
-        private int faleDoUlepszenia = 1;
+        private int wrogowieNaFale = 2;
+        private int faleDoUlepszenia = 2;
 
         private bool zablokowanySpawn = false;
+        private bool falaRozpoczeta = false;
 
         private double mnoznikPunktow = 1;
         private double modyfikatorPredkosci = 1;
@@ -59,6 +62,10 @@ namespace Echo_of_London___Morse_Defence.Views
         private bool wynikZapisany = false;
 
         private int stworzeniWrogowie = 0;
+
+        private int combo = 1;
+        private List<int> sektoryX2 = new List<int>();
+        private int maxSektorowX2 = 3;
 
         //DZWIĘKI
         private MediaPlayer dzwiekZabicia;
@@ -178,23 +185,26 @@ namespace Echo_of_London___Morse_Defence.Views
         {
             LivesText.Text = zycia.ToString();
 
-            if (zycia == 1)
+            if (shield > 0)
             {
-                LivesText.Foreground = Brushes.Red;
-            }
-            else if (zycia == 2)
-            {
-                LivesText.Foreground = Brushes.Orange;
-            }
-            else if (zycia == 3)
-            {
-                LivesText.Foreground = Brushes.Yellow;
+                ShieldText.Text = $"+{shield}";
+                ShieldText.Visibility = Visibility.Visible;
             }
             else
             {
-                LivesText.Foreground = (Brush)new BrushConverter().ConvertFrom("#12b491");
+                ShieldText.Visibility = Visibility.Collapsed;
             }
+
+            if (zycia == 1)
+                LivesText.Foreground = Brushes.Red;
+            else if (zycia == 2)
+                LivesText.Foreground = Brushes.Orange;
+            else if (zycia == 3)
+                LivesText.Foreground = Brushes.Yellow;
+            else
+                LivesText.Foreground = (Brush)new BrushConverter().ConvertFrom("#12b491");
         }
+
 
         private void OdswiezPunkty()
         { ScoreText.Text = punkty.ToString(); }
@@ -205,11 +215,25 @@ namespace Echo_of_London___Morse_Defence.Views
         private void StracZycie()
         {
             if (koniecGry) return;
+
+            if (shield > 0)
+            {
+                shield--;
+                OdswiezZycia();
+                StartDzwiekShield();
+                return; 
+            }
+
             zycia--;
             OdswiezZycia();
             MignijGracza();
-            if (zycia <= 0) ZakonczGre();
+            combo = 1;
+            OdswiezCombo();
+
+            if (zycia <= 0)
+                ZakonczGre();
         }
+
 
         private void DodajPunkty(int ile)
         {
@@ -432,6 +456,8 @@ namespace Echo_of_London___Morse_Defence.Views
                 }
             }
 
+            bool trafienie = false;
+
             if (znalezionaLitera.HasValue)
             {
                 int indeksSektor = aktualneListery.IndexOf(znalezionaLitera.Value);
@@ -440,10 +466,34 @@ namespace Echo_of_London___Morse_Defence.Views
                     bool zniszczony = ZniszczWrogaWSektor(indeksSektor);
                     if (zniszczony)
                     {
-                        DodajPunkty((int)(100 * mnoznikPunktow));
+                        trafienie = true;
+
+                        double mnoznikSektora = sektoryX2.Contains(indeksSektor) ? 2.0 : 1.0;
+                        double mnoznikCombo = combo; 
+                        int punktyDoZdobycia = (int)(100 * mnoznikPunktow * mnoznikSektora * mnoznikCombo);
+                        DodajPunkty(punktyDoZdobycia);
+                        
+                        combo++;
+                        OdswiezCombo();
                     }
                 }
             }
+
+            if (!trafienie)
+            {
+                if (shield > 0)
+                {
+                    shield--;
+                    OdswiezZycia();
+                    StartDzwiekShield();
+                }
+                else
+                {
+                    combo = 1;
+                    OdswiezCombo();
+                }
+            }
+
 
             WyczyscMorse();
         }
@@ -471,21 +521,29 @@ namespace Echo_of_London___Morse_Defence.Views
 
         private void NowaTura()
         {
-            aktualneListery = GenerujLosoweListery();
+            if (!falaRozpoczeta)
+            {
+                aktualneListery = GenerujLosoweListery();
+            }
+
             PokazListeryNaSektor(aktualneListery);
             if (pokazPodpowiedzi) PokazPanelPodpowiedzi(aktualneListery);
 
-            BreakOverlay.Visibility = Visibility.Visible;
-            zablokowanySpawn = true;
-
-            var timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(2.0) };
-            timer.Tick += (s, e) =>
+            if (!falaRozpoczeta)
             {
-                timer.Stop();
-                BreakOverlay.Visibility = Visibility.Collapsed;
-                zablokowanySpawn = false;
-            };
-            timer.Start();
+                BreakOverlay.Visibility = Visibility.Visible;
+                zablokowanySpawn = true;
+
+                var timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(2.0) };
+                timer.Tick += (s, e) =>
+                {
+                    timer.Stop();
+                    BreakOverlay.Visibility = Visibility.Collapsed;
+                    zablokowanySpawn = false;
+                    falaRozpoczeta = true;
+                };
+                timer.Start();
+            }
         }
 
         private void PokazPanelPodpowiedzi(string litery)
@@ -515,6 +573,7 @@ namespace Echo_of_London___Morse_Defence.Views
             if (litery.Length < 6) return;
 
             double promien = 220;
+            double promienTla = 60;
 
             for (int i = 0; i < 6; i++)
             {
@@ -522,12 +581,18 @@ namespace Echo_of_London___Morse_Defence.Views
                 double x = srodekX + Math.Cos(katRad) * promien;
                 double y = srodekY + Math.Sin(katRad) * promien;
 
+                if (sektoryX2.Contains(i))
+                {
+                    RysujPodswietlonySektor(i);
+                }
+
+
                 TextBlock tb = new TextBlock
                 {
                     Text = litery[i].ToString(),
                     FontFamily = new FontFamily("OCR A Extended"),
                     FontSize = 48,
-                    Foreground = kolorLinii
+                    Foreground = sektoryX2.Contains(i) ? Brushes.Gold : kolorLinii
                 };
 
                 tb.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
@@ -540,6 +605,58 @@ namespace Echo_of_London___Morse_Defence.Views
                 LetterCanvas.Children.Add(tb);
             }
         }
+
+        private void RysujPodswietlonySektor(int sektor)
+        {
+            double promien = 200; 
+            double startKat = sektor * 60 - 30;
+
+            double endKat = startKat + 60;
+
+            Point srodek = new Point(srodekX, srodekY);
+
+            Point p1 = PunktNaOkregu(startKat, promien);
+            Point p2 = PunktNaOkregu(endKat, promien);
+
+            PathFigure figura = new PathFigure
+            {
+                StartPoint = srodek,
+                IsClosed = true
+            };
+
+            figura.Segments.Add(new LineSegment(p1, true));
+            figura.Segments.Add(new ArcSegment(
+                p2,
+                new Size(promien, promien),
+                0,
+                false,
+                SweepDirection.Clockwise,
+                true));
+            figura.Segments.Add(new LineSegment(srodek, true));
+
+            PathGeometry geometria = new PathGeometry();
+            geometria.Figures.Add(figura);
+
+            System.Windows.Shapes.Path sektorPath = new System.Windows.Shapes.Path
+            {
+                Data = geometria,
+                Fill = Brushes.Gold,
+                Opacity = 0.25,
+                IsHitTestVisible = false
+            };
+
+            LetterCanvas.Children.Insert(0, sektorPath);
+        }
+
+        private Point PunktNaOkregu(double katStopnie, double promien)
+        {
+            double rad = katStopnie * Math.PI / 180;
+            return new Point(
+                srodekX + Math.Cos(rad) * promien,
+                srodekY + Math.Sin(rad) * promien
+            );
+        }
+
 
         private void StworzWroga()
         {
@@ -631,11 +748,12 @@ namespace Echo_of_London___Morse_Defence.Views
             fala++;
             OdswiezFale();
 
-            modyfikatorPredkosci *= 1.05;
-            modyfikatorSpawnu *= 1.05;
+            modyfikatorPredkosci += 0.05;
+            modyfikatorSpawnu += 0.05;
 
             stworzeniWrogowie = 0;
             zablokowanySpawn = false;
+            falaRozpoczeta = false;
 
             AktualizujStatystykiNaOverlay();
 
@@ -710,6 +828,19 @@ namespace Echo_of_London___Morse_Defence.Views
             return kontener;
         }
 
+        private void OdswiezCombo()
+        {
+            if (combo > 1)
+            {
+                ComboText.Text = $"COMBO: x{combo }";
+                ComboText.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                ComboText.Visibility = Visibility.Collapsed;
+            }
+        }
+
         // ULEPSZENIA
 
         private void PokazUpgradeOverlay()
@@ -729,15 +860,22 @@ namespace Echo_of_London___Morse_Defence.Views
             SlowerEnemies,
             SlowerSpawn,
             MorePoints,
-            MoreLife
+            MoreLife,
+            LessEnemies,
+            SectorX2,
+            Shield
         }
+
 
         private List<TypUlepszenia> dostepneUlepszenia = new List<TypUlepszenia>
         {
             TypUlepszenia.SlowerEnemies,
             TypUlepszenia.SlowerSpawn,
             TypUlepszenia.MorePoints,
-            TypUlepszenia.MoreLife
+            TypUlepszenia.MoreLife,
+            TypUlepszenia.LessEnemies,
+            TypUlepszenia.SectorX2,
+            TypUlepszenia.Shield
         };
 
         private List<TypUlepszenia> wylosowaneUlepszenia;
@@ -749,6 +887,16 @@ namespace Echo_of_London___Morse_Defence.Views
             if (zycia >= maxZycia)
             {
                 dozwolone.Remove(TypUlepszenia.MoreLife);
+            }
+
+            if (wrogowieNaFale <= 1)
+            {
+                dozwolone.Remove(TypUlepszenia.LessEnemies);
+            }
+
+            if (sektoryX2.Count >= maxSektorowX2)
+            {
+                dozwolone.Remove(TypUlepszenia.SectorX2);
             }
 
             wylosowaneUlepszenia = dozwolone
@@ -763,6 +911,9 @@ namespace Echo_of_London___Morse_Defence.Views
             btn.Click -= Upgrade_SlowerSpawn;
             btn.Click -= Upgrade_MorePoints;
             btn.Click -= Upgrade_MoreLife;
+            btn.Click -= Upgrade_LessEnemies;
+            btn.Click -= Upgrade_SectorX2;
+            btn.Click -= Upgrade_Shield;
 
             TextBlock tekst = new TextBlock
             {
@@ -770,27 +921,80 @@ namespace Echo_of_London___Morse_Defence.Views
                 TextAlignment = TextAlignment.Center
             };
 
+            void UstawTekst(string tytul, string opis)
+            {
+                tekst.Inlines.Clear();
+                tekst.Inlines.Add(new Run(tytul));
+                tekst.Inlines.Add(new LineBreak());
+                tekst.Inlines.Add(new LineBreak());
+                tekst.Inlines.Add(new Run(opis)
+                {
+                    FontSize = 15
+                });
+            }
+
             switch (typ)
             {
                 case TypUlepszenia.SlowerEnemies:
-                    tekst.Text = "SLOWER ENEMIES";
+                    UstawTekst(
+                        "SLOWER ENEMIES",
+                        "Enemies move 10% slower"
+                    );
                     btn.Click += Upgrade_SlowerEnemies;
                     break;
 
                 case TypUlepszenia.SlowerSpawn:
-                    tekst.Text = "SLOWER SPAWN";
+                    UstawTekst(
+                        "SLOWER SPAWN",
+                        "Enemies spawn 10% slower"
+                    );
                     btn.Click += Upgrade_SlowerSpawn;
                     break;
 
                 case TypUlepszenia.MorePoints:
-                    tekst.Text = "MORE POINTS";
+                    UstawTekst(
+                        "MORE POINTS",
+                        "+25% score multiplier"
+                    );
                     btn.Click += Upgrade_MorePoints;
                     break;
 
+
                 case TypUlepszenia.MoreLife:
-                    tekst.Text = "MORE LIFE";
+                    UstawTekst(
+                        "MORE LIFE",
+                        "+1 max life (max 10)"
+                    );
                     btn.Click += Upgrade_MoreLife;
                     break;
+
+
+                case TypUlepszenia.LessEnemies:
+                    UstawTekst(
+                        "LESS ENEMIES",
+                        "-1 enemy per wave"
+                    );
+                    btn.Click += Upgrade_LessEnemies;
+                    break;
+
+
+                case TypUlepszenia.SectorX2:
+                    UstawTekst(
+                        "SECTOR X2",
+                        "Double points in one sector (max 3)"
+                    );
+                    btn.Click += Upgrade_SectorX2;
+                    break;
+
+
+                case TypUlepszenia.Shield:
+                    UstawTekst(
+                        "SHIELD",
+                        "Blocks damage and combo loss once"
+                    );
+                    btn.Click += Upgrade_Shield;
+                    break;
+
             }
 
             btn.Content = tekst;
@@ -803,6 +1007,8 @@ namespace Echo_of_London___Morse_Defence.Views
             wrogowieNaFale += 1;
             zycia = odblokowaneZycia;
             OdswiezZycia();
+            modyfikatorPredkosci += 0.05;
+            modyfikatorSpawnu += 0.05;
             PrzejdzDoNastepnejFali();
         }
 
@@ -833,20 +1039,80 @@ namespace Echo_of_London___Morse_Defence.Views
             ZastosujUlepszenieIZamknij();
         }
 
-
-        // DŹWIĘKI
-        private void GrajDzwiek(string sciezka, double glosnosc)
+        private void Upgrade_LessEnemies(object sender, RoutedEventArgs e)
         {
-            var player = new MediaPlayer();
-            player.Open(new Uri(sciezka, UriKind.Relative));
-            player.Volume = glosnosc;
-            player.Play();
+            if (wrogowieNaFale > 1)
+            {
+                wrogowieNaFale -= 1;
+            }
+            ZastosujUlepszenieIZamknij();
         }
 
-        private void StartDzwiekZabicia() => GrajDzwiek("Assets/Sounds/LifeDroplet.mp3", 0.7);
+        private void Upgrade_SectorX2(object sender, RoutedEventArgs e)
+        {
+            if (sektoryX2.Count < maxSektorowX2)
+            {
+                int nowySektorX2 = LosujNowySektorX2();
+                if (nowySektorX2 >= 0)
+                {
+                    sektoryX2.Add(nowySektorX2);
+                }
+            }
+            ZastosujUlepszenieIZamknij();
+        }
 
-        private void StartDzwiekObrazen() => GrajDzwiek("Assets/Sounds/Dead.mp3", 0.05);        
-        
+        private int LosujNowySektorX2()
+        {
+            var dostepneSektory = new List<int> { 0, 1, 2, 3, 4, 5 };
+            foreach (int s in sektoryX2)
+            {
+                dostepneSektory.Remove(s);
+            }
+
+            if (dostepneSektory.Count == 0) return -1;
+
+            return dostepneSektory[losowy.Next(dostepneSektory.Count)];
+        }
+
+        private void Upgrade_Shield(object sender, RoutedEventArgs e)
+        {
+            shield++;
+            OdswiezZycia();
+            ZastosujUlepszenieIZamknij();
+        }
+
+
+        // DŹWIĘKI
+        private void StartDzwiekZabicia()
+        {
+            dzwiekZabicia = new MediaPlayer();
+            dzwiekZabicia.Open(new Uri("Assets/Sounds/LifeDroplet.mp3", UriKind.Relative));
+            dzwiekZabicia.Volume = 0.7;
+            dzwiekZabicia.Stop();
+            dzwiekZabicia.Position = TimeSpan.Zero;
+            dzwiekZabicia.Play();
+        }
+
+        private void StartDzwiekObrazen()
+        {
+            dzwiekObrazen = new MediaPlayer();
+            dzwiekObrazen.Open(new Uri("Assets/Sounds/Dead.mp3", UriKind.Relative));
+            dzwiekObrazen.Volume = 0.05;
+            dzwiekObrazen.Stop();
+            dzwiekObrazen.Position = TimeSpan.Zero;
+            dzwiekObrazen.Play();
+        }
+
+        private void StartDzwiekShield()
+        {
+            dzwiekObrazen = new MediaPlayer();
+            dzwiekObrazen.Open(new Uri("Assets/Sounds/Shield.mp3", UriKind.Relative));
+            dzwiekObrazen.Volume = 1;
+            dzwiekObrazen.Stop();
+            dzwiekObrazen.Position = TimeSpan.Zero;
+            dzwiekObrazen.Play();
+        }
+
         private void Main_Click(object sender, RoutedEventArgs e)
         {
             SoundHelper.PlayClick();
