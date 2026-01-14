@@ -1,0 +1,28 @@
+C:\Users\User\Documents\GitHub\Echo-of-London---Morse-Defence\Echo of London - Morse Defence\obj\Debug\Echo of London - Morse Defence.csproj.AssemblyReference.cache
+C:\Users\User\Documents\GitHub\Echo-of-London---Morse-Defence\Echo of London - Morse Defence\obj\Debug\Views\DifficultyView.g.cs
+C:\Users\User\Documents\GitHub\Echo-of-London---Morse-Defence\Echo of London - Morse Defence\obj\Debug\Views\GameView.g.cs
+C:\Users\User\Documents\GitHub\Echo-of-London---Morse-Defence\Echo of London - Morse Defence\obj\Debug\Views\MenuView.g.cs
+C:\Users\User\Documents\GitHub\Echo-of-London---Morse-Defence\Echo of London - Morse Defence\obj\Debug\Views\OptionsView.g.cs
+C:\Users\User\Documents\GitHub\Echo-of-London---Morse-Defence\Echo of London - Morse Defence\obj\Debug\Views\ScoreboardView.g.cs
+C:\Users\User\Documents\GitHub\Echo-of-London---Morse-Defence\Echo of London - Morse Defence\obj\Debug\Views\StartView.g.cs
+C:\Users\User\Documents\GitHub\Echo-of-London---Morse-Defence\Echo of London - Morse Defence\obj\Debug\MainViews\MainWindow.g.cs
+C:\Users\User\Documents\GitHub\Echo-of-London---Morse-Defence\Echo of London - Morse Defence\obj\Debug\App.g.cs
+C:\Users\User\Documents\GitHub\Echo-of-London---Morse-Defence\Echo of London - Morse Defence\obj\Debug\Echo of London - Morse Defence_MarkupCompile.cache
+C:\Users\User\Documents\GitHub\Echo-of-London---Morse-Defence\Echo of London - Morse Defence\obj\Debug\Echo of London - Morse Defence_MarkupCompile.lref
+C:\Users\User\Documents\GitHub\Echo-of-London---Morse-Defence\Echo of London - Morse Defence\bin\Debug\Echo of London - Morse Defence.exe.config
+C:\Users\User\Documents\GitHub\Echo-of-London---Morse-Defence\Echo of London - Morse Defence\bin\Debug\Echo of London - Morse Defence.exe
+C:\Users\User\Documents\GitHub\Echo-of-London---Morse-Defence\Echo of London - Morse Defence\bin\Debug\Echo of London - Morse Defence.pdb
+C:\Users\User\Documents\GitHub\Echo-of-London---Morse-Defence\Echo of London - Morse Defence\obj\Debug\Views\DifficultyView.baml
+C:\Users\User\Documents\GitHub\Echo-of-London---Morse-Defence\Echo of London - Morse Defence\obj\Debug\Views\GameView.baml
+C:\Users\User\Documents\GitHub\Echo-of-London---Morse-Defence\Echo of London - Morse Defence\obj\Debug\Views\MenuView.baml
+C:\Users\User\Documents\GitHub\Echo-of-London---Morse-Defence\Echo of London - Morse Defence\obj\Debug\Views\OptionsView.baml
+C:\Users\User\Documents\GitHub\Echo-of-London---Morse-Defence\Echo of London - Morse Defence\obj\Debug\Views\ScoreboardView.baml
+C:\Users\User\Documents\GitHub\Echo-of-London---Morse-Defence\Echo of London - Morse Defence\obj\Debug\Views\StartView.baml
+C:\Users\User\Documents\GitHub\Echo-of-London---Morse-Defence\Echo of London - Morse Defence\obj\Debug\MainViews\MainWindow.baml
+C:\Users\User\Documents\GitHub\Echo-of-London---Morse-Defence\Echo of London - Morse Defence\obj\Debug\Echo of London - Morse Defence.g.resources
+C:\Users\User\Documents\GitHub\Echo-of-London---Morse-Defence\Echo of London - Morse Defence\obj\Debug\Echo_of_London___Morse_Defence.Properties.Resources.resources
+C:\Users\User\Documents\GitHub\Echo-of-London---Morse-Defence\Echo of London - Morse Defence\obj\Debug\Echo of London - Morse Defence.csproj.GenerateResource.cache
+C:\Users\User\Documents\GitHub\Echo-of-London---Morse-Defence\Echo of London - Morse Defence\obj\Debug\Echo of London - Morse Defence.csproj.CoreCompileInputs.cache
+C:\Users\User\Documents\GitHub\Echo-of-London---Morse-Defence\Echo of London - Morse Defence\obj\Debug\Echo of London - Morse Defence.exe
+C:\Users\User\Documents\GitHub\Echo-of-London---Morse-Defence\Echo of London - Morse Defence\obj\Debug\Echo of London - Morse Defence.pdb
+C:\Users\User\Documents\GitHub\Echo-of-London---Morse-Defence\Echo of London - Morse Defence\obj\Debug\Echo of London - Morse Defence.exe.config
