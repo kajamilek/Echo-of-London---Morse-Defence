@@ -1,0 +1,4 @@
+ShowHints=True
+SimpleMode=True
+Sound=True
+Fullscreen=True
