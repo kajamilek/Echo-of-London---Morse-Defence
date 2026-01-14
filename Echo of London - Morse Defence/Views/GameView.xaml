@@ -402,5 +402,16 @@
                    Margin="0,0,0,20"/>
             -->
         </Grid>
+
+
+        <!-- UPGRADE OVERLAY -->
+        <Grid x:Name="WaitOverlay"
+    Grid.Column="0" Grid.ColumnSpan="3"
+    Grid.Row="0" Grid.RowSpan="5"
+    Background="#EE151b21"
+    Visibility="Collapsed">
+        </Grid>
+
+
     </Grid>   
 </UserControl>
